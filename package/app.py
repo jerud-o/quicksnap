@@ -8,7 +8,7 @@ class App(QApplication):
         super().__init__(argv)
 
     def init_ui(self):
-        CAMERA_INDEX = 1
+        CAMERA_INDEX = 0
 
         self.main_window = QMainWindow()
         widget = QuickSnapUI(CAMERA_INDEX)
