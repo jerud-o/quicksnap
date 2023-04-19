@@ -1,17 +1,15 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from PyQt6.QtCore import QTimer
-from package.ui.quicksnap import QuickSnapUI
+from dotenv import load_dotenv
+from package.ui.widget.main import MainWidget
 
 
 class App(QApplication):
     def __init__(self, argv):
         super().__init__(argv)
-
+        load_dotenv()
+    
     def init_ui(self):
-        CAMERA_INDEX = 0
-
         self.main_window = QMainWindow()
-        widget = QuickSnapUI(CAMERA_INDEX)
-        QTimer.singleShot(1, widget.get_next_frame)
-        self.main_window.setCentralWidget(widget)
+        main_widget = MainWidget()
+        self.main_window.setCentralWidget(main_widget)
         self.main_window.show()
