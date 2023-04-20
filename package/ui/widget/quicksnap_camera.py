@@ -16,7 +16,9 @@ class QuickSnapCameraWidget(QWidget, CameraModule):
         self.__gaze_thread = GazeEstimationThread()
 
         # Connect signals to threads
-        # self.__palm_thread.palm_detected.connect(self.__start_timer)
+        self.__palm_thread.palm_detected.connect(self.__start_timer)
+        self.__gaze_thread.gaze_centered.connect(self.__start_timer)
+        self.__gaze_thread.frame_processed.connect(super()._process_frame)
 
         # Start Service
         self.__start_threads()
@@ -33,7 +35,6 @@ class QuickSnapCameraWidget(QWidget, CameraModule):
 
     def onCloseEvent(self, event):
         self.__stop_threads()
-        self.__wait_threads()
         super().closeEvent(event)
 
     def __init_ui(self):
@@ -44,35 +45,20 @@ class QuickSnapCameraWidget(QWidget, CameraModule):
         self.setLayout(self.__layout)
 
     def __start_threads(self):
-        # self.__palm_thread.start()
+        self.__palm_thread.start()
         self.__face_thread.start()
-        # self.__gaze_thread.start()
+        self.__gaze_thread.start()
 
     def __stop_threads(self):
-        # self.__palm_thread.stop()
+        self.__palm_thread.stop()
         self.__face_thread.stop()
-        # self.__gaze_thread.stop()
-
-    def __wait_threads(self):
-        # self.__palm_thread.wait()
-        self.__face_thread.wait()
-        # self.__gaze_thread.wait()
+        self.__gaze_thread.stop()
 
     def _process_frame(self, ret, frame):
         # Wait for threads to finish before showing the frame
-        # self.__palm_thread.process_frame(frame)
+        self.__palm_thread.process_frame(frame)
         self.__face_thread.process_frame(frame)
-        # self.__gaze_thread.process_frame(frame, self.__face_thread)
-        
-        return super()._process_frame(ret, frame)
-
-    def _show_frame(self, frame):
-        # Show frame with drawn drawables per each ML
-        # self.__palm_thread.draw_landmarks(frame)
-        self.__face_thread.draw_drawables(frame, rectangle=True, landmarks=True)
-        # self.__gaze_thread.draw_drawables(frame, crosshairs=True, circles=True)
-        
-        return super()._show_frame(frame)
+        self.__gaze_thread.process_frame(frame, self.__face_thread.faces)
 
     def __start_timer(self):
         # Start timer thread, updating the QLabel

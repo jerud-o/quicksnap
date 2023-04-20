@@ -16,8 +16,9 @@ class PalmDetectionThread(QThread):
         self.__results = None
         self.is_running = False
     
-    def start(self):
+    def start(self, landmarks=False):
         self.is_running = True
+        self.__draw_landmarks = landmarks
         super().start()
 
     def stop(self):
@@ -30,11 +31,12 @@ class PalmDetectionThread(QThread):
             self.__results = self.__mp_hands.process(grayed_frame)
 
             if self.__results.multi_hand_landmarks:
+                self.draw_landmarks(frame)
                 self.palm_detected.emit(True, "Palm Detected")
             else:
                 self.palm_detected.emit(False, "No Palm Detected")
 
     def draw_landmarks(self, frame):
-        if self.__results.multi_hand_landmarks:
+        if self.__draw_landmarks:
             for hand_landmarks in self.__results.multi_hand_landmarks:
                 self.__mp_draw.draw_landmarks(frame, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)

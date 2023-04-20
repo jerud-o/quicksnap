@@ -18,8 +18,10 @@ class FaceDetectionThread(QThread):
         self.faces = None
         self.is_running = False
 
-    def start(self):
+    def start(self, rectangle=False, landmarks=False):
         self.is_running = True
+        self.__draw_rectangle = rectangle
+        self.__draw_landmarks = landmarks
         super().start()
 
     def stop(self):
@@ -30,6 +32,7 @@ class FaceDetectionThread(QThread):
         if self.is_running:
             self.__grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # VideoCapture uses BGR
             self.faces = self.__detector(self.__grayed_frame)
+            self.draw_drawables(frame)
 
             # Emit signal with frame and detected faces
             self.frame_processed.emit(frame, self.faces)
@@ -48,17 +51,17 @@ class FaceDetectionThread(QThread):
         
         return landmarks
     
-    def draw_drawables(self, frame, rectangle=False, landmarks=False):
+    def draw_drawables(self, frame):
         if len(self.faces) > 0:
             for face in self.faces:
-                if rectangle:
+                if self.__draw_rectangle:
                     x = face.left()
                     y = face.top()
                     w = face.right() - x
                     h = face.bottom() - y
                     cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-                if landmarks:
+                if self.__draw_landmarks:
                     for (x, y) in self.get_landmarks(face):
                         cv2.circle(frame, (x, y), 2, (0, 0, 255), -1)
 
