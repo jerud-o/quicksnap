@@ -1,4 +1,4 @@
-from package.vendor.GazeTracking.gaze_tracking import GazeTracking
+from package.vendor.gaze_tracking import GazeTracking
 from PyQt6.QtCore import QThread, pyqtSignal
 
 

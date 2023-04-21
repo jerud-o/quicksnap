@@ -4,7 +4,11 @@ from PyQt6.QtCore import QSize, Qt, QTimer
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtGui import QPixmap, QImage
 
+
 class CameraModule():
+    frame = None
+    frame_original = None
+
     def __init__(self):
         super().__init__()
         self.__init_camera()
@@ -22,25 +26,29 @@ class CameraModule():
 
     def get_next_frame(self):
         ret, frame = self.__capture.read()
-        self._process_frame(ret, frame)
+
+        if ret:
+            self.frame = frame
+            self.frame_original = frame
+            self._process_frame()
         
         # Schedule the next frame update
         QTimer.singleShot(1, self.get_next_frame)
 
-    def _process_frame(self, ret, frame):
-        if ret:
-            self._show_frame(frame)
+    def _process_frame(self):
+        if self.frame is not None:
+            self._show_frame()
 
-    def _show_frame(self, frame):
-        image = self.convert_frame_to_qimage(frame)
+    def _show_frame(self):
+        image = self.convert_frame_to_qimage()
         self._frame_label.setPixmap(QPixmap.fromImage(image))
 
     def set_image_size(self, size):
         self.__frame_size = size
 
-    def convert_frame_to_qimage(self, frame):
+    def convert_frame_to_qimage(self):
         # For preparing frames to be put into the QLabel
-        grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # VideoCapture uses BGR
+        grayed_frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB) # VideoCapture uses BGR
 
         h, w, ch = grayed_frame.shape
         bytes_per_line = ch * w

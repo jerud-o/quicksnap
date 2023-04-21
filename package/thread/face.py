@@ -1,6 +1,7 @@
 import cv2
 import dlib
 import numpy as np
+from math import hypot
 from PyQt6.QtCore import QThread, pyqtSignal
 
 class FaceDetectionThread(QThread):
@@ -18,10 +19,11 @@ class FaceDetectionThread(QThread):
         self.faces = None
         self.is_running = False
 
-    def start(self, rectangle=False, landmarks=False):
+    def start(self, rectangle=False, landmarks=False, filter=False):
         self.is_running = True
         self.__draw_rectangle = rectangle
         self.__draw_landmarks = landmarks
+        self.__draw_filter = filter
         super().start()
 
     def stop(self):
@@ -50,9 +52,15 @@ class FaceDetectionThread(QThread):
             landmarks[i] = (shape.part(i).x, shape.part(i).y)
         
         return landmarks
+
+    def midpoint (self, p1,p2):
+        return int((p1.x +p2.x)/2), int((p1.y +p2.y)/2)
     
     def draw_drawables(self, frame):
         if len(self.faces) > 0:
+            sticker = cv2.imread("package/resource/filter/cheek/pinkheart.png")
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
             for face in self.faces:
                 if self.__draw_rectangle:
                     x = face.left()
@@ -65,4 +73,44 @@ class FaceDetectionThread(QThread):
                     for (x, y) in self.get_landmarks(face):
                         cv2.circle(frame, (x, y), 2, (0, 0, 255), -1)
 
-        
+                if self.__draw_filter:
+                    try:
+                        x, y = face.left() , face.top()
+                        x1, y1 = face.right(), face.bottom()
+                        landmarks = self.__predictor(gray, face)
+                        left_pt = (landmarks.part(36).x, landmarks.part(36).y)
+                        right_pt = (landmarks.part(39).x, landmarks.part(39).y)
+                        sticker_width = int(hypot(left_pt[0]-right_pt[0], left_pt[1]-right_pt[1])*1.25)
+                        sticker_height = int(sticker_width*.77)
+                        
+                        # Sticker Pos
+                        p11 = (landmarks.part(1).x, landmarks.part(1).y)
+                        p15 = (landmarks.part(15).x, landmarks.part(15).y)
+                        p28 = (landmarks.part(28).x, landmarks.part(28).y)
+                        p29 = (landmarks.part(29).x, landmarks.part(29).y)
+                        pm1 = self.midpoint(landmarks.part(28), landmarks.part(29))
+                        pm2 = ((p11[0] + pm1[0])/2, (p11[1] + pm1[1])/2)
+                        pm3 = ((p15[0] + pm1[0])/2, (p15[1] + pm1[1])/2)
+                        top_left1 = (int(pm2[0] - sticker_width/2), int(pm2[1] - sticker_height/2))
+                        bot_right1 = (int(pm2[0] + sticker_width/2), int(pm2[1] + sticker_height/2))
+                        top_left2 = (int(pm3[0] - sticker_width / 2), int(pm3[1] - sticker_height / 2))
+                        bot_right2 = (int(pm3[0] + sticker_width / 2), int(pm3[1] + sticker_height / 2))
+                        
+                        # Adding sticker
+                        sticker_img = cv2.resize(sticker, (sticker_width, sticker_height))
+                        sticker_img_gray = cv2.cvtColor(sticker_img, cv2.COLOR_BGR2GRAY)
+                        _, sticker_mask = cv2.threshold(sticker_img_gray, 25, 255, cv2.THRESH_BINARY_INV)
+                        sticker_area1 = frame[top_left1[1]: top_left1[1] + sticker_height,
+                                        top_left1[0]: top_left1[0] + sticker_width]
+                        sticker_area2 = frame[top_left2[1]: top_left2[1] + sticker_height,
+                                        top_left2[0]: top_left2[0] + sticker_width]
+                        sticker_area_no_sticker1 = cv2.bitwise_and(sticker_area1, sticker_area1, mask=sticker_mask)
+                        sticker_area_no_sticker2 = cv2.bitwise_and(sticker_area2, sticker_area2, mask=sticker_mask)
+                        final_sticker1 = cv2.add(sticker_area_no_sticker1, sticker_img)
+                        final_sticker2 = cv2.add(sticker_area_no_sticker2, sticker_img)
+                        frame[top_left1[1]: top_left1[1] + sticker_height,
+                            top_left1[0]: top_left1[0] + sticker_width] = final_sticker1
+                        frame[top_left2[1]: top_left2[1] + sticker_height,
+                            top_left2[0]: top_left2[0] + sticker_width] = final_sticker2
+                    except:
+                        pass

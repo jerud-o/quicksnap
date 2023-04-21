@@ -10,6 +10,10 @@ class App(QApplication):
     
     def init_ui(self):
         self.main_window = QMainWindow()
+        
         main_widget = MainWidget()
-        self.main_window.setCentralWidget(main_widget)
+        main_widget.setupUi(self.main_window)
+        main_widget.exit_app_btn.clicked.connect(lambda: self.main_window.close())
+        
+        self.main_window.showFullScreen()
         self.main_window.show()

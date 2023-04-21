@@ -9,7 +9,7 @@ class PalmDetectionThread(QThread):
         super(PalmDetectionThread, self).__init__(parent)
 
         # MediaPipe's Configuration
-        self.__mp_hands = mp.solutions.hands.Hands()
+        self.__mp_hands = mp.solutions.hands
         self.__mp_draw = mp.solutions.drawing_utils
 
         # Modifiable Variables
@@ -28,15 +28,38 @@ class PalmDetectionThread(QThread):
     def process_frame(self, frame):
         if self.is_running:
             grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # VideoCapture uses BGR
-            self.__results = self.__mp_hands.process(grayed_frame)
+            self.__results = self.__mp_hands.Hands().process(grayed_frame)
 
             if self.__results.multi_hand_landmarks:
-                self.draw_landmarks(frame)
-                self.palm_detected.emit(True, "Palm Detected")
-            else:
-                self.palm_detected.emit(False, "No Palm Detected")
+                for hand_landmarks in self.__results.multi_hand_landmarks:
+                    result = self.__get_fingertips_position(hand_landmarks)
+                    self.draw_landmarks(frame, hand_landmarks)
 
-    def draw_landmarks(self, frame):
+                if result:
+                    self.palm_detected.emit(True, "Palm Detected")
+                    return
+           
+            self.palm_detected.emit(False, "No Palm Detected")
+
+    def __get_fingertips_position(self, hand_landmarks):
+        hand_landmark_dict = self.__mp_hands.HandLandmark
+        fingertips_ids = [
+            hand_landmark_dict.INDEX_FINGER_TIP,
+            hand_landmark_dict.MIDDLE_FINGER_TIP,
+            hand_landmark_dict.RING_FINGER_TIP,
+            hand_landmark_dict.PINKY_TIP
+        ]
+        is_up = True
+
+        for tip_index in fingertips_ids:
+            if (hand_landmarks.landmark[tip_index].y < hand_landmarks.landmark[tip_index - 2].y):
+                continue
+            else:
+                is_up = False
+                break
+
+        return is_up
+
+    def draw_landmarks(self, frame, hand_landmarks):
         if self.__draw_landmarks:
-            for hand_landmarks in self.__results.multi_hand_landmarks:
-                self.__mp_draw.draw_landmarks(frame, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
+            self.__mp_draw.draw_landmarks(frame, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
