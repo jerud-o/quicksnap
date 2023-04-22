@@ -1,3 +1,4 @@
+import os
 from PyQt6 import QtCore, QtGui, QtWidgets
 from package.resource import resources_rc
 from package.ui.widget.quicksnap_camera import QuickSnapCameraWidget
@@ -1490,7 +1491,7 @@ class MainWidget(object):
         # self.filter_frame_label.setScaledContents(True)
         # self.filter_frame_label.setObjectName("label_11")
         # self.verticalLayout_30.addWidget(self.filter_frame_label)
-        self.camera_widget = QuickSnapCameraWidget(parent=self.filter_cam_container)
+        self.camera_widget = QuickSnapCameraWidget(mode="beauty")
         self.verticalLayout_30.addWidget(self.camera_widget)
         self.frame_15 = QtWidgets.QFrame(parent=self.filter_cam_container)
         self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -1525,7 +1526,7 @@ class MainWidget(object):
         self.verticalLayout_15.addWidget(self.filters_frame)
         self.stackedWidget.addWidget(self.filters)
 
-        self.camera_widget.countdown_timer.connect(self.capture_filter.setText)
+        self.camera_widget.countdown_timer_updated.connect(self.capture_filter.setText)
         self.camera_widget.frame_captured.connect(self.__navigate_to_capture_result)
         
         # FINISH PAGE
@@ -1825,18 +1826,15 @@ class MainWidget(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def __navigate_to_beauty_camera(self):
-        self.camera_widget.start_threads()
         self.stackedWidget.setCurrentIndex(4)
-        QtCore.QTimer.singleShot(1, self.camera_widget.get_next_frame)
+        QtCore.QTimer.singleShot(int(1000 / int(os.environ.get('FRAME_RATE'))), self.camera_widget.get_next_frame)
 
     def __navigate_to_capture_result(self):
         self.__set_captured_frame()
-        self.camera_widget.stop_threads()
         self.stackedWidget.setCurrentIndex(5)
 
-    def __set_captured_frame(self):
-        image = self.camera_widget.convert_frame_to_qimage()
-        self.filter_captured_frame_label.setPixmap(QtGui.QPixmap(image))
+    def __set_captured_frame(self, frame):
+        self.filter_captured_frame_label.setPixmap(self.camera_widget.convert_frame_to_qimage(frame))
 
     def toggleCamera(self, point, enable):
         if enable:

@@ -1,37 +1,33 @@
 from package.vendor.gaze_tracking import GazeTracking
-from PyQt6.QtCore import QThread, pyqtSignal
+from PyQt6.QtCore import QObject, QRunnable, pyqtSignal
 
 
-class GazeEstimationThread(QThread):
-    frame_processed = pyqtSignal(bool, object)
-    gaze_centered = pyqtSignal(bool, str)
+class GazeEstimationSignals(QObject):
+    frame_processed = pyqtSignal(object)
+    gaze_centered = pyqtSignal()
 
-    def __init__(self, parent=None):
-        super(GazeEstimationThread, self).__init__(parent)
 
-        # Gaze Tracking Library
+class GazeEstimationThread(QRunnable):
+    def __init__(self, crosshairs=False):
+        super().__init__()
+        self.signals = GazeEstimationSignals()
+        self.__draw_crosshairs = crosshairs
         self.__gaze_module = GazeTracking()
 
-    def start(self, crosshairs=False):
-        self.is_running = True
-        self.__draw_crosshairs = crosshairs
-        super().start()
+    def run():
+        pass
 
-    def stop(self):
-        self.is_running = False
-        self.terminate()
+    def start_service(self, frame_copy, face):
+        if face:
+            self.__frame_copy = frame_copy
+            self.__gaze_module.refresh(self.__frame_copy, face)
+            self.draw_drawables()
+            if self.__gaze_module.is_center(): self.signals.gaze_centered.emit()
+            self.signals.frame_processed.emit(self.__frame_copy)
 
-    def process_frame(self, frame, faces):
-        if self.is_running:
-            if len(faces) > 0:
-                face = faces[0]
+    def draw_drawables(self):
+        if self.__draw_crosshairs:
+            self.__frame_copy = self.__gaze_module.annotated_frame()
                 
-                self.__gaze_module.refresh(frame, face)
-
-                if self.__gaze_module.is_center():
-                    self.gaze_centered.emit(True, "Gaze centered")
-
-                if self.__draw_crosshairs:
-                    frame = self.__gaze_module.annotated_frame()
                     
-            self.frame_processed.emit(True, frame)
+            
