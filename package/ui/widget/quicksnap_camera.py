@@ -1,56 +1,88 @@
-from PyQt6.QtCore import pyqtSignal, QThreadPool
+from PyQt6.QtCore import pyqtSignal, QTimer
+from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from package.module.camera import CameraModule
-from package.module.countdown_timer import CountdownTimerModule
 from package.thread.palm import PalmDetectionThread
 from package.thread.face import FaceDetectionThread
 from package.thread.gaze import GazeEstimationThread
 
 
-class QuickSnapCameraWidget(CameraModule, CountdownTimerModule):
+class QuickSnapCameraWidget(QWidget, CameraModule):
+    countdown_timer = pyqtSignal(str)
     frame_captured = pyqtSignal(object)
 
-    def __init__(self, mode):
-        super().__init__()
-        self.__process = self.__formal_process if mode == "formal" else self.__beauty_process
-        self.__thread_pool = QThreadPool.globalInstance()
-        self.__thread_pool.setMaxThreadCount(3)
-        self.countdown_timer_finished.connect(self.__capture_frame)
+    def __init__(self, parent=None):
+        super(QuickSnapCameraWidget, self).__init__(parent)
+
+        # Thread Declarations
+        self.__palm_thread = PalmDetectionThread()
+        self.__face_thread = FaceDetectionThread()
+        self.__gaze_thread = GazeEstimationThread()
+
+        # Connect signals to threads
+        self.__palm_thread.palm_detected.connect(self.__start_timer)
+        # self.__gaze_thread.gaze_centered.connect(self.__start_timer)
+        self.__gaze_thread.frame_processed.connect(super()._process_frame)
+
+        # Timer Variables
+        self.__TIMER_DURATION = 3
+        self.__time_left = self.__TIMER_DURATION
+        self.__timer = QTimer(timeout=self.__update_timer)
+
         self.closeEvent = self.onCloseEvent
+        self.__init_ui()
+
+    # def resizeEvent(self, event):
+    #     super(QuickSnapCameraWidget, self).resizeEvent(event)
+
+    #     # Updates camera thread's config for proper QImage rendering
+    #     self.set_image_size(self.size())
 
     def onCloseEvent(self, event):
         self.__stop_threads()
         super().closeEvent(event)
 
+    def __init_ui(self):
+        # QuickSnap's Camera Widget Layout
+        self.__layout = QVBoxLayout()
+        self.__layout.addWidget(self._frame_label)
+        self.setMinimumSize(640, 480)
+        self.setLayout(self.__layout)
+
+    def start_threads(self):
+        self.__palm_thread.start()
+        self.__face_thread.start(filter=True)
+        self.__gaze_thread.start()
+
+    def stop_threads(self):
+        self.__palm_thread.stop()
+        self.__face_thread.stop()
+        self.__gaze_thread.stop()
+
     def _process_frame(self):
-        self.__process()
-        self.__thread_pool.waitForDone()
-        super()._process_frame()
+        # Wait for threads to finish before showing the frame
+        if self.frame is not None:
+            self.__palm_thread.process_frame(self.frame)
+            self.__face_thread.process_frame(self.frame)
+            # self.__gaze_thread.process_frame(self.frame, self.__face_thread.faces)
 
     def __capture_frame(self):
-        self.frame_captured.emit(self.frame_copy)
+        self.frame_captured.emit(self.frame)
 
-    def __formal_process(self):
-        gaze_estimation = GazeEstimationThread()
-        gaze_estimation.signals.frame_processed.connect(self.__update_frame_copy)
-        gaze_estimation.signals.gaze_centered.connect(self._start_countdown_timer)
+    def __start_timer(self, is_start, signal_str):
+        if not self.__timer.isActive() and is_start:
+            self.__timer.start(1000)
+            self.countdown_timer.emit(str(self.__time_left))
 
-        face_detection = FaceDetectionThread(filter=True)
-        face_detection.set_variables(self.frame_copy, self.frame_grayed)
-        face_detection.signals.frame_processed.connect(gaze_estimation.start_service)
-        
-        self.__thread_pool.start(face_detection)
-        self.__thread_pool.start(gaze_estimation)
+    def __stop_timer(self):
+        self.__timer.stop()
+        self.countdown_timer.emit("")
+        self.__time_left = self.__TIMER_DURATION
 
-    def __beauty_process(self):
-        face_detection = FaceDetectionThread(filter=True)
-        face_detection.set_variables(self.frame_copy, self.frame_grayed)
+    def __update_timer(self):
+        self.__time_left -= 1
 
-        palm_detection = PalmDetectionThread()
-        palm_detection.set_variables(self.frame_copy, self.frame_grayed)
-        palm_detection.signals.palm_detected.connect(self._start_countdown_timer)
-        
-        self.__thread_pool.start(face_detection)
-        self.__thread_pool.start(palm_detection)
+        self.countdown_timer.emit(str(self.__time_left))
 
-    def __update_frame_copy(self, frame_copy_new):
-        self.frame_copy = frame_copy_new
+        if self.__time_left == 0:
+            self.__stop_timer()
+            self.__capture_frame()
