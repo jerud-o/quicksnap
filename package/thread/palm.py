@@ -3,7 +3,7 @@ import mediapipe as mp
 from PyQt6.QtCore import QThread, pyqtSignal
 
 class PalmDetectionThread(QThread):
-    palm_detected = pyqtSignal(bool, str)
+    palm_detected = pyqtSignal()
 
     def __init__(self, parent=None):
         super(PalmDetectionThread, self).__init__(parent)
@@ -11,35 +11,27 @@ class PalmDetectionThread(QThread):
         # MediaPipe's Configuration
         self.__mp_hands = mp.solutions.hands
         self.__mp_draw = mp.solutions.drawing_utils
-
-        # Modifiable Variables
-        self.__results = None
-        self.is_running = False
     
     def start(self, landmarks=False):
-        self.is_running = True
         self.__draw_landmarks = landmarks
         super().start()
 
     def stop(self):
-        self.is_running = False
         self.terminate()
-                        
-    def process_frame(self, frame):
-        if self.is_running:
-            grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # VideoCapture uses BGR
-            self.__results = self.__mp_hands.Hands().process(grayed_frame)
+    
+    def set_variables(self, frame_drawn, grayed_frame):
+        self.__frame_drawn = frame_drawn
+        self.__grayed_frame = grayed_frame
+    
+    def process_frame(self):
+        results = self.__mp_hands.Hands().process(self.__grayed_frame)
 
-            if self.__results.multi_hand_landmarks:
-                for hand_landmarks in self.__results.multi_hand_landmarks:
-                    result = self.__get_fingertips_position(hand_landmarks)
-                    self.draw_landmarks(frame, hand_landmarks)
+        if results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                result = self.__get_fingertips_position(hand_landmarks)
+                self.draw_landmarks(hand_landmarks)
 
-                if result:
-                    self.palm_detected.emit(True, "Palm Detected")
-                    return
-           
-            self.palm_detected.emit(False, "No Palm Detected")
+            if result: self.palm_detected.emit()
 
     def __get_fingertips_position(self, hand_landmarks):
         hand_landmark_dict = self.__mp_hands.HandLandmark
@@ -60,6 +52,6 @@ class PalmDetectionThread(QThread):
 
         return is_up
 
-    def draw_landmarks(self, frame, hand_landmarks):
+    def draw_landmarks(self, hand_landmarks):
         if self.__draw_landmarks:
-            self.__mp_draw.draw_landmarks(frame, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
+            self.__mp_draw.draw_landmarks(self.__frame_drawn, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)

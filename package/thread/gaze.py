@@ -3,17 +3,14 @@ from PyQt6.QtCore import QThread, pyqtSignal
 
 
 class GazeEstimationThread(QThread):
-    frame_processed = pyqtSignal(bool, object)
-    gaze_centered = pyqtSignal(bool, str)
+    frame_processed = pyqtSignal(object)
+    gaze_centered = pyqtSignal()
 
     def __init__(self, parent=None):
         super(GazeEstimationThread, self).__init__(parent)
-
-        # Gaze Tracking Library
         self.__gaze_module = GazeTracking()
 
     def start(self, crosshairs=False):
-        self.is_running = True
         self.__draw_crosshairs = crosshairs
         super().start()
 
@@ -21,17 +18,18 @@ class GazeEstimationThread(QThread):
         self.is_running = False
         self.terminate()
 
-    def process_frame(self, frame, faces):
-        if self.is_running:
-            if len(faces) > 0:
-                face = faces[0]
-                
-                self.__gaze_module.refresh(frame, face)
+    def set_variables(self, frame, frame_drawn, faces):
+        self.__frame = frame
+        self.__frame_drawn = frame_drawn
+        self.__face = faces[0] if len(faces) > 0 else None
 
-                if self.__gaze_module.is_center():
-                    self.gaze_centered.emit(True, "Gaze centered")
+    def process_frame(self):
+        if self.__face is not None:
+            self.__gaze_module.refresh(self.__frame, self.__face)
 
-                if self.__draw_crosshairs:
-                    frame = self.__gaze_module.annotated_frame()
-                    
-            self.frame_processed.emit(True, frame)
+            if self.__gaze_module.is_center():
+                self.gaze_centered.emit()
+
+            if self.__draw_crosshairs:
+                frame = self.__gaze_module.annotated_frame()
+                self.frame_processed.emit(frame)

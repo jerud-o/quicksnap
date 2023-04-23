@@ -5,7 +5,7 @@ from math import hypot
 from PyQt6.QtCore import QThread, pyqtSignal
 
 class FaceDetectionThread(QThread):
-    frame_processed = pyqtSignal(object, object)
+    frame_processed = pyqtSignal(object)
     
     def __init__(self, parent=None):
         super(FaceDetectionThread, self).__init__(parent)
@@ -13,11 +13,6 @@ class FaceDetectionThread(QThread):
         # Dlib's Configuration
         self.__detector = dlib.get_frontal_face_detector()
         self.__predictor = dlib.shape_predictor("package/resource/shape_predictor_68_face_landmarks.dat")
-
-        # Modifiable Variables
-        self.__grayed_frame = None
-        self.faces = None
-        self.is_running = False
 
     def start(self, rectangle=False, landmarks=False, filter=False):
         self.is_running = True
@@ -27,24 +22,21 @@ class FaceDetectionThread(QThread):
         super().start()
 
     def stop(self):
-        self.is_running = False
         self.terminate()
-    
-    def process_frame(self, frame):
-        if self.is_running:
-            self.__grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # VideoCapture uses BGR
-            self.faces = self.__detector(self.__grayed_frame)
-            self.draw_drawables(frame)
 
-            # Emit signal with frame and detected faces
-            self.frame_processed.emit(frame, self.faces)
-
+    def set_variables(self, frame_drawn, grayed_frame):
+        self.__frame_drawn = frame_drawn
+        self.__grayed_frame = grayed_frame
+        
+    def process_frame(self):
+        self.faces = self.__detector(self.__grayed_frame)
+        self.draw_drawables()
+            
     def get_landmarks(self, face):
-        if self.__grayed_frame is not None:
-            shape = self.__predictor(self.__grayed_frame, face)
-            shape = self.convert_shape_to_numpy(shape)
-            return shape
-
+        shape = self.__predictor(self.__grayed_frame, face)
+        shape = self.convert_shape_to_numpy(shape)
+        return shape
+            
     def convert_shape_to_numpy(self, shape, dtype="int"):
         landmarks = np.zeros((68, 2), dtype=dtype)
         
@@ -56,10 +48,10 @@ class FaceDetectionThread(QThread):
     def midpoint (self, p1,p2):
         return int((p1.x +p2.x)/2), int((p1.y +p2.y)/2)
     
-    def draw_drawables(self, frame):
+    def draw_drawables(self):
         if len(self.faces) > 0:
             sticker = cv2.imread("package/resource/filter/cheek/pinkheart.png")
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            gray = self.__grayed_frame
 
             for face in self.faces:
                 if self.__draw_rectangle:
@@ -67,11 +59,11 @@ class FaceDetectionThread(QThread):
                     y = face.top()
                     w = face.right() - x
                     h = face.bottom() - y
-                    cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                    cv2.rectangle(self.__frame_drawn, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
                 if self.__draw_landmarks:
                     for (x, y) in self.get_landmarks(face):
-                        cv2.circle(frame, (x, y), 2, (0, 0, 255), -1)
+                        cv2.circle(self.__frame_drawn, (x, y), 2, (0, 0, 255), -1)
 
                 if self.__draw_filter:
                     try:
@@ -100,17 +92,17 @@ class FaceDetectionThread(QThread):
                         sticker_img = cv2.resize(sticker, (sticker_width, sticker_height))
                         sticker_img_gray = cv2.cvtColor(sticker_img, cv2.COLOR_BGR2GRAY)
                         _, sticker_mask = cv2.threshold(sticker_img_gray, 25, 255, cv2.THRESH_BINARY_INV)
-                        sticker_area1 = frame[top_left1[1]: top_left1[1] + sticker_height,
+                        sticker_area1 = self.__frame_drawn[top_left1[1]: top_left1[1] + sticker_height,
                                         top_left1[0]: top_left1[0] + sticker_width]
-                        sticker_area2 = frame[top_left2[1]: top_left2[1] + sticker_height,
+                        sticker_area2 = self.__frame_drawn[top_left2[1]: top_left2[1] + sticker_height,
                                         top_left2[0]: top_left2[0] + sticker_width]
                         sticker_area_no_sticker1 = cv2.bitwise_and(sticker_area1, sticker_area1, mask=sticker_mask)
                         sticker_area_no_sticker2 = cv2.bitwise_and(sticker_area2, sticker_area2, mask=sticker_mask)
                         final_sticker1 = cv2.add(sticker_area_no_sticker1, sticker_img)
                         final_sticker2 = cv2.add(sticker_area_no_sticker2, sticker_img)
-                        frame[top_left1[1]: top_left1[1] + sticker_height,
+                        self.__frame_drawn[top_left1[1]: top_left1[1] + sticker_height,
                             top_left1[0]: top_left1[0] + sticker_width] = final_sticker1
-                        frame[top_left2[1]: top_left2[1] + sticker_height,
+                        self.__frame_drawn[top_left2[1]: top_left2[1] + sticker_height,
                             top_left2[0]: top_left2[0] + sticker_width] = final_sticker2
                     except:
                         pass
