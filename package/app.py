@@ -11,9 +11,13 @@ class App(QApplication):
     def init_ui(self):
         self.main_window = QMainWindow()
         
-        main_widget = MainWidget()
-        main_widget.setupUi(self.main_window)
-        main_widget.exit_app_btn.clicked.connect(lambda: self.main_window.close())
+        self.main_widget = MainWidget(self.main_window)
+        self.main_widget.exit_app_btn.clicked.connect(self.exit_app)
         
         self.main_window.showFullScreen()
+        self.main_widget.video_thread.start()
         self.main_window.show()
+
+    def exit_app(self):
+        self.main_widget.video_thread.stop()
+        self.main_window.close()

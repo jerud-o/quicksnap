@@ -1,10 +1,42 @@
+import ast
+from functools import partial
 from PyQt6 import QtCore, QtGui, QtWidgets
 from package.resource import resources_rc
-from package.ui.widget.quicksnap_camera import QuickSnapCameraWidget
+from package.thread.video import VideoThread
+from package.module.countdown_timer import CountdownTimerModule
+from package.ui.widget.quicksnap import QuickSnapWidget
 
 class MainWidget(object):
-    def setupUi(self, MainWindow):
-        # MAIN WINDOW
+    def __init__(self, MainWindow):
+        self.capture_method_value = 0
+        self.frame_to_print = None
+
+        self.__init_modules()
+        self.__init_ui(MainWindow)
+        
+        self.retranslate_ui(MainWindow)
+        self.stackedWidget.setCurrentIndex(0)
+
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    
+    def __init_modules(self):
+        self.video_thread = VideoThread()
+        self.countdown_module = CountdownTimerModule()
+
+    def __init_ui(self, MainWindow):
+        self.__init_main_window(MainWindow)
+        self.__init_intro_page()
+        self.__init_capture_method_page()
+        self.__init_package_selection_page()
+        self.__init_formal_capture_page()
+        self.__init_beauty_capture_page()
+        self.__init_capture_preview_page()
+        self.__init_printing_page()
+        self.__init_get_photo_page()
+        self.__init_alert_page()
+        self.__init_slots()
+    
+    def __init_main_window(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         MainWindow.resize(1526, 1157)
@@ -44,13 +76,13 @@ class MainWidget(object):
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
-
-        # STACKED WIDGETS - Used to toggle between pages
         self.stackedWidget.setFont(font)
         self.stackedWidget.setLineWidth(0)
         self.stackedWidget.setObjectName("stackedWidget")
+        MainWindow.setCentralWidget(self.centralwidget)
 
-        # Intro Page
+    # index 0
+    def __init_intro_page(self):
         self.intro = QtWidgets.QWidget()
         self.intro.setStyleSheet("")
         self.intro.setObjectName("intro")
@@ -146,7 +178,8 @@ class MainWidget(object):
         self.verticalLayout_3.addWidget(self.intro_frame)
         self.stackedWidget.addWidget(self.intro)
 
-        # Select Between Beauty or Formal Type of Photo PAGE
+    # index 1
+    def __init_capture_method_page(self):
         self.purpose = QtWidgets.QWidget()
         self.purpose.setStyleSheet("")
         self.purpose.setObjectName("purpose")
@@ -320,7 +353,8 @@ class MainWidget(object):
         self.verticalLayout_7.addWidget(self.purpose_frame)
         self.stackedWidget.addWidget(self.purpose)
 
-        # Select type of packages PAGE
+    # index 2
+    def __init_package_selection_page(self):
         self.style = QtWidgets.QWidget()
         self.style.setObjectName("style")
         self.verticalLayout_16 = QtWidgets.QVBoxLayout(self.style)
@@ -738,7 +772,8 @@ class MainWidget(object):
         self.verticalLayout_16.addWidget(self.style_frame)
         self.stackedWidget.addWidget(self.style)
 
-        # CAMERA PAGE
+    # index 3
+    def __init_formal_capture_page(self):
         self.camera = QtWidgets.QWidget()
         self.camera.setStyleSheet("")
         self.camera.setObjectName("camera")
@@ -758,10 +793,7 @@ class MainWidget(object):
         self.camera_container = QtWidgets.QFrame(parent=self.camera_content)
         self.camera_container.setStyleSheet("#camera_container{\n"
                                             "    background-color: rgb(238, 238, 238);\n"
-                                            "}\n"
-                                            "#camera_input{\n"
-                                            "    margin: 11px 30px;\n"
-                                            "}")
+                                            "}\n")
         self.camera_container.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.camera_container.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.camera_container.setObjectName("camera_container")
@@ -776,11 +808,11 @@ class MainWidget(object):
         # self.camera_input.setScaledContents(True)
         # self.camera_input.setObjectName("camera_input")
         # self.verticalLayout_29.addWidget(self.camera_input)
-        self.camera_formal_widget = QuickSnapCameraWidget(mode="formal", parent=self.camera_container)
-        self.camera_formal_widget.setFrameShape(QtWidgets.QFrame.Shape.VLine)
-        self.camera_formal_widget.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.camera_formal_widget.setLineWidth(1)
-        self.verticalLayout_29.addWidget(self.camera_formal_widget)
+        self.camera_formal_label = QuickSnapWidget()
+        self.camera_formal_label.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        self.camera_formal_label.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.camera_formal_label.setLineWidth(1)
+        self.verticalLayout_29.addWidget(self.camera_formal_label)
         self.shot_options = QtWidgets.QFrame(parent=self.camera_container)
         self.shot_options.setMaximumSize(QtCore.QSize(16777215, 250))
         self.shot_options.setStyleSheet("")
@@ -818,7 +850,8 @@ class MainWidget(object):
         self.verticalLayout_13.addWidget(self.camera_content)
         self.stackedWidget.addWidget(self.camera)
 
-        # CAMERA WITH FILTER PAGE
+    # index 4
+    def __init_beauty_capture_page(self):
         self.filters = QtWidgets.QWidget()
         self.filters.setObjectName("filters")
         self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.filters)
@@ -1125,126 +1158,41 @@ class MainWidget(object):
         self.verticalLayout_34.setContentsMargins(15, 15, 15, 15)
         self.verticalLayout_34.setSpacing(15)
         self.verticalLayout_34.setObjectName("verticalLayout_34")
-        self.filter_4 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
+        #
+        # Filters starts here
+        #
+        with open("package/resource/filter/filters_dict.py", "r") as file:
+            filters_dict = ast.literal_eval(file.read())
+
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_4.sizePolicy().hasHeightForWidth())
-        self.filter_4.setSizePolicy(sizePolicy)
-        self.filter_4.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_4.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_4.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_4.setText("")
-        self.filter_4.setObjectName("filter_4")
-        self.verticalLayout_34.addWidget(self.filter_4)
-        self.filter_5 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_5.sizePolicy().hasHeightForWidth())
-        self.filter_5.setSizePolicy(sizePolicy)
-        self.filter_5.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_5.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_5.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_5.setText("")
-        self.filter_5.setObjectName("filter_5")
-        self.verticalLayout_34.addWidget(self.filter_5)
-        self.filter_6 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_6.sizePolicy().hasHeightForWidth())
-        self.filter_6.setSizePolicy(sizePolicy)
-        self.filter_6.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_6.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_6.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_6.setText("")
-        self.filter_6.setObjectName("filter_6")
-        self.verticalLayout_34.addWidget(self.filter_6)
-        self.filter_7 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_7.sizePolicy().hasHeightForWidth())
-        self.filter_7.setSizePolicy(sizePolicy)
-        self.filter_7.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_7.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_7.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_7.setText("")
-        self.filter_7.setObjectName("filter_7")
-        self.verticalLayout_34.addWidget(self.filter_7)
-        self.filter_8 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_8.sizePolicy().hasHeightForWidth())
-        self.filter_8.setSizePolicy(sizePolicy)
-        self.filter_8.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_8.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_8.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_8.setText("")
-        self.filter_8.setObjectName("filter_8")
-        self.verticalLayout_34.addWidget(self.filter_8)
-        self.filter_9 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_9.sizePolicy().hasHeightForWidth())
-        self.filter_9.setSizePolicy(sizePolicy)
-        self.filter_9.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_9.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_9.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_9.setText("")
-        self.filter_9.setObjectName("filter_9")
-        self.verticalLayout_34.addWidget(self.filter_9)
-        self.filter_10 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_10.sizePolicy().hasHeightForWidth())
-        self.filter_10.setSizePolicy(sizePolicy)
-        self.filter_10.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_10.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_10.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_10.setText("")
-        self.filter_10.setObjectName("filter_10")
-        self.verticalLayout_34.addWidget(self.filter_10)
-        self.filter_2 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_2.sizePolicy().hasHeightForWidth())
-        self.filter_2.setSizePolicy(sizePolicy)
-        self.filter_2.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_2.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_2.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_2.setText("")
-        self.filter_2.setObjectName("filter_2")
-        self.verticalLayout_34.addWidget(self.filter_2)
-        self.filter_3 = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_3.sizePolicy().hasHeightForWidth())
-        self.filter_3.setSizePolicy(sizePolicy)
-        self.filter_3.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter_3.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter_3.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter_3.setText("")
-        self.filter_3.setObjectName("filter_3")
-        self.verticalLayout_34.addWidget(self.filter_3)
-        self.filter = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter.sizePolicy().hasHeightForWidth())
-        self.filter.setSizePolicy(sizePolicy)
-        self.filter.setMinimumSize(QtCore.QSize(180, 180))
-        self.filter.setMaximumSize(QtCore.QSize(180, 180))
-        self.filter.setStyleSheet("border-image: url(package/resource/img/camera.png);")
-        self.filter.setText("")
-        self.filter.setObjectName("filter")
-        self.verticalLayout_34.addWidget(self.filter)
+        filter_button = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
+        sizePolicy.setHeightForWidth(filter_button.sizePolicy().hasHeightForWidth())
+        filter_button.setSizePolicy(sizePolicy)
+        filter_button.setMinimumSize(QtCore.QSize(180, 180))
+        filter_button.setMaximumSize(QtCore.QSize(180, 180))
+        filter_button.setStyleSheet("border-image: url(package/resource/img/camera.png);")
+        filter_button.setText("")
+        filter_button.setObjectName("filter_null_null")
+        filter_button.clicked.connect(lambda: self.__handle_filter("null", None, None))
+        self.verticalLayout_34.addWidget(filter_button)
+        
+        for key_location, value_location in filters_dict.items():
+            for key_filter, value_filter in value_location.items():
+                filter_button = QtWidgets.QPushButton(parent=self.scrollAreaWidgetContents)
+                sizePolicy.setHeightForWidth(filter_button.sizePolicy().hasHeightForWidth())
+                filter_button.setSizePolicy(sizePolicy)
+                filter_button.setMinimumSize(QtCore.QSize(180, 180))
+                filter_button.setMaximumSize(QtCore.QSize(180, 180))
+                filter_button.setStyleSheet("border-image: url(" + value_filter[0] + ");")
+                filter_button.setText("")
+                filter_button.setObjectName("filter_" + key_location + "_" + key_filter)
+                filter_button.clicked.connect(partial(self.__handle_filter, key_location, None, value_filter[1]))
+                self.verticalLayout_34.addWidget(filter_button)
+        #
+        # Filters ends here
+        #
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_23.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.horizontalLayout_4.addWidget(self.frame_18)
@@ -1495,50 +1443,43 @@ class MainWidget(object):
         # self.filter_frame_label.setScaledContents(True)
         # self.filter_frame_label.setObjectName("label_11")
         # self.verticalLayout_30.addWidget(self.filter_frame_label)
-        self.camera_beauty_widget = QuickSnapCameraWidget(mode="beauty", parent=self.filter_cam_container)
-        self.verticalLayout_30.addWidget(self.camera_beauty_widget)
+        self.camera_beauty_label = QuickSnapWidget(parent=self.filter_cam_container)
+        self.verticalLayout_30.addWidget(self.camera_beauty_label)
         self.frame_15 = QtWidgets.QFrame(parent=self.filter_cam_container)
         self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_15.setObjectName("frame_15")
         self.verticalLayout_31 = QtWidgets.QVBoxLayout(self.frame_15)
         self.verticalLayout_31.setObjectName("verticalLayout_31")
-        self.capture_filter = QtWidgets.QPushButton(parent=self.frame_15)
+        self.capture_beauty = QtWidgets.QPushButton(parent=self.frame_15)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.capture_filter.sizePolicy().hasHeightForWidth())
-        self.capture_filter.setSizePolicy(sizePolicy)
-        self.capture_filter.setMaximumSize(QtCore.QSize(180, 180))
+        sizePolicy.setHeightForWidth(self.capture_beauty.sizePolicy().hasHeightForWidth())
+        self.capture_beauty.setSizePolicy(sizePolicy)
+        self.capture_beauty.setMaximumSize(QtCore.QSize(180, 180))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
         font.setPointSize(48)
         font.setBold(True)
         font.setWeight(75)
-        self.capture_filter.setFont(font)
-        self.capture_filter.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.capture_filter.setStyleSheet("    border: 10px solid rgba(0, 29, 61, 1);\n"
+        self.capture_beauty.setFont(font)
+        self.capture_beauty.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.capture_beauty.setStyleSheet("    border: 10px solid rgba(0, 29, 61, 1);\n"
                                           "    background-color: rgba(0, 53, 102, 1);\n"
                                           "    color:#fff;\n"
                                           "    border-radius: 90px;\n"
                                           "height: 180px;\n"
                                           "width: 180px;")
-        self.capture_filter.setObjectName("capture_filter")
-        self.verticalLayout_31.addWidget(self.capture_filter)
+        self.capture_beauty.setObjectName("capture_beauty")
+        self.verticalLayout_31.addWidget(self.capture_beauty)
         self.verticalLayout_30.addWidget(self.frame_15, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.horizontalLayout_3.addWidget(self.filter_cam_container)
         self.verticalLayout_15.addWidget(self.filters_frame)
         self.stackedWidget.addWidget(self.filters)
 
-        self.camera_formal_widget.countdown_timer.connect(self.capture_formal.setText)
-        self.capture_formal.clicked.connect(self.camera_formal_widget.start_timer)
-        self.camera_formal_widget.frame_captured.connect(self.__navigate_to_capture_result)
-
-        self.camera_beauty_widget.countdown_timer.connect(self.capture_filter.setText)
-        self.capture_filter.clicked.connect(self.camera_beauty_widget.start_timer)
-        self.camera_beauty_widget.frame_captured.connect(self.__navigate_to_capture_result)
-        
-        # FINISH PAGE
+    # index 5
+    def __init_capture_preview_page(self):
         self.finish = QtWidgets.QWidget()
         self.finish.setObjectName("finish")
         self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.finish)
@@ -1624,7 +1565,8 @@ class MainWidget(object):
         self.verticalLayout_20.addWidget(self.finish_frame)
         self.stackedWidget.addWidget(self.finish)
 
-        # PRINTING PAGE
+    # index 6
+    def __init_printing_page(self):
         self.printing = QtWidgets.QWidget()
         self.printing.setObjectName("printing")
         self.verticalLayout_23 = QtWidgets.QVBoxLayout(self.printing)
@@ -1681,7 +1623,8 @@ class MainWidget(object):
         self.verticalLayout_23.addWidget(self.printing_frame)
         self.stackedWidget.addWidget(self.printing)
 
-        # GET YOUR PHOTO PAGE
+    # index ?
+    def __init_get_photo_page(self):
         self.getYourPhoto = QtWidgets.QWidget()
         self.getYourPhoto.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
         self.getYourPhoto.setObjectName("getYourPhoto")
@@ -1755,7 +1698,8 @@ class MainWidget(object):
         self.verticalLayout_28.addWidget(self.get_your_photo)
         self.stackedWidget.addWidget(self.getYourPhoto)
 
-        # ALERT PAGE
+    # index ?
+    def __init_alert_page(self):
         self.alert = QtWidgets.QWidget()
         self.alert.setObjectName("alert")
         self.verticalLayout_26 = QtWidgets.QVBoxLayout(self.alert)
@@ -1813,65 +1757,82 @@ class MainWidget(object):
         self.stackedWidget.addWidget(self.alert)
         self.verticalLayout_2.addWidget(self.stackedWidget)
         self.verticalLayout.addWidget(self.mainFrame)
-        MainWindow.setCentralWidget(self.centralwidget)
 
-        self.camValue = 0
-        self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+    def __init_slots(self):
+        # navigates to capture method 
         self.intro_btn_start.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
-        self.btn_Beauty.clicked.connect(lambda: self.toggleCamera(2, True))
-        self.pushButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
-        self.package_A_title.clicked.connect(lambda: self.toggleCamera(1, True))
-        self.package_B_title.clicked.connect(lambda: self.toggleCamera(1, True))
-        self.package_C_title.clicked.connect(lambda: self.toggleCamera(1, True))
-        self.pushButton_2.clicked.connect(lambda: self.toggleCamera(1, True))
-        # self.capture_formal.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(5))
-        # self.capture_filter.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(5))
-        self.btn_finish.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(6))
-        self.btn_retake.clicked.connect(lambda: self.toggleRetake(True))
         self.backStyleButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
-        self.backPurposeButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+
+        # navigates to formal capture
+        self.pushButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
+        self.package_A_title.clicked.connect(lambda: self.__goto_camera(1))
+        self.package_B_title.clicked.connect(lambda: self.__goto_camera(1))
+        self.package_C_title.clicked.connect(lambda: self.__goto_camera(1))
+        self.pushButton_2.clicked.connect(lambda: self.__goto_camera(1))
+        
+        # navigates to beauty capture
+        self.btn_Beauty.clicked.connect(lambda: self.__goto_camera(2))
+        
+        # slots for camera
+        self.video_thread.frame_ready.connect(self.__handle_frame)
+        self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
+        self.countdown_module.ticked.connect(self.__handle_capture)
+        self.countdown_module.finished.connect(self.__navigate_to_capture_result)
+
+        # navigates back to the camera
+        self.btn_retake.clicked.connect(lambda: self.__return_to_camera())
+
+        # navigates to printing
+        self.btn_finish.clicked.connect(lambda: self.__go_outside_camera_scope(6))
+        
+        # navigates back to start screen
         self.done_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.backPurposeButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
 
-    def __navigate_to_formal_camera(self):
-        self.stackedWidget.setCurrentIndex(3)
-        self.camera_formal_widget.start_threads()
-        QtCore.QTimer.singleShot(1, self.camera_formal_widget.get_next_frame)
+    def __start_capture_process(self):
+        self.video_thread.capture_gesture_detected.disconnect()
+        self.countdown_module.start()
 
-    def __navigate_to_beauty_camera(self):
-        self.stackedWidget.setCurrentIndex(4)
-        self.camera_beauty_widget.start_threads()
-        QtCore.QTimer.singleShot(1, self.camera_beauty_widget.get_next_frame)
+    def __handle_capture(self, num):
+        self.capture_label.setText("" if num == 0 else str(num))
+
+    def __handle_frame(self, frames):
+        frame_to_show, self.frame_to_print = frames
+        self.camera_label.set_shown_frame(frame_to_show)
+    
+    def __handle_filter(self, filter_method, filter_path, sticker_path):
+        self.video_thread.face_module.set_filter_path(filter_path, sticker_path)
+        self.video_thread.face_module.set_filter_method(filter_method)
 
     def __navigate_to_capture_result(self):
-        if self.camValue == 1:
-            image = self.camera_formal_widget.convert_frame_to_qimage()
-            self.camera_formal_widget.stop_threads()
-        else:
-            image = self.camera_beauty_widget.convert_frame_to_qimage()
-            self.camera_beauty_widget.stop_threads()
-            
-        self.captured_frame_label.setPixmap(QtGui.QPixmap(image))
-        self.stackedWidget.setCurrentIndex(5)  
+        self.video_thread.set_mode(0)
+        self.captured_frame_label.setPixmap(QtGui.QPixmap.fromImage(self.camera_formal_label.convert_frame_to_qimage(self.frame_to_print))) # too lazy to create a separate method
+        self.stackedWidget.setCurrentIndex(5)
+        self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
 
-    def toggleCamera(self, point, enable):
-        if enable:
-            if point == 1:
-                self.camValue = 1
-                self.__navigate_to_formal_camera()
-            else:
-                self.camValue = 2
-                self.__navigate_to_beauty_camera()
+    def __goto_camera(self, value):
+        self.capture_method_value = value
 
-    def toggleRetake(self, enable):
-        if enable:
-            if self.camValue == 1:
-                self.__navigate_to_formal_camera()
-            else:
-                self.__navigate_to_beauty_camera()
+        if self.capture_method_value == 1:
+            self.camera_label = self.camera_formal_label
+            self.capture_label = self.capture_formal
+        elif self.capture_method_value == 2:
+            self.camera_label = self.camera_beauty_label
+            self.capture_label = self.capture_beauty
+        
+        self.stackedWidget.setCurrentIndex(value + 2)
+        self.video_thread.set_mode(value)
 
-    def retranslateUi(self, MainWindow):
+    def __return_to_camera(self):
+        self.stackedWidget.setCurrentIndex(self.capture_method_value + 2)
+        self.video_thread.set_mode(self.capture_method_value)
+
+    def __go_outside_camera_scope(self, index):
+        self.capture_method_value = 0
+        self.video_thread.set_mode(self.capture_method_value)
+        self.stackedWidget.setCurrentIndex(index)
+
+    def retranslate_ui(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Quick Snap"))
         self.intro_lbl_tagline.setText(_translate("MainWindow", "Picture perfect moments with QuickSnap"))
@@ -1887,7 +1848,7 @@ class MainWidget(object):
         self.package_C_title.setText(_translate("MainWindow", "Package C : 4 pcs 2x2 photos"))
         # self.capture_formal.setText(_translate("MainWindow", "3"))
         self.label_10.setText(_translate("MainWindow", "Filters"))
-        # self.capture_filter.setText(_translate("MainWindow", "3"))
+        # self.capture_beauty.setText(_translate("MainWindow", "3"))
         self.btn_retake.setText(_translate("MainWindow", "Retake"))
         self.btn_finish.setText(_translate("MainWindow", "Finish"))
         self.label_42.setText(_translate("MainWindow", "Printing please wait ..."))
