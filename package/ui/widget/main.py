@@ -4,11 +4,13 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from package.resource import resources_rc
 from package.thread.video import VideoThread
 from package.module.countdown_timer import CountdownTimerModule
+from package.module.print import PrintModule
 from package.ui.widget.quicksnap import QuickSnapWidget
 
 class MainWidget(object):
     def __init__(self, MainWindow):
         self.capture_method_value = 0
+        self.print_method_value = -1
         self.frame_to_print = None
 
         self.__init_modules()
@@ -22,6 +24,7 @@ class MainWidget(object):
     def __init_modules(self):
         self.video_thread = VideoThread()
         self.countdown_module = CountdownTimerModule()
+        self.print_module = PrintModule()
 
     def __init_ui(self, MainWindow):
         self.__init_main_window(MainWindow)
@@ -1623,7 +1626,7 @@ class MainWidget(object):
         self.verticalLayout_23.addWidget(self.printing_frame)
         self.stackedWidget.addWidget(self.printing)
 
-    # index ?
+    # index 7
     def __init_get_photo_page(self):
         self.getYourPhoto = QtWidgets.QWidget()
         self.getYourPhoto.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
@@ -1765,25 +1768,25 @@ class MainWidget(object):
 
         # navigates to formal capture
         self.pushButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
-        self.package_A_title.clicked.connect(lambda: self.__goto_camera(1))
-        self.package_B_title.clicked.connect(lambda: self.__goto_camera(1))
-        self.package_C_title.clicked.connect(lambda: self.__goto_camera(1))
-        self.pushButton_2.clicked.connect(lambda: self.__goto_camera(1))
+        self.package_A_title.clicked.connect(lambda: self.__goto_camera(1, print_value=1))
+        self.package_B_title.clicked.connect(lambda: self.__goto_camera(1, print_value=2))
+        self.package_C_title.clicked.connect(lambda: self.__goto_camera(1, print_value=3))
+        self.pushButton_2.clicked.connect(lambda: self.__goto_camera(1, print_value=4))
         
         # navigates to beauty capture
-        self.btn_Beauty.clicked.connect(lambda: self.__goto_camera(2))
+        self.btn_Beauty.clicked.connect(lambda: self.__goto_camera(2, print_value=0))
         
         # slots for camera
         self.video_thread.frame_ready.connect(self.__handle_frame)
         self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
-        self.countdown_module.ticked.connect(self.__handle_capture)
+        self.countdown_module.ticked.connect(self.__handle_capture_timer)
         self.countdown_module.finished.connect(self.__navigate_to_capture_result)
 
         # navigates back to the camera
-        self.btn_retake.clicked.connect(lambda: self.__return_to_camera())
+        self.btn_retake.clicked.connect(self.__return_to_camera)
 
         # navigates to printing
-        self.btn_finish.clicked.connect(lambda: self.__go_outside_camera_scope(6))
+        self.btn_finish.clicked.connect(self.__print_image)
         
         # navigates back to start screen
         self.done_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
@@ -1793,12 +1796,12 @@ class MainWidget(object):
         self.video_thread.capture_gesture_detected.disconnect()
         self.countdown_module.start()
 
-    def __handle_capture(self, num):
+    def __handle_capture_timer(self, num):
         self.capture_label.setText("" if num == 0 else str(num))
 
     def __handle_frame(self, frames):
         frame_to_show, self.frame_to_print = frames
-        self.camera_label.set_shown_frame(frame_to_show)
+        self.camera_label.set_shown_frame(self.camera_label.convert_frame_to_qimage(frame_to_show))
     
     def __handle_filter(self, filter_method, filter_path, sticker_path):
         self.video_thread.face_module.set_filter_path(filter_path, sticker_path)
@@ -1806,12 +1809,14 @@ class MainWidget(object):
 
     def __navigate_to_capture_result(self):
         self.video_thread.set_mode(0)
-        self.captured_frame_label.setPixmap(QtGui.QPixmap.fromImage(self.camera_formal_label.convert_frame_to_qimage(self.frame_to_print))) # too lazy to create a separate method
+        self.final_image = self.camera_label.convert_frame_to_qimage(self.frame_to_print)
+        self.captured_frame_label.setPixmap(QtGui.QPixmap.fromImage(self.final_image))
         self.stackedWidget.setCurrentIndex(5)
         self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
 
-    def __goto_camera(self, value):
-        self.capture_method_value = value
+    def __goto_camera(self, capture_value, print_value):
+        self.capture_method_value = capture_value
+        self.print_method_value = print_value
 
         if self.capture_method_value == 1:
             self.camera_label = self.camera_formal_label
@@ -1820,12 +1825,19 @@ class MainWidget(object):
             self.camera_label = self.camera_beauty_label
             self.capture_label = self.capture_beauty
         
-        self.stackedWidget.setCurrentIndex(value + 2)
-        self.video_thread.set_mode(value)
+        self.stackedWidget.setCurrentIndex(capture_value + 2)
+        self.video_thread.set_mode(capture_value)
 
     def __return_to_camera(self):
         self.stackedWidget.setCurrentIndex(self.capture_method_value + 2)
         self.video_thread.set_mode(self.capture_method_value)
+
+    def __print_image(self):
+        self.__go_outside_camera_scope(6)
+        self.print_module.start_service()
+        self.print_module.print(self.final_image, self.print_method_value)
+        self.print_module.stop_service()
+        self.stackedWidget.setCurrentIndex(7)
 
     def __go_outside_camera_scope(self, index):
         self.capture_method_value = 0

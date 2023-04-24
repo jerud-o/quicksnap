@@ -10,7 +10,7 @@ class QuickSnapWidget(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def set_shown_frame(self, frame):
-        self.setPixmap(QPixmap.fromImage(self.convert_frame_to_qimage(frame)))
+        self.setPixmap(QPixmap.fromImage(frame))
 
     def convert_frame_to_qimage(self, frame):
         grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
