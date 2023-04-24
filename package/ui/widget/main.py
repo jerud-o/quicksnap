@@ -1767,11 +1767,11 @@ class MainWidget(object):
         self.backStyleButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
 
         # navigates to formal capture
-        self.pushButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
-        self.package_A_title.clicked.connect(lambda: self.__goto_camera(1, print_value=1))
-        self.package_B_title.clicked.connect(lambda: self.__goto_camera(1, print_value=2))
-        self.package_C_title.clicked.connect(lambda: self.__goto_camera(1, print_value=3))
-        self.pushButton_2.clicked.connect(lambda: self.__goto_camera(1, print_value=4))
+        self.pushButton.clicked.connect(lambda: self.__goto_camera)
+        self.package_A_title.clicked.connect(lambda: self.__handle_package(1))
+        self.package_B_title.clicked.connect(lambda: self.__handle_package(2))
+        self.package_C_title.clicked.connect(lambda: self.__handle_package(3))
+        self.pushButton_2.clicked.connect(lambda: self.__handle_package(4))
         
         # navigates to beauty capture
         self.btn_Beauty.clicked.connect(lambda: self.__goto_camera(2, print_value=0))
@@ -1786,7 +1786,7 @@ class MainWidget(object):
         self.btn_retake.clicked.connect(self.__return_to_camera)
 
         # navigates to printing
-        self.btn_finish.clicked.connect(self.__print_image)
+        self.btn_finish.clicked.connect(self.__handle_finish)
         
         # navigates back to start screen
         self.done_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
@@ -1831,6 +1831,21 @@ class MainWidget(object):
     def __return_to_camera(self):
         self.stackedWidget.setCurrentIndex(self.capture_method_value + 2)
         self.video_thread.set_mode(self.capture_method_value)
+
+# jake
+
+    def __handle_finish(self):
+        if self.capture_method_value == 1:
+            self.stackedWidget.setCurrentIndex(1)
+        elif self.capture_method_value == 2:
+            self.stackedWidget.setCurrentIndex(6)
+
+    def __handle_package(self, print_method_value):
+        self.printing_value = print_method_value
+        self.__print_image()
+
+
+# jake
 
     def __print_image(self):
         self.__go_outside_camera_scope(6)
