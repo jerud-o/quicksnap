@@ -17,6 +17,7 @@ class VideoThread(QThread):
         super().__init__()
         self.__init_camera()
         self.__init_modules()
+        pyautogui.FAILSAFE = False
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = pyautogui.size()
         self.SCREEN_WIDTH *= 1.2
         self.SCREEN_HEIGHT *= 1.2
