@@ -8,7 +8,10 @@ class GazeDetectionModule():
         self.LOWER_BOUNDS = 0.4
 
     def process_frame(self, grayed_frame, face):
-        self.gaze_module.refresh(grayed_frame, face)
-        is_x_centered = self.LOWER_BOUNDS < self.gaze_module.horizontal_ratio() < self.UPPER_BOUNDS
-        is_y_centered = self.LOWER_BOUNDS < self.gaze_module.vertical_ratio() < self.UPPER_BOUNDS
-        return is_x_centered and is_y_centered
+        try:
+            self.gaze_module.refresh(grayed_frame, face)
+            is_x_centered = 0.4 < self.gaze_module.horizontal_ratio() < 0.6
+            is_y_centered = 0.75 < self.gaze_module.vertical_ratio() < 0.8
+            return is_x_centered and is_y_centered
+        except:
+            return False

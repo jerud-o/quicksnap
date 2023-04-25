@@ -6,10 +6,7 @@ from PyQt6.QtGui import QPixmap, QTransform
 class PrintModule():
     def __init__(self):
         self.ONE_INCH_POINTS = 72
-        
-        self.current_path = os.getcwd()
-        self.temp_path = "package/resource/img/temp/"
-        self.image_path = os.path.join(self.current_path, self.temp_path, "image.png")
+        self.image_path = os.path.join(os.getcwd(), "package/resource/img/temp/", "image.png")
 
     def start_service(self):
         self.word = win32.Dispatch("Word.Application")
@@ -36,13 +33,16 @@ class PrintModule():
             case 2:
                 for y in range(2):
                     cursor.InsertBefore("\v")
-                    self.insert_square_photo(cursor, 2, 1)
+                    self.insert_square_photo(cursor, 2, 2)
 
             case 3:
-                cursor.InsertBefore("\v")
-                self.insert_square_photo(cursor, 1, 2)
-                cursor.InsertBefore("\v")
-                self.insert_square_photo(cursor, 2, 2)
+                for y in range(2):
+                    cursor.InsertBefore("\v")
+                    self.insert_square_photo(cursor, 1, 2)
+
+                for y in range(2):
+                    cursor.InsertBefore("\v")
+                    self.insert_square_photo(cursor, 2, 1)
 
             case 4:
                 pass
@@ -56,10 +56,10 @@ class PrintModule():
                 print("Invalid printing method")
                 return
             
-        doc.PrintOut()
-        doc.Close()
+        # doc.PrintOut()
+        # doc.Close()
 
     def insert_square_photo(self, cursor, inches, num_of_photos):
         for x in range(num_of_photos):
-            shape = cursor.InlineShapes.AddPicture(os.path.join(self.current_path, self.temp_path, "image.png"))
+            shape = cursor.InlineShapes.AddPicture(self.image_path)
             shape.Width = shape.Height = self.ONE_INCH_POINTS * inches

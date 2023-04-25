@@ -42,5 +42,5 @@ class CountdownTimerModule(QObject):
 
     def __shutter_sound(self):
         for i in range(2):
-            winsound.Beep(500, 100)
+            winsound.Beep(1500, 100)
             time.sleep(20 / 1000)

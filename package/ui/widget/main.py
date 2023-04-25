@@ -1,3 +1,4 @@
+import os
 import ast
 from functools import partial
 from PyQt6 import QtCore, QtGui, QtWidgets
@@ -811,7 +812,7 @@ class MainWidget(object):
         # self.camera_input.setScaledContents(True)
         # self.camera_input.setObjectName("camera_input")
         # self.verticalLayout_29.addWidget(self.camera_input)
-        self.camera_formal_label = QuickSnapWidget()
+        self.camera_formal_label = QuickSnapWidget(parent=self.verticalLayout_29)
         self.camera_formal_label.setFrameShape(QtWidgets.QFrame.Shape.VLine)
         self.camera_formal_label.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.camera_formal_label.setLineWidth(1)
@@ -1164,7 +1165,7 @@ class MainWidget(object):
         #
         # Filters starts here
         #
-        with open("package/resource/filter/filters_dict.py", "r") as file:
+        with open(os.path.join(os.getcwd(), "package/resource/filter/filters_dict.py"), "r") as file:
             filters_dict = ast.literal_eval(file.read())
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -1175,7 +1176,7 @@ class MainWidget(object):
         filter_button.setSizePolicy(sizePolicy)
         filter_button.setMinimumSize(QtCore.QSize(180, 180))
         filter_button.setMaximumSize(QtCore.QSize(180, 180))
-        filter_button.setStyleSheet("border-image: url(package/resource/img/camera.png);")
+        filter_button.setStyleSheet("border-image: url(package/resource/img/null.png);")
         filter_button.setText("")
         filter_button.setObjectName("filter_null_null")
         filter_button.clicked.connect(lambda: self.__handle_filter("null", None, None))
@@ -1431,7 +1432,7 @@ class MainWidget(object):
         self.verticalLayout_17.addWidget(self.frame_14)
         self.horizontalLayout_3.addWidget(self.filter_container)
         self.filter_cam_container = QtWidgets.QFrame(parent=self.filters_frame)
-        self.filter_cam_container.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        # self.filter_cam_container.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.filter_cam_container.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.filter_cam_container.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.filter_cam_container.setLineWidth(0)
@@ -1440,14 +1441,16 @@ class MainWidget(object):
         self.verticalLayout_30.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_30.setSpacing(0)
         self.verticalLayout_30.setObjectName("verticalLayout_30")
+        self.verticalLayout_30.addStretch(1)
         # self.filter_frame_label = QtWidgets.QLabel(parent=self.filter_cam_container)
         # self.filter_frame_label.setText("")
         # self.filter_frame_label.setPixmap(QtGui.QPixmap("package/resource/img/camera.png"))
         # self.filter_frame_label.setScaledContents(True)
         # self.filter_frame_label.setObjectName("label_11")
         # self.verticalLayout_30.addWidget(self.filter_frame_label)
-        self.camera_beauty_label = QuickSnapWidget(parent=self.filter_cam_container)
+        self.camera_beauty_label = QuickSnapWidget(parent=self.verticalLayout_30)
         self.verticalLayout_30.addWidget(self.camera_beauty_label)
+        self.verticalLayout_30.addStretch(1)
         self.frame_15 = QtWidgets.QFrame(parent=self.filter_cam_container)
         self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -1803,7 +1806,7 @@ class MainWidget(object):
 
     def __handle_frame(self, frames):
         frame_to_show, self.frame_to_print = frames
-        self.camera_label.set_shown_frame(self.camera_label.convert_frame_to_qimage(frame_to_show))
+        self.camera_label.set_shown_frame(self.camera_label.convert_frame_to_qimage(frame_to_show), self.capture_method_value)
     
     def __handle_filter(self, filter_method, filter_path, sticker_path):
         self.video_thread.face_module.set_filter_path(filter_path, sticker_path)
@@ -1812,6 +1815,12 @@ class MainWidget(object):
     def __navigate_to_capture_result(self):
         self.video_thread.set_mode(0)
         self.final_image = self.camera_label.convert_frame_to_qimage(self.frame_to_print)
+
+        if self.capture_method_value == 1:
+            image = self.final_image
+            offset = (image.width() - image.height()) // 2
+            self.final_image = image.copy(offset, 0, image.height(), image.height())
+
         self.captured_frame_label.setPixmap(QtGui.QPixmap.fromImage(self.final_image))
         self.stackedWidget.setCurrentIndex(5)
         self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
@@ -1835,14 +1844,14 @@ class MainWidget(object):
         self.video_thread.set_mode(self.capture_method_value)
 
     def __handle_package(self, print_method_value):
-        self.printing_value = print_method_value
+        self.print_method_value = print_method_value
         self.__print_image()
 
     def __handle_finish_button(self):
         if self.capture_method_value == 1:
-            self.stackedWidget.setCurrentIndex(1)
+            self.stackedWidget.setCurrentIndex(2)
         elif self.capture_method_value == 2:
-            self.stackedWidget.setCurrentIndex(6)
+            self.__print_image()
 
     def __print_image(self):
         self.__go_outside_camera_scope(6)

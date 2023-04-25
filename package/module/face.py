@@ -1,15 +1,17 @@
+import os
 import cv2
 import dlib
 from math import hypot
 
 class FaceDetectionModule():
     def __init__(self):
+        
         self.detector = dlib.get_frontal_face_detector()
-        self.predictor = dlib.shape_predictor("package/resource/shape_predictor_68_face_landmarks.dat")
+        self.predictor = dlib.shape_predictor(os.path.join(os.getcwd(), "package/resource/shape_predictor_68_face_landmarks.dat"))
         self.__draw_filter_process = self.__draw_nothing
 
     def set_filter_path(self, filter_path=None, sticker_path=None):
-        self.sticker = cv2.imread(sticker_path) if sticker_path is not None else None
+        self.sticker = cv2.imread(os.path.join(os.getcwd(), sticker_path)) if sticker_path is not None else None
 
     def set_filter_method(self, filter_method="null"):
         match filter_method:

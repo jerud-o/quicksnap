@@ -1,15 +1,19 @@
 import cv2
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QLabel
+from PyQt6.QtWidgets import QLabel, QApplication
 from PyQt6.QtGui import QPixmap, QImage
 
 
 class QuickSnapWidget(QLabel):
     def __init__(self, parent=None):
-        super(QuickSnapWidget, self).__init__(parent)
+        super(QuickSnapWidget, self).__init__()
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-    def set_shown_frame(self, frame):
+    def set_shown_frame(self, frame, mode):
+        if mode == 1:
+            offset = (frame.width() - frame.height()) // 2
+            frame = frame.copy(offset, 0, frame.height(), frame.height())
+
         self.setPixmap(QPixmap.fromImage(frame))
 
     def convert_frame_to_qimage(self, frame):

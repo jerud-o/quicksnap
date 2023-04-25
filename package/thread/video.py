@@ -43,7 +43,7 @@ class VideoThread(QThread):
                 
                 if self.mode != 0:
                     frame_to_show = np.copy(frame)
-                    frame_to_print = np.copy(frame)
+                    frame_to_print = np.copy(frame)                    
                     hand_gesture, hand_center_coords = self.hand_module.process_frame(grayed_frame, self.mode, frame_to_show)
                     self.process_frame(grayed_frame, frame_to_show, frame_to_print)
                     self.frame_ready.emit((frame_to_show, frame_to_print))
