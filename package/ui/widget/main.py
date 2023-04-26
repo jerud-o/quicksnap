@@ -1623,7 +1623,7 @@ class MainWidget(object):
         self.btn_finish = QtWidgets.QPushButton(parent=self.frame_9)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(20)
+        font.setPointSize(26)
         font.setBold(True)
         font.setWeight(75)
         self.btn_finish.setFont(font)
