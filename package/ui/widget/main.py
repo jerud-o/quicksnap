@@ -2,6 +2,7 @@ import os
 import ast
 from functools import partial
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt
 from package.resource import resources_rc
 from package.thread.video import VideoThread
 from package.module.countdown_timer import CountdownTimerModule
@@ -119,12 +120,16 @@ class MainWidget(object):
                                         "#intro_lbl_image {\n"
                                         "    position: relative;\n"
                                         "    top: 0;\n"
-                                        "    height: 50%;\n"
+                                        "    height: 100%;\n"
                                         "}\n"
                                         "#intro_lbl_tagline {\n"
                                         "    position: relative;\n"
-                                        "    margin-top: 10%;\n"
+                                        "}\n"
+                                        "#tutorial_label {\n"
+                                        "    position: relative;\n"
+                                        "}\n"
                                         "}")
+
         self.intro_labels.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.intro_labels.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.intro_labels.setLineWidth(0)
@@ -141,10 +146,10 @@ class MainWidget(object):
         self.intro_lbl_tagline = QtWidgets.QLabel(parent=self.intro_labels)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(20)
+        font.setPointSize(24)
         font.setBold(True)
-        font.setItalic(True)
         font.setWeight(75)
+        self.intro_lbl_tagline.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.intro_lbl_tagline.setFont(font)
         self.intro_lbl_tagline.setStyleSheet("color: rgb(255, 255, 255);")
         self.intro_lbl_tagline.setScaledContents(True)
@@ -155,12 +160,12 @@ class MainWidget(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame)
-        self.verticalLayout_6.setContentsMargins(-1, 75, -1, 75)
+        self.verticalLayout_6.setContentsMargins(-1, 10, -1, 10)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.intro_btn_start = QtWidgets.QPushButton(parent=self.frame)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(18)
+        font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
         self.intro_btn_start.setFont(font)
@@ -169,18 +174,36 @@ class MainWidget(object):
                                            "    background-color: rgb(240, 212, 0);\n"
                                            "    color: rgb(0, 29, 61);\n"
                                            "    border-radius: 10px;\n"
-                                           "    height: 50px;\n"
+                                           "    height: 80px;\n"
                                            "}\n"
                                            "#intro_btn_start:hover{\n"
                                            "    background-color: rgb(255, 162, 5);\n"
                                            "    color:#fff;\n"
                                            "}")
         self.intro_btn_start.setObjectName("intro_btn_start")
+
+# Tutorial
+        self.tutorial_label = QtWidgets.QLabel(parent=self.intro_labels)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.tutorial_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.tutorial_label.setFont(font)
+        self.tutorial_label.setStyleSheet("color: rgb(255, 255, 255);")
+        self.tutorial_label.setScaledContents(True)
+        self.tutorial_label.setObjectName("tutorial_label")
+        self.verticalLayout_5.addWidget(self.tutorial_label)
+        
+# Tutorial
         self.verticalLayout_6.addWidget(self.intro_btn_start)
         self.verticalLayout_5.addWidget(self.frame)
         self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignTop)
         self.verticalLayout_3.addWidget(self.intro_frame)
         self.stackedWidget.addWidget(self.intro)
+        
 
     # index 1
     def __init_capture_method_page(self):
@@ -803,6 +826,23 @@ class MainWidget(object):
         self.camera_container.setObjectName("camera_container")
         self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.camera_container)
         self.verticalLayout_29.setObjectName("verticalLayout_29")
+
+        # Tutorial_Formal
+        self.tutorial_label1 = QtWidgets.QLabel(parent=self.camera)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.tutorial_label1.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.tutorial_label1.setFont(font)
+        self.tutorial_label1.setStyleSheet("color: 001D3D;")
+        self.tutorial_label1.setScaledContents(True)
+        self.tutorial_label1.setObjectName("tutorial_label1")
+        self.verticalLayout_29.addWidget(self.tutorial_label1)
+        
+
         # self.camera_input = QtWidgets.QLabel(parent=self.camera_container)
         # self.camera_input.setFrameShape(QtWidgets.QFrame.Shape.VLine)
         # self.camera_input.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -893,7 +933,7 @@ class MainWidget(object):
         self.label_10 = QtWidgets.QLabel(parent=self.frame_10)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(24)
+        font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
         self.label_10.setFont(font)
@@ -1165,6 +1205,9 @@ class MainWidget(object):
         #
         # Filters starts here
         #
+
+        
+
         with open(os.path.join(os.getcwd(), "package/resource/filter/filters_dict.py"), "r") as file:
             filters_dict = ast.literal_eval(file.read())
 
@@ -1448,6 +1491,23 @@ class MainWidget(object):
         # self.filter_frame_label.setScaledContents(True)
         # self.filter_frame_label.setObjectName("label_11")
         # self.verticalLayout_30.addWidget(self.filter_frame_label)
+
+        # beauty page
+        self.tutorial_label2 = QtWidgets.QLabel(parent=self.camera)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.tutorial_label2.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.tutorial_label2.setFont(font)
+        self.tutorial_label2.setStyleSheet("color: #001D3D; margin-bottom:20px;")
+        self.tutorial_label2.setScaledContents(True)
+        self.tutorial_label2.setObjectName("tutorial_label2")
+        self.verticalLayout_30.addWidget(self.tutorial_label2)
+
+
         self.camera_beauty_label = QuickSnapWidget(parent=self.verticalLayout_30)
         self.verticalLayout_30.addWidget(self.camera_beauty_label)
         self.verticalLayout_30.addStretch(1)
@@ -1457,6 +1517,9 @@ class MainWidget(object):
         self.frame_15.setObjectName("frame_15")
         self.verticalLayout_31 = QtWidgets.QVBoxLayout(self.frame_15)
         self.verticalLayout_31.setObjectName("verticalLayout_31")
+
+        
+
         self.capture_beauty = QtWidgets.QPushButton(parent=self.frame_15)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -1484,8 +1547,11 @@ class MainWidget(object):
         self.verticalLayout_15.addWidget(self.filters_frame)
         self.stackedWidget.addWidget(self.filters)
 
+        
+
     # index 5
     def __init_capture_preview_page(self):
+        
         self.finish = QtWidgets.QWidget()
         self.finish.setObjectName("finish")
         self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.finish)
@@ -1531,7 +1597,7 @@ class MainWidget(object):
                                    "    background-color: rgb(240, 212, 0);\n"
                                    "    color: rgb(0, 29, 61);\n"
                                    "    border-radius: 10px;\n"
-                                   "    height: 50px;\n"
+                                   "    height: 100px;\n"
                                    "}\n"
                                    "#btn_retake:hover, #btn_finish:hover{\n"
                                    "    background-color: rgb(255, 162, 5);\n"
@@ -1546,7 +1612,7 @@ class MainWidget(object):
         self.btn_retake = QtWidgets.QPushButton(parent=self.frame_9)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(18)
+        font.setPointSize(26)
         font.setBold(True)
         font.setWeight(75)
         self.btn_retake.setFont(font)
@@ -1557,7 +1623,7 @@ class MainWidget(object):
         self.btn_finish = QtWidgets.QPushButton(parent=self.frame_9)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(18)
+        font.setPointSize(26)
         font.setBold(True)
         font.setWeight(75)
         self.btn_finish.setFont(font)
@@ -1570,6 +1636,7 @@ class MainWidget(object):
         self.gridLayout_15.addWidget(self.finish_container, 0, 0, 1, 1)
         self.verticalLayout_20.addWidget(self.finish_frame)
         self.stackedWidget.addWidget(self.finish)
+
 
     # index 6
     def __init_printing_page(self):
@@ -1876,18 +1943,21 @@ class MainWidget(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Quick Snap"))
         self.intro_lbl_tagline.setText(_translate("MainWindow", "Picture perfect moments with QuickSnap"))
+        self.tutorial_label.setText(_translate("MainWindow", "(Note: Use index finger to navigate filter, pinch to select, & peace sign to capture.)"))
         self.intro_btn_start.setText(_translate("MainWindow", "Start QuickSnap"))
         self.label_2.setText(_translate("MainWindow", "Formal"))
         self.label_3.setText(_translate("MainWindow", "Great for 1x1, 2x2, passport photos."))
         self.label_5.setText(_translate("MainWindow", "Beauty"))
         self.label_6.setText(_translate("MainWindow", "Great for selfie and groupie."))
         self.label_9.setText(_translate("MainWindow", "Select Package"))
-        self.pushButton_2.setText(_translate("MainWindow", "Package D : 4 pcs 1x1 & 2 pc 2x2 photos"))
-        self.package_B_title.setText(_translate("MainWindow", "Package B : 4 pcs Passport photos"))
-        self.package_A_title.setText(_translate("MainWindow", "Package A : 8 pcs 1x1 photos"))
-        self.package_C_title.setText(_translate("MainWindow", "Package C : 4 pcs 2x2 photos"))
+        self.pushButton_2.setText(_translate("MainWindow", "Package D : 8 pcs. 1x1 & 4 pcs. 2x2 photos"))
+        self.package_B_title.setText(_translate("MainWindow", "Package C : 2 pcs. 2x2 & 4 pcs. 1x1 photos"))
+        self.package_A_title.setText(_translate("MainWindow", "Package A : 8 pcs. 1x1 photos"))
+        self.package_C_title.setText(_translate("MainWindow", "Package B : 4 pcs. 2x2 photos"))
         # self.capture_formal.setText(_translate("MainWindow", "3"))
         self.label_10.setText(_translate("MainWindow", "Filters"))
+        self.tutorial_label1.setText(_translate("MainWindow", "(Note: Look directly to the camera to capture)"))
+        self.tutorial_label2.setText(_translate("MainWindow", "(Note: Use index finger to navigate filter, pinch to select, & peace sign to capture.)"))
         # self.capture_beauty.setText(_translate("MainWindow", "3"))
         self.btn_retake.setText(_translate("MainWindow", "Retake"))
         self.btn_finish.setText(_translate("MainWindow", "Finish"))
