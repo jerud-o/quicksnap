@@ -1,65 +1,94 @@
 import os
-import win32com.client as win32
+import tempfile
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
 from PyQt6.QtGui import QPixmap, QTransform
-
 
 class PrintModule():
     def __init__(self):
-        self.ONE_INCH_POINTS = 72
-        self.image_path = os.path.join(os.getcwd(), "package/resource/img/temp/", "image.png")
-
-    def start_service(self):
-        self.word = win32.Dispatch("Word.Application")
-        self.word.Visible = True
-
-    def stop_service(self):
-        self.word.Quit()
+        self.PAGE_WIDTH, self.PAGE_HEIGHT = 4 * inch, 6 * inch
+        self.IMAGE_PATH = os.path.join(os.getcwd(), "package/resource/img/temp/img.png")
 
     def print(self, image, print_method):
         pixmap = QPixmap.fromImage(image)
         pixmap = pixmap.transformed(QTransform().rotate(90))
-        pixmap.save(self.image_path)
+        pixmap.save(self.IMAGE_PATH)
 
-        doc = self.word.Documents.Add()
-        doc.PageSetup.PaperSize = 9 # 4x6 size
-        cursor = doc.Range()
-
-        match print_method:
-            case 1:
-                for y in range(4):
-                    cursor.InsertBefore("\v")
-                    self.insert_square_photo(cursor, 1, 2)
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_file:
+            c = canvas.Canvas(temp_file.name, pagesize=(self.PAGE_WIDTH, self.PAGE_HEIGHT))
             
-            case 2:
-                for y in range(2):
-                    cursor.InsertBefore("\v")
-                    self.insert_square_photo(cursor, 2, 2)
+            match print_method:
+                case 1:
+                    cursor_x = 0
 
-            case 3:
-                for y in range(2):
-                    cursor.InsertBefore("\v")
-                    self.insert_square_photo(cursor, 1, 2)
+                    for x in range(2):
+                        cursor_y = 0
+                        
+                        for y in range(4):
+                            c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=1*inch, height=1*inch)
+                            cursor_y += 1 * inch
 
-                for y in range(2):
-                    cursor.InsertBefore("\v")
-                    self.insert_square_photo(cursor, 2, 1)
+                        cursor_x += 1 * inch
+                
+                case 2:
+                    cursor_x = 0
 
-            case 4:
-                pass
+                    for x in range(2):
+                        cursor_y = 0
+                        
+                        for y in range(2):
+                            c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
+                            cursor_y += 2 * inch
+
+                        cursor_x += 2 * inch
+
+                case 3:
+                    cursor_x = 0
+                    cursor_y = 0
+
+                    for y in range(4):
+                        c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=1*inch, height=1*inch)
+                        cursor_y += 1 * inch
+
+                    cursor_x += 1 * inch
+                    cursor_y = 0
+
+                    for y in range(2):
+                        c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
+                        cursor_y += 2 * inch
+
+                case 4:
+                    cursor_x = 0
+                    cursor_y = 0
+
+                    c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
+                    cursor_y += 2 * inch
+                    temp_cursor_y = cursor_y
+                    cursor_y = 0
+                    
+                    for x in range(2):
+                        cursor_y = temp_cursor_y
+
+                        for y in range(4):
+                            c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=1*inch, height=1*inch)
+                            cursor_y += 1 * inch
+
+                        cursor_x += 1 * inch
+
+                    cursor_y = 0
+
+                    for y in range(3):
+                        c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
+                        cursor_y += 2 * inch
+                
+                case 0:
+                    c.drawImage(self.IMAGE_PATH, 0, 0, width=4*inch, height=6*inch)
+                
+                case _:
+                    print("Invalid printing method")
+                    return
+
+            c.showPage()
+            c.save()
+            os.startfile(temp_file.name, "print")
             
-            case 0:
-                shape = cursor.InlineShapes.AddPicture(self.image_path)
-                shape.Width = self.ONE_INCH_POINTS * 4
-                shape.Height = self.ONE_INCH_POINTS * 6
-            
-            case _:
-                print("Invalid printing method")
-                return
-            
-        # doc.PrintOut()
-        # doc.Close()
-
-    def insert_square_photo(self, cursor, inches, num_of_photos):
-        for x in range(num_of_photos):
-            shape = cursor.InlineShapes.AddPicture(self.image_path)
-            shape.Width = shape.Height = self.ONE_INCH_POINTS * inches

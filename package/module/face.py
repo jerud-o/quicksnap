@@ -5,20 +5,9 @@ from math import hypot
 
 class FaceDetectionModule():
     def __init__(self):
-        
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor(os.path.join(os.getcwd(), "package/resource/shape_predictor_68_face_landmarks.dat"))
         self.__draw_filter_process = self.__draw_nothing
-
-    def set_filter_path(self, filter_path=None, sticker_path=None):
-        self.sticker = cv2.imread(os.path.join(os.getcwd(), sticker_path)) if sticker_path is not None else None
-
-    def set_filter_method(self, filter_method="null"):
-        match filter_method:
-            case "cheek":
-                self.__draw_filter_process = self.__draw_cheeks_sticker
-            case "null":
-                self.__draw_filter_process = self.__draw_nothing
 
     def process_frame(self, grayed_frame, frame_to_show, frame_to_print):
         self.__frame = grayed_frame
@@ -27,6 +16,16 @@ class FaceDetectionModule():
         if len(self.faces) > 0:
             for face in self.faces:
                 self.__draw_filter_process(face, frame_to_show, frame_to_print)
+
+    def set_filter_method(self, filter_method="null"):
+        match filter_method:
+            case "cheek":
+                self.__draw_filter_process = self.__draw_cheeks_sticker
+            case "null":
+                self.__draw_filter_process = self.__draw_nothing
+
+    def set_filter_path(self, sticker_path=None):
+        self.sticker = cv2.imread(os.path.join(os.getcwd(), sticker_path)) if sticker_path else None
 
     def __draw_cheeks_sticker(self, face, frame_to_show, frame_to_print):
         try:

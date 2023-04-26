@@ -1179,7 +1179,7 @@ class MainWidget(object):
         filter_button.setStyleSheet("border-image: url(package/resource/img/null.png);")
         filter_button.setText("")
         filter_button.setObjectName("filter_null_null")
-        filter_button.clicked.connect(lambda: self.__handle_filter("null", None, None))
+        filter_button.clicked.connect(partial(self.__handle_filter, "null", None, None))
         self.verticalLayout_34.addWidget(filter_button)
         
         for key_location, value_location in filters_dict.items():
@@ -1189,10 +1189,10 @@ class MainWidget(object):
                 filter_button.setSizePolicy(sizePolicy)
                 filter_button.setMinimumSize(QtCore.QSize(180, 180))
                 filter_button.setMaximumSize(QtCore.QSize(180, 180))
-                filter_button.setStyleSheet("border-image: url(" + value_filter[0] + ");")
+                filter_button.setStyleSheet(f"border-image: url({value_filter[0]});")
                 filter_button.setText("")
-                filter_button.setObjectName("filter_" + key_location + "_" + key_filter)
-                filter_button.clicked.connect(partial(self.__handle_filter, key_location, None, value_filter[1]))
+                filter_button.setObjectName(f"filter_{key_location}_{key_filter}")
+                filter_button.clicked.connect(partial(self.__handle_filter, key_location, value_filter[1], value_filter[2]))
                 self.verticalLayout_34.addWidget(filter_button)
         #
         # Filters ends here
@@ -1799,6 +1799,7 @@ class MainWidget(object):
 
     def __start_capture_process(self):
         self.video_thread.capture_gesture_detected.disconnect()
+        self.video_thread.set_is_capturing(True)
         self.countdown_module.start()
 
     def __handle_capture_timer(self, num):
@@ -1808,12 +1809,14 @@ class MainWidget(object):
         frame_to_show, self.frame_to_print = frames
         self.camera_label.set_shown_frame(self.camera_label.convert_frame_to_qimage(frame_to_show), self.capture_method_value)
     
-    def __handle_filter(self, filter_method, filter_path, sticker_path):
-        self.video_thread.face_module.set_filter_path(filter_path, sticker_path)
+    def __handle_filter(self, filter_method, background_path, sticker_path):
         self.video_thread.face_module.set_filter_method(filter_method)
+        self.video_thread.face_module.set_filter_path(sticker_path)
+        self.video_thread.background_module.set_background(background_path)
 
     def __navigate_to_capture_result(self):
         self.video_thread.set_mode(0)
+        self.video_thread.set_is_capturing(False)
         self.final_image = self.camera_label.convert_frame_to_qimage(self.frame_to_print)
 
         if self.capture_method_value == 1:
@@ -1832,9 +1835,11 @@ class MainWidget(object):
         if self.capture_method_value == 1:
             self.camera_label = self.camera_formal_label
             self.capture_label = self.capture_formal
+            self.capture_label.clicked.connect(self.__start_capture_process)
         elif self.capture_method_value == 2:
             self.camera_label = self.camera_beauty_label
             self.capture_label = self.capture_beauty
+            self.capture_label.clicked.connect(self.__start_capture_process)
         
         self.stackedWidget.setCurrentIndex(capture_value + 2)
         self.video_thread.set_mode(capture_value)
@@ -1848,16 +1853,18 @@ class MainWidget(object):
         self.__print_image()
 
     def __handle_finish_button(self):
+        self.video_thread.background_module.set_background(None)
+        self.video_thread.face_module.set_filter_method("null")
+
         if self.capture_method_value == 1:
             self.stackedWidget.setCurrentIndex(2)
         elif self.capture_method_value == 2:
+            self.print_method_value = 0
             self.__print_image()
 
     def __print_image(self):
         self.__go_outside_camera_scope(6)
-        self.print_module.start_service()
         self.print_module.print(self.final_image, self.print_method_value)
-        self.print_module.stop_service()
         self.stackedWidget.setCurrentIndex(7)
 
     def __go_outside_camera_scope(self, index):
