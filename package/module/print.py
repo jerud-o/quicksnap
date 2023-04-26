@@ -1,6 +1,7 @@
 import os
 import tempfile
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import portrait
 from reportlab.lib.units import inch
 from PyQt6.QtGui import QPixmap, QTransform
 
@@ -15,7 +16,8 @@ class PrintModule():
         pixmap.save(self.IMAGE_PATH)
 
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_file:
-            c = canvas.Canvas(temp_file.name, pagesize=(self.PAGE_WIDTH, self.PAGE_HEIGHT))
+            print(tempfile.gettempdir(), temp_file.name)
+            c = canvas.Canvas(temp_file.name, pagesize=portrait((self.PAGE_WIDTH, self.PAGE_HEIGHT)))
             
             match print_method:
                 case 1:
@@ -90,5 +92,6 @@ class PrintModule():
 
             c.showPage()
             c.save()
-            os.startfile(temp_file.name, "print")
+            os.startfile(temp_file.name)
+            # os.startfile(temp_file.name, "print")
             

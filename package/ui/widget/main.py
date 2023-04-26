@@ -1586,10 +1586,10 @@ class MainWidget(object):
         self.verticalLayout_22.setSpacing(20)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
         self.captured_frame_label = QtWidgets.QLabel(parent=self.frame_8)
-        self.captured_frame_label.setStyleSheet("margin: 20px;")
+        # self.captured_frame_label.setStyleSheet("margin: 20px;")
         self.captured_frame_label.setText("")
         self.captured_frame_label.setPixmap(QtGui.QPixmap("package/resource/img/camera.png"))
-        self.captured_frame_label.setScaledContents(True)
+        # self.captured_frame_label.setScaledContents(True)
         self.captured_frame_label.setObjectName("captured_frame_label")
         self.verticalLayout_22.addWidget(self.captured_frame_label)
         self.frame_9 = QtWidgets.QFrame(parent=self.frame_8)
@@ -1874,7 +1874,7 @@ class MainWidget(object):
 
     def __handle_frame(self, frames):
         frame_to_show, self.frame_to_print = frames
-        self.camera_label.set_shown_frame(self.camera_label.convert_frame_to_qimage(frame_to_show), self.capture_method_value)
+        self.camera_label.set_shown_frame(self.camera_label.convert_frame_to_qimage(frame_to_show, self.capture_method_value))
     
     def __handle_filter(self, filter_method, background_path, sticker_path):
         self.video_thread.face_module.set_filter_method(filter_method)
@@ -1884,13 +1884,7 @@ class MainWidget(object):
     def __navigate_to_capture_result(self):
         self.video_thread.set_mode(0)
         self.video_thread.set_is_capturing(False)
-        self.final_image = self.camera_label.convert_frame_to_qimage(self.frame_to_print)
-
-        if self.capture_method_value == 1:
-            image = self.final_image
-            offset = (image.width() - image.height()) // 2
-            self.final_image = image.copy(offset, 0, image.height(), image.height())
-
+        self.final_image = self.camera_label.convert_frame_to_qimage(self.frame_to_print, self.capture_method_value)
         self.captured_frame_label.setPixmap(QtGui.QPixmap.fromImage(self.final_image))
         self.stackedWidget.setCurrentIndex(5)
         self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
@@ -1914,6 +1908,7 @@ class MainWidget(object):
     def __return_to_camera(self):
         self.stackedWidget.setCurrentIndex(self.capture_method_value + 2)
         self.video_thread.set_mode(self.capture_method_value)
+        self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)
 
     def __handle_package(self, print_method_value):
         self.print_method_value = print_method_value
