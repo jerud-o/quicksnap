@@ -25,7 +25,6 @@ class QuickSnapWidget(QLabel):
             image = image.copy(offset, 0, image.height(), image.height())
         elif mode == 2:
             desired_width = int(image.height() * (3 / 2))
-            CROP_REGION = QRect(0, 0, desired_width, image.height())
-            image = image.copy(CROP_REGION)
+            image = image.copy(0, 0, desired_width, image.height())
 
         return image
