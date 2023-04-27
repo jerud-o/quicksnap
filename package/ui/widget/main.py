@@ -1,5 +1,6 @@
 import os
 import ast
+import pyautogui
 from functools import partial
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
@@ -7,10 +8,13 @@ from package.resource import resources_rc
 from package.thread.video import VideoThread
 from package.module.countdown_timer import CountdownTimerModule
 from package.module.print import PrintModule
+from package.ui.widget.notification import NotificationWidget
+from package.ui.widget.popup import PopupWidget
 from package.ui.widget.quicksnap import QuickSnapWidget
 
 class MainWidget(object):
     def __init__(self, MainWindow):
+        self.width, self.height = pyautogui.size()
         self.capture_method_value = 0
         self.print_method_value = -1
         self.frame_to_print = None
@@ -43,8 +47,8 @@ class MainWidget(object):
     
     def __init_main_window(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
-        MainWindow.resize(1526, 1157)
+        # MainWindow.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
+        MainWindow.resize(self.width, self.height)
         MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
@@ -146,8 +150,9 @@ class MainWidget(object):
         self.intro_lbl_tagline = QtWidgets.QLabel(parent=self.intro_labels)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(24)
+        font.setPointSize(26)
         font.setBold(True)
+        font.setItalic(True)
         font.setWeight(75)
         self.intro_lbl_tagline.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.intro_lbl_tagline.setFont(font)
@@ -182,27 +187,69 @@ class MainWidget(object):
                                            "}")
         self.intro_btn_start.setObjectName("intro_btn_start")
 
-# Tutorial
-        self.tutorial_label = QtWidgets.QLabel(parent=self.intro_labels)
+        self.verticalLayout_6.addWidget(self.intro_btn_start)
+        self.verticalLayout_5.addWidget(self.frame)
+        self.label_101 = QtWidgets.QLabel(parent=self.intro_labels)
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(16)
+        font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
-        self.tutorial_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.tutorial_label.setFont(font)
-        self.tutorial_label.setStyleSheet("color: rgb(255, 255, 255);")
-        self.tutorial_label.setScaledContents(True)
-        self.tutorial_label.setObjectName("tutorial_label")
-        self.verticalLayout_5.addWidget(self.tutorial_label)
-        
-# Tutorial
-        self.verticalLayout_6.addWidget(self.intro_btn_start)
-        self.verticalLayout_5.addWidget(self.frame)
-        self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignTop)
+        self.label_101.setFont(font)
+        self.label_101.setStyleSheet("color: #fff;")
+        self.label_101.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_101.setObjectName("label_101")
+        self.verticalLayout_5.addWidget(self.label_101)
+        self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.widget = QtWidgets.QWidget(parent=self.intro_frame)
+        self.widget.setMaximumSize(QtCore.QSize(16777215, 151))
+        self.widget.setObjectName("widget")
+        self.gridLayout_24 = QtWidgets.QGridLayout(self.widget)
+        self.gridLayout_24.setObjectName("gridLayout_24")
+        self.btnINFO_intro = QtWidgets.QPushButton(parent=self.widget)
+        self.btnINFO_intro.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_intro.setMaximumSize(QtCore.QSize(100, 100))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setWeight(75)
+        self.btnINFO_intro.setFont(font)
+        self.btnINFO_intro.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.btnINFO_intro.setStyleSheet("background-color: rgb(0, 29, 61);\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
+        self.btnINFO_intro.setObjectName("btnINFO_intro")
+        self.gridLayout_24.addWidget(self.btnINFO_intro, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.verticalLayout_4.addWidget(self.widget)
         self.verticalLayout_3.addWidget(self.intro_frame)
         self.stackedWidget.addWidget(self.intro)
+# # Tutorial
+#         self.tutorial_label = QtWidgets.QLabel(parent=self.intro_labels)
+#         font = QtGui.QFont()
+#         font.setFamily("Segoe UI Semibold")
+#         font.setPointSize(16)
+#         font.setBold(True)
+#         font.setItalic(True)
+#         font.setWeight(75)
+#         self.tutorial_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+#         self.tutorial_label.setFont(font)
+#         self.tutorial_label.setStyleSheet("color: rgb(255, 255, 255);")
+#         self.tutorial_label.setScaledContents(True)
+#         self.tutorial_label.setObjectName("tutorial_label")
+#         self.verticalLayout_5.addWidget(self.tutorial_label)
+        
+# # Tutorial
+#         self.verticalLayout_6.addWidget(self.intro_btn_start)
+#         self.verticalLayout_5.addWidget(self.frame)
+#         self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignTop)
+#         self.verticalLayout_3.addWidget(self.intro_frame)
+#         self.stackedWidget.addWidget(self.intro)
         
 
     # index 1
@@ -1832,7 +1879,10 @@ class MainWidget(object):
         self.verticalLayout.addWidget(self.mainFrame)
 
     def __init_slots(self):
-        # navigates to capture method 
+        # information buttons
+        self.btnINFO_intro.clicked.connect(lambda: self.show_popup("Welcome!","Show your index finger and move it to navigate to filters\n\nPinch to select\n\nShow peace sign to capture"))
+
+        # navigates to capture method
         self.intro_btn_start.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
         self.backStyleButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
 
@@ -1863,6 +1913,13 @@ class MainWidget(object):
         # navigates back to start screen
         self.done_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.backPurposeButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+
+    def show_popup(self, title, content):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = PopupWidget(title,content)
+        self.ui.setupUi(self.window)
+        self.ui.btnClose.clicked.connect(lambda: self.window.close())
+        self.window.show()
 
     def __start_capture_process(self):
         self.video_thread.capture_gesture_detected.disconnect()
@@ -1938,7 +1995,9 @@ class MainWidget(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Quick Snap"))
         self.intro_lbl_tagline.setText(_translate("MainWindow", "Picture perfect moments with QuickSnap"))
-        self.tutorial_label.setText(_translate("MainWindow", "(Note: Use index finger to navigate filter, pinch to select, & peace sign to capture.)"))
+        self.btnINFO_intro.setText(_translate("MainWindow", "i"))
+        self.label_101.setText(_translate("MainWindow", "(Note: Raise your index finger to navigate filters and pinch to select.)"))
+        # self.tutorial_label.setText(_translate("MainWindow", "(Note: Use index finger to navigate filter, pinch to select, & peace sign to capture.)"))
         self.intro_btn_start.setText(_translate("MainWindow", "Start QuickSnap"))
         self.label_2.setText(_translate("MainWindow", "Formal"))
         self.label_3.setText(_translate("MainWindow", "Great for 1x1, 2x2, passport photos."))

@@ -13,18 +13,23 @@ class QuickSnapWidget(QLabel):
         self.setPixmap(QPixmap.fromImage(frame))
 
     def convert_frame_to_qimage(self, frame, mode):
+        h, w, _ = frame.shape
+
+        if mode == 1:
+            x = int((w - h) / 2)
+            y = 0
+            frame = frame[y:y+h, x:x+h]
+        elif mode == 2:
+            w = int(h * (3 / 2))
+            x = int((w - w) / 2)
+            y = 0
+            frame = frame[y:y+h, x:x+w]
+
         grayed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         h, w, ch = grayed_frame.shape
         bytes_per_line = ch * w
-        
-        image = QImage(grayed_frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888).mirrored(True, False)
 
-        if mode == 1:
-            offset = (image.width() - image.height()) // 2
-            image = image.copy(offset, 0, image.height(), image.height())
-        elif mode == 2:
-            desired_width = int(image.height() * (3 / 2))
-            image = image.copy(0, 0, desired_width, image.height())
+        image = QImage(grayed_frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888).mirrored(True, False)
 
         return image
