@@ -229,28 +229,6 @@ class MainWidget(object):
         self.verticalLayout_4.addWidget(self.widget)
         self.verticalLayout_3.addWidget(self.intro_frame)
         self.stackedWidget.addWidget(self.intro)
-# # Tutorial
-#         self.tutorial_label = QtWidgets.QLabel(parent=self.intro_labels)
-#         font = QtGui.QFont()
-#         font.setFamily("Segoe UI Semibold")
-#         font.setPointSize(16)
-#         font.setBold(True)
-#         font.setItalic(True)
-#         font.setWeight(75)
-#         self.tutorial_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-#         self.tutorial_label.setFont(font)
-#         self.tutorial_label.setStyleSheet("color: rgb(255, 255, 255);")
-#         self.tutorial_label.setScaledContents(True)
-#         self.tutorial_label.setObjectName("tutorial_label")
-#         self.verticalLayout_5.addWidget(self.tutorial_label)
-        
-# # Tutorial
-#         self.verticalLayout_6.addWidget(self.intro_btn_start)
-#         self.verticalLayout_5.addWidget(self.frame)
-#         self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignTop)
-#         self.verticalLayout_3.addWidget(self.intro_frame)
-#         self.stackedWidget.addWidget(self.intro)
-        
 
     # index 1
     def __init_capture_method_page(self):
@@ -424,6 +402,31 @@ class MainWidget(object):
         self.verticalLayout_11.addWidget(self.pBeauty_Container)
         self.horizontalLayout.addWidget(self.purpose_beauty)
         self.verticalLayout_8.addWidget(self.purpose_content)
+        self.widget_2 = QtWidgets.QWidget(parent=self.purpose_frame)
+        self.widget_2.setMaximumSize(QtCore.QSize(16777215, 151))
+        self.widget_2.setObjectName("widget_2")
+        self.gridLayout_25 = QtWidgets.QGridLayout(self.widget_2)
+        self.gridLayout_25.setObjectName("gridLayout_25")
+        self.btnINFO_purpose = QtWidgets.QPushButton(parent=self.widget_2)
+        self.btnINFO_purpose.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_purpose.setMaximumSize(QtCore.QSize(100, 100))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setWeight(75)
+        self.btnINFO_purpose.setFont(font)
+        self.btnINFO_purpose.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.btnINFO_purpose.setStyleSheet("background-color: rgb(0, 29, 61);\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
+        self.btnINFO_purpose.setObjectName("btnINFO_purpose")
+        self.gridLayout_25.addWidget(self.btnINFO_purpose, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.verticalLayout_8.addWidget(self.widget_2)
         self.verticalLayout_7.addWidget(self.purpose_frame)
         self.stackedWidget.addWidget(self.purpose)
 
@@ -1881,10 +1884,13 @@ class MainWidget(object):
     def __init_slots(self):
         # information buttons
         self.btnINFO_intro.clicked.connect(lambda: self.show_popup("Welcome!","Show your index finger and move it to navigate to filters\n\nPinch to select\n\nShow peace sign to capture"))
+        self.btnINFO_purpose.clicked.connect(lambda: self.show_popup("Choose!","What package do you want to avail?\n\nIf you are looking for a professional picture, choose the Formal option. It is great choice for 1x1 and 2x2 photos. \n\nIf you are looking for aesthetic picture, choose the Beauty."))
 
         # navigates to capture method
         self.intro_btn_start.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
         self.backStyleButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+
+        # navigates to formal capture: gender selection
 
         # navigates to formal capture
         self.pushButton.clicked.connect(lambda: self.__goto_camera(1 ,-1))
@@ -1996,11 +2002,12 @@ class MainWidget(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Quick Snap"))
         self.intro_lbl_tagline.setText(_translate("MainWindow", "Picture perfect moments with QuickSnap"))
         self.btnINFO_intro.setText(_translate("MainWindow", "i"))
-        self.label_101.setText(_translate("MainWindow", "(Note: Raise your index finger to navigate filters and pinch to select.)"))
+        self.label_101.setText(_translate("MainWindow", "(Raise your index finger to navigate, and momentarily lower it to select.)"))
         # self.tutorial_label.setText(_translate("MainWindow", "(Note: Use index finger to navigate filter, pinch to select, & peace sign to capture.)"))
         self.intro_btn_start.setText(_translate("MainWindow", "Start QuickSnap"))
         self.label_2.setText(_translate("MainWindow", "Formal"))
-        self.label_3.setText(_translate("MainWindow", "Great for 1x1, 2x2, passport photos."))
+        self.label_3.setText(_translate("MainWindow", "Great for 1x1 and 2x2 photos."))
+        self.btnINFO_purpose.setText(_translate("MainWindow", "i"))
         self.label_5.setText(_translate("MainWindow", "Beauty"))
         self.label_6.setText(_translate("MainWindow", "Great for selfie and groupie."))
         self.label_9.setText(_translate("MainWindow", "Select Package"))
