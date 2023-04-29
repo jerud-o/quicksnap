@@ -16,7 +16,6 @@ class PrintModule():
         pixmap.save(self.IMAGE_PATH)
 
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_file:
-            print(tempfile.gettempdir(), temp_file.name)
             c = canvas.Canvas(temp_file.name, pagesize=portrait((self.PAGE_WIDTH, self.PAGE_HEIGHT)))
             
             match print_method:
@@ -56,30 +55,6 @@ class PrintModule():
                     cursor_y = 0
 
                     for y in range(2):
-                        c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
-                        cursor_y += 2 * inch
-
-                case 4:
-                    cursor_x = 0
-                    cursor_y = 0
-
-                    c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
-                    cursor_y += 2 * inch
-                    temp_cursor_y = cursor_y
-                    cursor_y = 0
-                    
-                    for x in range(2):
-                        cursor_y = temp_cursor_y
-
-                        for y in range(4):
-                            c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=1*inch, height=1*inch)
-                            cursor_y += 1 * inch
-
-                        cursor_x += 1 * inch
-
-                    cursor_y = 0
-
-                    for y in range(3):
                         c.drawImage(self.IMAGE_PATH, cursor_x, cursor_y, width=2*inch, height=2*inch)
                         cursor_y += 2 * inch
                 
