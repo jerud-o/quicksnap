@@ -22,13 +22,18 @@ class CountdownTimerModule(QObject):
             winsound.Beep(self.FREQUENCY, self.BEEP_DURATION)
             self.ticked.emit(self.time_left)
 
-    def stop(self):
+    def stop(self, forced=False):
         self.timer.stop()
-        self.finished.emit()
-        self.__shutter_sound()
+        self.killTimer(self.timer.timerId())
+        
+        if not forced:
+            self.finished.emit()
+            self.__shutter_sound()
+        
         self.ticked.emit(0)
         # Reset timer
         self.time_left = self.TIMER_DURATION
+        return
 
     def __tick(self):
         self.time_left -= 1
