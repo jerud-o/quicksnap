@@ -92,14 +92,18 @@ class MainWidget(object):
         self.stackedWidget.setObjectName("stackedWidget")
         MainWindow.setCentralWidget(self.centralwidget)
 
-    # index 0
+    # index 0: Landing Page (Veloria)
     def __init_intro_page(self):
+        # Widget for the whole page
         self.intro = QtWidgets.QWidget()
         self.intro.setStyleSheet("")
         self.intro.setObjectName("intro")
+        
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.intro)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
+        
+        # Frame with orange cirles and blue background
         self.intro_frame = QtWidgets.QFrame(parent=self.intro)
         self.intro_frame.setStyleSheet("#intro_frame {\n"
                                        "border-image: url(package/resource/img/intro_bg.png) 0 0 0 0 stretch stretch;\n"
@@ -108,15 +112,20 @@ class MainWidget(object):
         self.intro_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.intro_frame.setLineWidth(0)
         self.intro_frame.setObjectName("intro_frame")
+        self.verticalLayout_3.addWidget(self.intro_frame)
+        
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.intro_frame)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
+        
+        # Weird "space" (is a transparent button) at top for exiting the app
         self.exit_app_btn = QtWidgets.QPushButton(parent=self.intro_frame)
         self.exit_app_btn.setStyleSheet("background-color: transparent;")
         self.exit_app_btn.setText("")
         self.exit_app_btn.setObjectName("exit_app_btn")
         self.verticalLayout_4.addWidget(self.exit_app_btn)
+        
         self.intro_labels = QtWidgets.QFrame(parent=self.intro_frame)
         self.intro_labels.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.intro_labels.setStyleSheet("#intro_labels {\n"
@@ -135,46 +144,58 @@ class MainWidget(object):
                                         "    position: relative;\n"
                                         "}\n"
                                         "}")
-
         self.intro_labels.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.intro_labels.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.intro_labels.setLineWidth(0)
         self.intro_labels.setObjectName("intro_labels")
+        self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
+        
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.intro_labels)
         self.verticalLayout_5.setSpacing(30)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
+        
+        # QuickSnap Logo at center
         self.intro_lbl_image = QtWidgets.QLabel(parent=self.intro_labels)
         self.intro_lbl_image.setText("")
         self.intro_lbl_image.setPixmap(QtGui.QPixmap("package/resource/img/quicksnap_logo-removebg-preview.png"))
         self.intro_lbl_image.setScaledContents(False)
         self.intro_lbl_image.setObjectName("intro_lbl_image")
         self.verticalLayout_5.addWidget(self.intro_lbl_image, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
-        self.intro_lbl_tagline = QtWidgets.QLabel(parent=self.intro_labels)
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(26)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
+        
+        # "Picture perfect moments with QuickSnap" Label at center
+        self.intro_lbl_tagline = QtWidgets.QLabel(parent=self.intro_labels)
         self.intro_lbl_tagline.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.intro_lbl_tagline.setFont(font)
         self.intro_lbl_tagline.setStyleSheet("color: rgb(255, 255, 255);")
         self.intro_lbl_tagline.setScaledContents(True)
         self.intro_lbl_tagline.setObjectName("intro_lbl_tagline")
         self.verticalLayout_5.addWidget(self.intro_lbl_tagline)
+        
         self.frame = QtWidgets.QFrame(parent=self.intro_labels)
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
+        self.verticalLayout_5.addWidget(self.frame)
+        
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame)
         self.verticalLayout_6.setContentsMargins(-1, 10, -1, 10)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.intro_btn_start = QtWidgets.QPushButton(parent=self.frame)
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Start QuickSnap" Button at center
+        self.intro_btn_start = QtWidgets.QPushButton(parent=self.frame)
         self.intro_btn_start.setFont(font)
         self.intro_btn_start.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.intro_btn_start.setStyleSheet("#intro_btn_start{\n"
@@ -188,35 +209,40 @@ class MainWidget(object):
                                            "    color:#fff;\n"
                                            "}")
         self.intro_btn_start.setObjectName("intro_btn_start")
-
         self.verticalLayout_6.addWidget(self.intro_btn_start)
-        self.verticalLayout_5.addWidget(self.frame)
-        self.label_101 = QtWidgets.QLabel(parent=self.intro_labels)
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(20)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
+
+        self.label_101 = QtWidgets.QLabel(parent=self.intro_labels)
         self.label_101.setFont(font)
         self.label_101.setStyleSheet("color: #fff;")
         self.label_101.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_101.setObjectName("label_101")
         self.verticalLayout_5.addWidget(self.label_101)
-        self.verticalLayout_4.addWidget(self.intro_labels, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
+        
         self.widget = QtWidgets.QWidget(parent=self.intro_frame)
         self.widget.setMaximumSize(QtCore.QSize(16777215, 151))
         self.widget.setObjectName("widget")
+        self.verticalLayout_4.addWidget(self.widget)
+        
         self.gridLayout_24 = QtWidgets.QGridLayout(self.widget)
         self.gridLayout_24.setObjectName("gridLayout_24")
-        self.btnINFO_intro = QtWidgets.QPushButton(parent=self.widget)
-        self.btnINFO_intro.setMinimumSize(QtCore.QSize(100, 100))
-        self.btnINFO_intro.setMaximumSize(QtCore.QSize(100, 100))
+
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
+        
+        # "i" Button at bottom-right
+        self.btnINFO_intro = QtWidgets.QPushButton(parent=self.widget)
+        self.btnINFO_intro.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_intro.setMaximumSize(QtCore.QSize(100, 100))
         self.btnINFO_intro.setFont(font)
         self.btnINFO_intro.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnINFO_intro.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -228,11 +254,10 @@ class MainWidget(object):
                                             "font-weight:bold;")
         self.btnINFO_intro.setObjectName("btnINFO_intro")
         self.gridLayout_24.addWidget(self.btnINFO_intro, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_4.addWidget(self.widget)
-        self.verticalLayout_3.addWidget(self.intro_frame)
+        
         self.stackedWidget.addWidget(self.intro)
 
-    # index 1
+    # index 1: Format Formal/Beauty Page
     def __init_capture_method_page(self):
         self.purpose = QtWidgets.QWidget()
         self.purpose.setStyleSheet("")
@@ -424,7 +449,7 @@ class MainWidget(object):
         self.verticalLayout_7.addWidget(self.purpose_frame)
         self.stackedWidget.addWidget(self.purpose)
 
-    # index 2
+    # index 2: Gender Page
     def __init_gender_selection_page(self):
         self.gender = QtWidgets.QWidget()
         self.gender.setObjectName("gender")
@@ -582,7 +607,7 @@ class MainWidget(object):
         self.verticalLayout_21.addWidget(self.gender_frame)
         self.stackedWidget.addWidget(self.gender)
 
-    # index 3
+    # index 3: Capture Page Formal
     def __init_formal_capture_page(self):
         self.camera = QtWidgets.QWidget()
         self.camera.setStyleSheet("")
@@ -722,7 +747,7 @@ class MainWidget(object):
         self.verticalLayout_13.addWidget(self.camera_content)
         self.stackedWidget.addWidget(self.camera)
 
-    # index 4
+    # index 4: Capture Page Beauty
     def __init_beauty_capture_page(self):
         self.filters = QtWidgets.QWidget()
         self.filters.setObjectName("filters")
@@ -999,7 +1024,7 @@ class MainWidget(object):
         self.verticalLayout_15.addWidget(self.filters_frame)
         self.stackedWidget.addWidget(self.filters)
 
-    # index 5
+    # index 5: Retake/Finish Page
     def __init_capture_preview_page(self):
         
         self.finish = QtWidgets.QWidget()
@@ -1087,7 +1112,7 @@ class MainWidget(object):
         self.verticalLayout_20.addWidget(self.finish_frame)
         self.stackedWidget.addWidget(self.finish)
 
-    # index 6
+    # index 6: Package Page
     def __init_package_selection_page(self):
         self.style = QtWidgets.QWidget()
         self.style.setStyleSheet("#style {\n"
@@ -1565,15 +1590,19 @@ class MainWidget(object):
         self.verticalLayout_23.addWidget(self.printing_frame)
         self.stackedWidget.addWidget(self.printing)
 
-    # index 8
+    # index 8: Get Photo Page (Veloria)
     def __init_get_photo_page(self):
+        # Widget for the whole page
         self.getYourPhoto = QtWidgets.QWidget()
         self.getYourPhoto.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
         self.getYourPhoto.setObjectName("getYourPhoto")
+        
         self.verticalLayout_28 = QtWidgets.QVBoxLayout(self.getYourPhoto)
         self.verticalLayout_28.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_28.setSpacing(0)
         self.verticalLayout_28.setObjectName("verticalLayout_28")
+        
+        # Frame with QuickSnap background
         self.get_your_photo = QtWidgets.QFrame(parent=self.getYourPhoto)
         self.get_your_photo.setStyleSheet("#get_your_photo{\n"
                                           "border-image: url(package/resource/img/main_bg.png);\n"
@@ -1581,8 +1610,11 @@ class MainWidget(object):
         self.get_your_photo.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.get_your_photo.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.get_your_photo.setObjectName("get_your_photo")
+        self.verticalLayout_28.addWidget(self.get_your_photo)
+        
         self.gridLayout_21 = QtWidgets.QGridLayout(self.get_your_photo)
         self.gridLayout_21.setObjectName("gridLayout_21")
+        
         self.printing_container_2 = QtWidgets.QFrame(parent=self.get_your_photo)
         self.printing_container_2.setMaximumSize(QtCore.QSize(1000, 800))
         self.printing_container_2.setStyleSheet("background-color: rgba(255, 255, 255,0.8);\n"
@@ -1590,27 +1622,36 @@ class MainWidget(object):
         self.printing_container_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.printing_container_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.printing_container_2.setObjectName("printing_container_2")
+        self.gridLayout_21.addWidget(self.printing_container_2, 0, 0, 1, 1)
+        
         self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.printing_container_2)
         self.verticalLayout_27.setObjectName("verticalLayout_27")
+        
         self.frame_13 = QtWidgets.QFrame(parent=self.printing_container_2)
         self.frame_13.setStyleSheet("background-color: transparent;")
         self.frame_13.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_13.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_13.setObjectName("frame_13")
+        self.verticalLayout_27.addWidget(self.frame_13, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        
         self.gridLayout_20 = QtWidgets.QGridLayout(self.frame_13)
         self.gridLayout_20.setObjectName("gridLayout_20")
-        self.label_45 = QtWidgets.QLabel(parent=self.frame_13)
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(26)
         font.setBold(True)
         font.setWeight(75)
+        
+        self.label_45 = QtWidgets.QLabel(parent=self.frame_13)
         self.label_45.setFont(font)
         self.label_45.setStyleSheet("color: rgb(0, 29, 61);\n"
                                     "margin: 10px;")
         self.label_45.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_45.setObjectName("label_45")
         self.gridLayout_20.addWidget(self.label_45, 2, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        
+        # Film Strip Image at center
         self.label_46 = QtWidgets.QLabel(parent=self.frame_13)
         self.label_46.setMaximumSize(QtCore.QSize(500, 600))
         self.label_46.setStyleSheet("background-color: transparent;")
@@ -1619,12 +1660,15 @@ class MainWidget(object):
         self.label_46.setScaledContents(True)
         self.label_46.setObjectName("label_46")
         self.gridLayout_20.addWidget(self.label_46, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.done_btn = QtWidgets.QPushButton(parent=self.frame_13)
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Done" Button at center
+        self.done_btn = QtWidgets.QPushButton(parent=self.frame_13)
         self.done_btn.setFont(font)
         self.done_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.done_btn.setStyleSheet("height: 100px;\n"
@@ -1635,12 +1679,10 @@ class MainWidget(object):
                                     "border-radius: 50px;")
         self.done_btn.setObjectName("done_btn")
         self.gridLayout_20.addWidget(self.done_btn, 3, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.verticalLayout_27.addWidget(self.frame_13, 0, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.gridLayout_21.addWidget(self.printing_container_2, 0, 0, 1, 1)
-        self.verticalLayout_28.addWidget(self.get_your_photo)
+    
         self.stackedWidget.addWidget(self.getYourPhoto)
 
-    # index ?
+    # index ?: Alert Page
     def __init_alert_page(self):
         self.alert = QtWidgets.QWidget()
         self.alert.setObjectName("alert")
