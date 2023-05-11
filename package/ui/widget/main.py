@@ -218,6 +218,7 @@ class MainWidget(object):
         font.setItalic(True)
         font.setWeight(75)
 
+        # Label with instructions at center
         self.label_101 = QtWidgets.QLabel(parent=self.intro_labels)
         self.label_101.setFont(font)
         self.label_101.setStyleSheet("color: #fff;")
@@ -257,15 +258,19 @@ class MainWidget(object):
         
         self.stackedWidget.addWidget(self.intro)
 
-    # index 1: Format Formal/Beauty Page
+    # index 1: Format Formal/Beauty Page (Belic)
     def __init_capture_method_page(self):
+        # Widget for the whole page
         self.purpose = QtWidgets.QWidget()
         self.purpose.setStyleSheet("")
         self.purpose.setObjectName("purpose")
+        
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.purpose)
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7.setSpacing(0)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
+        
+        # Frame with QuickSnap background
         self.purpose_frame = QtWidgets.QFrame(parent=self.purpose)
         self.purpose_frame.setStyleSheet("#purpose_frame {\n"
                                          "border-image: url(package/resource/img/main_bg.png) 0 0 0 0 stretch stretch;\n"
@@ -273,10 +278,13 @@ class MainWidget(object):
         self.purpose_frame.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.purpose_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.purpose_frame.setObjectName("purpose_frame")
+        self.verticalLayout_7.addWidget(self.purpose_frame)
+        
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.purpose_frame)
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_8.setSpacing(0)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
+        
         self.purpose_header = QtWidgets.QFrame(parent=self.purpose_frame)
         self.purpose_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.purpose_header.setStyleSheet("#backPurposeButton {\n"
@@ -288,31 +296,41 @@ class MainWidget(object):
         self.purpose_header.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.purpose_header.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.purpose_header.setObjectName("purpose_header")
+        self.verticalLayout_8.addWidget(self.purpose_header)
+
         self.gridLayout_10 = QtWidgets.QGridLayout(self.purpose_header)
         self.gridLayout_10.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_10.setSpacing(0)
         self.gridLayout_10.setObjectName("gridLayout_10")
+        
+        # Back button at top-right
         self.backPurposeButton = QtWidgets.QPushButton(parent=self.purpose_header)
         self.backPurposeButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.backPurposeButton.setStyleSheet("background-color:transparent;")
         self.backPurposeButton.setText("")
         self.backPurposeButton.setObjectName("backPurposeButton")
         self.gridLayout_10.addWidget(self.backPurposeButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_8.addWidget(self.purpose_header)
+        
         self.purpose_content = QtWidgets.QFrame(parent=self.purpose_frame)
         self.purpose_content.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.purpose_content.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.purpose_content.setObjectName("purpose_content")
+        self.verticalLayout_8.addWidget(self.purpose_content)
+        
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.purpose_content)
         self.horizontalLayout.setObjectName("horizontalLayout")
+        
         self.purpose_formal = QtWidgets.QFrame(parent=self.purpose_content)
         self.purpose_formal.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
         self.purpose_formal.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.purpose_formal.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.purpose_formal.setLineWidth(0)
         self.purpose_formal.setObjectName("purpose_formal")
+        self.horizontalLayout.addWidget(self.purpose_formal)
+        
         self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.purpose_formal)
         self.verticalLayout_10.setObjectName("verticalLayout_10")
+        
         self.pFormal_Container = QtWidgets.QFrame(parent=self.purpose_formal)
         self.pFormal_Container.setMaximumSize(QtCore.QSize(400, 600))
         self.pFormal_Container.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
@@ -322,6 +340,9 @@ class MainWidget(object):
         self.pFormal_Container.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.pFormal_Container.setLineWidth(0)
         self.pFormal_Container.setObjectName("pFormal_Container")
+        self.verticalLayout_10.addWidget(self.pFormal_Container)
+        
+        # Formal Image at the left selection
         self.label = QtWidgets.QLabel(parent=self.pFormal_Container)
         self.label.setGeometry(QtCore.QRect(100, 120, 200, 200))
         self.label.setStyleSheet("background-color: transparent;")
@@ -329,25 +350,31 @@ class MainWidget(object):
         self.label.setPixmap(QtGui.QPixmap("package/resource/img/formal.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(parent=self.pFormal_Container)
-        self.label_2.setGeometry(QtCore.QRect(50, 340, 291, 40))
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
         font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Formal" Label at left selection
+        self.label_2 = QtWidgets.QLabel(parent=self.pFormal_Container)
+        self.label_2.setGeometry(QtCore.QRect(50, 340, 291, 40))
         self.label_2.setFont(font)
         self.label_2.setStyleSheet("background-color: transparent;\n"
                                    "color: rgb(0, 29, 61);")
         self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_2.setObjectName("label_2")
-        self.label_3 = QtWidgets.QLabel(parent=self.pFormal_Container)
-        self.label_3.setGeometry(QtCore.QRect(70, 380, 250, 60))
+
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
+        
+        # "Great for 1x1 and 2x2 photos" Label at left selection
+        self.label_3 = QtWidgets.QLabel(parent=self.pFormal_Container)
+        self.label_3.setGeometry(QtCore.QRect(70, 380, 250, 60))
         self.label_3.setFont(font)
         self.label_3.setStyleSheet("background-color: transparent;\n"
                                    "color: rgb(0, 29, 61);")
@@ -355,21 +382,25 @@ class MainWidget(object):
         self.label_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_3.setWordWrap(True)
         self.label_3.setObjectName("label_3")
+        
+        # Formal Button
         self.btn_Formal = QtWidgets.QPushButton(parent=self.pFormal_Container)
         self.btn_Formal.setGeometry(QtCore.QRect(0, 0, 400, 600))
         self.btn_Formal.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btn_Formal.setStyleSheet("background-color: transparent;")
         self.btn_Formal.setText("")
         self.btn_Formal.setObjectName("btn_Formal")
-        self.verticalLayout_10.addWidget(self.pFormal_Container)
-        self.horizontalLayout.addWidget(self.purpose_formal)
+    
         self.purpose_beauty = QtWidgets.QFrame(parent=self.purpose_content)
         self.purpose_beauty.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.purpose_beauty.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.purpose_beauty.setLineWidth(0)
         self.purpose_beauty.setObjectName("purpose_beauty")
+        self.horizontalLayout.addWidget(self.purpose_beauty)
+        
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.purpose_beauty)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
+        
         self.pBeauty_Container = QtWidgets.QFrame(parent=self.purpose_beauty)
         self.pBeauty_Container.setMaximumSize(QtCore.QSize(400, 600))
         self.pBeauty_Container.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
@@ -379,6 +410,9 @@ class MainWidget(object):
         self.pBeauty_Container.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.pBeauty_Container.setLineWidth(0)
         self.pBeauty_Container.setObjectName("pBeauty_Container")
+        self.verticalLayout_11.addWidget(self.pBeauty_Container)
+        
+        # Beauty Image at right selection
         self.label_4 = QtWidgets.QLabel(parent=self.pBeauty_Container)
         self.label_4.setGeometry(QtCore.QRect(110, 120, 200, 200))
         self.label_4.setStyleSheet("background-color: transparent;")
@@ -386,25 +420,31 @@ class MainWidget(object):
         self.label_4.setPixmap(QtGui.QPixmap("package/resource/img/beauty.png"))
         self.label_4.setScaledContents(True)
         self.label_4.setObjectName("label_4")
-        self.label_5 = QtWidgets.QLabel(parent=self.pBeauty_Container)
-        self.label_5.setGeometry(QtCore.QRect(60, 340, 291, 40))
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Black")
         font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Beauty" Label at right selection
+        self.label_5 = QtWidgets.QLabel(parent=self.pBeauty_Container)
+        self.label_5.setGeometry(QtCore.QRect(60, 340, 291, 40))
         self.label_5.setFont(font)
         self.label_5.setStyleSheet("background-color: transparent;\n"
                                    "color: rgb(0, 29, 61);")
         self.label_5.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_5.setObjectName("label_5")
-        self.label_6 = QtWidgets.QLabel(parent=self.pBeauty_Container)
-        self.label_6.setGeometry(QtCore.QRect(80, 380, 250, 60))
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Great for selfie and groupie" Label at right selection
+        self.label_6 = QtWidgets.QLabel(parent=self.pBeauty_Container)
+        self.label_6.setGeometry(QtCore.QRect(80, 380, 250, 60))
         self.label_6.setFont(font)
         self.label_6.setStyleSheet("background-color: transparent;\n"
                                    "color: rgb(0, 29, 61);")
@@ -412,28 +452,33 @@ class MainWidget(object):
         self.label_6.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_6.setWordWrap(True)
         self.label_6.setObjectName("label_6")
+        
+        # Beauty Button
         self.btn_Beauty = QtWidgets.QPushButton(parent=self.pBeauty_Container)
         self.btn_Beauty.setGeometry(QtCore.QRect(0, 0, 400, 600))
         self.btn_Beauty.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btn_Beauty.setStyleSheet("background-color: transparent;")
         self.btn_Beauty.setText("")
         self.btn_Beauty.setObjectName("btn_Beauty")
-        self.verticalLayout_11.addWidget(self.pBeauty_Container)
-        self.horizontalLayout.addWidget(self.purpose_beauty)
-        self.verticalLayout_8.addWidget(self.purpose_content)
+        
         self.widget_2 = QtWidgets.QWidget(parent=self.purpose_frame)
         self.widget_2.setMaximumSize(QtCore.QSize(16777215, 151))
         self.widget_2.setObjectName("widget_2")
+        self.verticalLayout_8.addWidget(self.widget_2)
+        
         self.gridLayout_25 = QtWidgets.QGridLayout(self.widget_2)
         self.gridLayout_25.setObjectName("gridLayout_25")
-        self.btnINFO_purpose = QtWidgets.QPushButton(parent=self.widget_2)
-        self.btnINFO_purpose.setMinimumSize(QtCore.QSize(100, 100))
-        self.btnINFO_purpose.setMaximumSize(QtCore.QSize(100, 100))
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
+
+        # "i" Button at bottom-right
+        self.btnINFO_purpose = QtWidgets.QPushButton(parent=self.widget_2)
+        self.btnINFO_purpose.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_purpose.setMaximumSize(QtCore.QSize(100, 100))
         self.btnINFO_purpose.setFont(font)
         self.btnINFO_purpose.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnINFO_purpose.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -445,8 +490,7 @@ class MainWidget(object):
                                            "font-weight:bold;")
         self.btnINFO_purpose.setObjectName("btnINFO_purpose")
         self.gridLayout_25.addWidget(self.btnINFO_purpose, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_8.addWidget(self.widget_2)
-        self.verticalLayout_7.addWidget(self.purpose_frame)
+        
         self.stackedWidget.addWidget(self.purpose)
 
     # index 2: Gender Page
