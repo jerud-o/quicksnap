@@ -791,22 +791,28 @@ class MainWidget(object):
         self.verticalLayout_13.addWidget(self.camera_content)
         self.stackedWidget.addWidget(self.camera)
 
-    # index 4: Capture Page Beauty
+    # index 4: Capture Page Beauty (Samson)
     def __init_beauty_capture_page(self):
         self.filters = QtWidgets.QWidget()
         self.filters.setObjectName("filters")
+        
         self.verticalLayout_15 = QtWidgets.QVBoxLayout(self.filters)
         self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_15.setSpacing(0)
         self.verticalLayout_15.setObjectName("verticalLayout_15")
+        
         self.filters_frame = QtWidgets.QFrame(parent=self.filters)
         self.filters_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.filters_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.filters_frame.setObjectName("filters_frame")
+        self.verticalLayout_15.addWidget(self.filters_frame)
+        
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.filters_frame)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        
+        # Filter Panel Container at left side of screen
         self.filter_container = QtWidgets.QFrame(parent=self.filters_frame)
         self.filter_container.setMinimumSize(QtCore.QSize(300, 0))
         self.filter_container.setMaximumSize(QtCore.QSize(300, 16777215))
@@ -815,10 +821,13 @@ class MainWidget(object):
         self.filter_container.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.filter_container.setLineWidth(0)
         self.filter_container.setObjectName("filter_container")
+        self.horizontalLayout_3.addWidget(self.filter_container)
+        
         self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.filter_container)
         self.verticalLayout_17.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_17.setSpacing(0)
         self.verticalLayout_17.setObjectName("verticalLayout_17")
+        
         self.frame_10 = QtWidgets.QFrame(parent=self.filter_container)
         self.frame_10.setMaximumSize(QtCore.QSize(16777215, 100))
         self.frame_10.setStyleSheet("#backFilterButton {\n"
@@ -830,27 +839,34 @@ class MainWidget(object):
         self.frame_10.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_10.setObjectName("frame_10")
+        self.verticalLayout_17.addWidget(self.frame_10)
+        
         self.gridLayout_31 = QtWidgets.QGridLayout(self.frame_10)
         self.gridLayout_31.setObjectName("gridLayout_31")
-        self.label_10 = QtWidgets.QLabel(parent=self.frame_10)
+
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(24)
         font.setBold(True)
         font.setWeight(75)
+        
+        self.label_10 = QtWidgets.QLabel(parent=self.frame_10)
         self.label_10.setFont(font)
         self.label_10.setStyleSheet("color: rgb(255, 255, 255);")
         self.label_10.setObjectName("label_10")
         self.gridLayout_31.addWidget(self.label_10, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.verticalLayout_17.addWidget(self.frame_10)
+        
         self.frame_14 = QtWidgets.QFrame(parent=self.filter_container)
         self.frame_14.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_14.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_14.setObjectName("frame_14")
+        self.verticalLayout_17.addWidget(self.frame_14)
+        
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_14)
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        
         self.frame_16 = QtWidgets.QFrame(parent=self.frame_14)
         self.frame_16.setMinimumSize(QtCore.QSize(40, 0))
         self.frame_16.setMaximumSize(QtCore.QSize(40, 16777215))
@@ -858,11 +874,14 @@ class MainWidget(object):
         self.frame_16.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_16.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_16.setObjectName("frame_16")
+        self.horizontalLayout_4.addWidget(self.frame_16)
+        
         self.verticalLayout_32 = QtWidgets.QVBoxLayout(self.frame_16)
         self.verticalLayout_32.setContentsMargins(5, 5, 5, 5)
         self.verticalLayout_32.setSpacing(5)
         self.verticalLayout_32.setObjectName("verticalLayout_32")
 
+        # White Bars in the left side of the Filter Film Strip (Filter Panel Container)
         for i in range(30):
             label_temp = QtWidgets.QLabel(parent=self.frame_16)
             label_temp.setMinimumSize(QtCore.QSize(30, 15))
@@ -872,15 +891,18 @@ class MainWidget(object):
             label_temp.setObjectName("label_" + str(64 + i))
             self.verticalLayout_32.addWidget(label_temp)
 
-        self.horizontalLayout_4.addWidget(self.frame_16)
         self.frame_18 = QtWidgets.QFrame(parent=self.frame_14)
         self.frame_18.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_18.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_18.setObjectName("frame_18")
+        self.horizontalLayout_4.addWidget(self.frame_18)
+        
         self.gridLayout_23 = QtWidgets.QGridLayout(self.frame_18)
         self.gridLayout_23.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_23.setSpacing(0)
         self.gridLayout_23.setObjectName("gridLayout_23")
+        
+        # Scroll UI for Filters (hidden but still working)
         self.scrollArea = QtWidgets.QScrollArea(parent=self.frame_18)
         self.scrollArea.setStyleSheet("background-color: transparent;\n"
                                       "width: 0px;")
@@ -890,16 +912,19 @@ class MainWidget(object):
         self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
+        self.gridLayout_23.addWidget(self.scrollArea, 0, 0, 1, 1)
+        
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 216, 1965))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        
         self.verticalLayout_34 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_34.setContentsMargins(15, 15, 15, 15)
         self.verticalLayout_34.setSpacing(15)
         self.verticalLayout_34.setObjectName("verticalLayout_34")
-        #
-        # Filters starts here
-        #
+        
+        # Filter Dynamic Initialization START (Ocampo)
         with open(os.path.join(os.getcwd(), "package/resource/filter/filters_dict.py"), "r") as file:
             filters_dict = ast.literal_eval(file.read())
 
@@ -929,12 +954,8 @@ class MainWidget(object):
                 filter_button.setObjectName(f"filter_{key_location}_{key_filter}")
                 filter_button.clicked.connect(partial(self.__handle_filter, key_location, value_filter[1], value_filter[2]))
                 self.verticalLayout_34.addWidget(filter_button)
-        #
-        # Filters ends here
-        #
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout_23.addWidget(self.scrollArea, 0, 0, 1, 1)
-        self.horizontalLayout_4.addWidget(self.frame_18)
+        # Filter Dynamic Initialization END (Ocampo)
+        
         self.frame_17 = QtWidgets.QFrame(parent=self.frame_14)
         self.frame_17.setMinimumSize(QtCore.QSize(40, 0))
         self.frame_17.setMaximumSize(QtCore.QSize(40, 16777215))
@@ -942,11 +963,14 @@ class MainWidget(object):
         self.frame_17.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_17.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_17.setObjectName("frame_17")
+        self.horizontalLayout_4.addWidget(self.frame_17)
+        
         self.verticalLayout_33 = QtWidgets.QVBoxLayout(self.frame_17)
         self.verticalLayout_33.setContentsMargins(5, 5, 5, 5)
         self.verticalLayout_33.setSpacing(5)
         self.verticalLayout_33.setObjectName("verticalLayout_33")
 
+        # White Bars in the right side of the Filter Film Strip (Filter Panel Container)
         for i in range(30):
             label_temp = QtWidgets.QLabel(parent=self.frame_17)
             label_temp.setMinimumSize(QtCore.QSize(30, 15))
@@ -956,34 +980,51 @@ class MainWidget(object):
             label_temp.setObjectName("label_" + str(80 + i))
             self.verticalLayout_33.addWidget(label_temp)
 
-        self.horizontalLayout_4.addWidget(self.frame_17)
-        self.verticalLayout_17.addWidget(self.frame_14)
-        self.horizontalLayout_3.addWidget(self.filter_container)
         self.filter_cam_container = QtWidgets.QFrame(parent=self.filters_frame)
         self.filter_cam_container.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.filter_cam_container.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.filter_cam_container.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.filter_cam_container.setLineWidth(0)
         self.filter_cam_container.setObjectName("filter_cam_container")
+        self.horizontalLayout_3.addWidget(self.filter_cam_container)
+
         self.gridLayout_29 = QtWidgets.QGridLayout(self.filter_cam_container)
         self.gridLayout_29.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_29.setSpacing(0)
         self.gridLayout_29.setObjectName("gridLayout_29")
+        
         self.filter_shot_option = QtWidgets.QFrame(parent=self.filter_cam_container)
         self.filter_shot_option.setMaximumSize(QtCore.QSize(16777215, 250))
         self.filter_shot_option.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.filter_shot_option.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.filter_shot_option.setObjectName("filter_shot_option")
+        self.gridLayout_29.addWidget(self.filter_shot_option, 2, 0, 1, 1)
+
+        # Label for the video feed of the camera at center
+        self.camera_beauty_label = QuickSnapWidget(parent=self.filter_cam_container)
+        self.gridLayout_29.addWidget(self.camera_beauty_label, 1, 0, 1, 1)
+        
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.filter_shot_option)
         self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_8.setSpacing(0)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        
         self.frame_21 = QtWidgets.QFrame(parent=self.filter_shot_option)
         self.frame_21.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_21.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_21.setObjectName("frame_21")
+        self.horizontalLayout_8.addWidget(self.frame_21)
+        
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_21)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Black")
+        font.setPointSize(48)
+        font.setBold(True)
+        font.setWeight(75)
+        
+        # Circle Capture Button at center
         self.capture_beauty = QtWidgets.QPushButton(parent=self.frame_21)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -991,11 +1032,6 @@ class MainWidget(object):
         sizePolicy.setHeightForWidth(self.capture_beauty.sizePolicy().hasHeightForWidth())
         self.capture_beauty.setSizePolicy(sizePolicy)
         self.capture_beauty.setMaximumSize(QtCore.QSize(180, 180))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Black")
-        font.setPointSize(48)
-        font.setBold(True)
-        font.setWeight(75)
         self.capture_beauty.setFont(font)
         self.capture_beauty.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.capture_beauty.setStyleSheet("border: 10px solid rgba(0, 29, 61, 1);\n"
@@ -1007,23 +1043,28 @@ class MainWidget(object):
                                           "font-weight:bold;")
         self.capture_beauty.setObjectName("capture_beauty")
         self.horizontalLayout_9.addWidget(self.capture_beauty)
-        self.horizontalLayout_8.addWidget(self.frame_21)
+        
         self.frame_15 = QtWidgets.QFrame(parent=self.filter_shot_option)
         self.frame_15.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_15.setObjectName("frame_15")
+        self.horizontalLayout_8.addWidget(self.frame_15, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignBottom)
+        
         self.gridLayout_22 = QtWidgets.QGridLayout(self.frame_15)
         self.gridLayout_22.setContentsMargins(0, 0, 5, 25)
         self.gridLayout_22.setSpacing(0)
         self.gridLayout_22.setObjectName("gridLayout_22")
-        self.btnINFO_filter = QtWidgets.QPushButton(parent=self.frame_15)
-        self.btnINFO_filter.setMinimumSize(QtCore.QSize(100, 100))
-        self.btnINFO_filter.setMaximumSize(QtCore.QSize(100, 100))
+
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
+        
+        # "i" Button at bottom-right
+        self.btnINFO_filter = QtWidgets.QPushButton(parent=self.frame_15)
+        self.btnINFO_filter.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_filter.setMaximumSize(QtCore.QSize(100, 100))
         self.btnINFO_filter.setFont(font)
         self.btnINFO_filter.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnINFO_filter.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -1035,9 +1076,9 @@ class MainWidget(object):
                                           "font-weight:bold;")
         self.btnINFO_filter.setObjectName("btnINFO_filter")
         self.gridLayout_22.addWidget(self.btnINFO_filter, 0, 0, 1, 1)
-        self.horizontalLayout_8.addWidget(self.frame_15, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignBottom)
+        
         self.horizontalLayout_8.setStretch(0, 1)
-        self.gridLayout_29.addWidget(self.filter_shot_option, 2, 0, 1, 1)
+        
         self.filter_header = QtWidgets.QFrame(parent=self.filter_cam_container)
         self.filter_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.filter_header.setStyleSheet("#backFilterButton {\n"
@@ -1050,10 +1091,14 @@ class MainWidget(object):
         self.filter_header.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.filter_header.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.filter_header.setObjectName("filter_header")
+        self.gridLayout_29.addWidget(self.filter_header, 0, 0, 1, 1)
+        
         self.gridLayout_30 = QtWidgets.QGridLayout(self.filter_header)
         self.gridLayout_30.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_30.setSpacing(0)
         self.gridLayout_30.setObjectName("gridLayout_30")
+        
+        # Back Button at top-right
         self.backFilterButton = QtWidgets.QPushButton(parent=self.filter_header)
         self.backFilterButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.backFilterButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
@@ -1061,11 +1106,7 @@ class MainWidget(object):
         self.backFilterButton.setText("")
         self.backFilterButton.setObjectName("backFilterButton")
         self.gridLayout_30.addWidget(self.backFilterButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.gridLayout_29.addWidget(self.filter_header, 0, 0, 1, 1)
-        self.camera_beauty_label = QuickSnapWidget(parent=self.filter_cam_container)
-        self.gridLayout_29.addWidget(self.camera_beauty_label, 1, 0, 1, 1)
-        self.horizontalLayout_3.addWidget(self.filter_cam_container)
-        self.verticalLayout_15.addWidget(self.filters_frame)
+        
         self.stackedWidget.addWidget(self.filters)
 
     # index 5: Retake/Finish Page (Barbachano)
