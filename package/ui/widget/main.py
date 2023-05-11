@@ -94,7 +94,7 @@ class MainWidget(object):
     # index 0
     def __init_intro_page(self):
         self.intro = QtWidgets.QWidget()
-        self.intro.setStyleSheet("background-color: transparent;")
+        self.intro.setStyleSheet("")
         self.intro.setObjectName("intro")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.intro)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
