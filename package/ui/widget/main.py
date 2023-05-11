@@ -303,7 +303,7 @@ class MainWidget(object):
         self.gridLayout_10.setSpacing(0)
         self.gridLayout_10.setObjectName("gridLayout_10")
         
-        # Back button at top-right
+        # Back Button at top-right
         self.backPurposeButton = QtWidgets.QPushButton(parent=self.purpose_header)
         self.backPurposeButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.backPurposeButton.setStyleSheet("background-color:transparent;")
@@ -1068,15 +1068,18 @@ class MainWidget(object):
         self.verticalLayout_15.addWidget(self.filters_frame)
         self.stackedWidget.addWidget(self.filters)
 
-    # index 5: Retake/Finish Page
+    # index 5: Retake/Finish Page (Barbachano)
     def __init_capture_preview_page(self):
-        
+        # Widget for the whole page
         self.finish = QtWidgets.QWidget()
         self.finish.setObjectName("finish")
+        
         self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.finish)
         self.verticalLayout_20.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_20.setSpacing(0)
         self.verticalLayout_20.setObjectName("verticalLayout_20")
+        
+        # Frame with QuickSnap background
         self.finish_frame = QtWidgets.QFrame(parent=self.finish)
         self.finish_frame.setStyleSheet("#finish_frame{\n"
                                         "border-image: url(package/resource/img/main_bg.png);\n"
@@ -1084,8 +1087,11 @@ class MainWidget(object):
         self.finish_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.finish_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.finish_frame.setObjectName("finish_frame")
+        self.verticalLayout_20.addWidget(self.finish_frame)
+        
         self.gridLayout_15 = QtWidgets.QGridLayout(self.finish_frame)
         self.gridLayout_15.setObjectName("gridLayout_15")
+        
         self.finish_container = QtWidgets.QFrame(parent=self.finish_frame)
         self.finish_container.setMaximumSize(QtCore.QSize(1000, 800))
         self.finish_container.setStyleSheet("background-color: rgba(255, 255, 255,0.8);\n"
@@ -1093,24 +1099,30 @@ class MainWidget(object):
         self.finish_container.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.finish_container.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.finish_container.setObjectName("finish_container")
+        self.gridLayout_15.addWidget(self.finish_container, 0, 0, 1, 1)
+        
         self.gridLayout_17 = QtWidgets.QGridLayout(self.finish_container)
         self.gridLayout_17.setObjectName("gridLayout_17")
+        
         self.frame_8 = QtWidgets.QFrame(parent=self.finish_container)
         self.frame_8.setMaximumSize(QtCore.QSize(800, 600))
         self.frame_8.setStyleSheet("background-color: transparent;")
         self.frame_8.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_8.setObjectName("frame_8")
+        self.gridLayout_17.addWidget(self.frame_8, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.frame_8)
         self.verticalLayout_22.setSpacing(20)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
+        
+        # Image that contains the captured photo at center
         self.captured_frame_label = QtWidgets.QLabel(parent=self.frame_8)
-        # self.captured_frame_label.setStyleSheet("margin: 20px;")
         self.captured_frame_label.setText("")
         self.captured_frame_label.setPixmap(QtGui.QPixmap("package/resource/img/camera.png"))
-        # self.captured_frame_label.setScaledContents(True)
         self.captured_frame_label.setObjectName("captured_frame_label")
         self.verticalLayout_22.addWidget(self.captured_frame_label)
+        
         self.frame_9 = QtWidgets.QFrame(parent=self.frame_8)
         self.frame_9.setStyleSheet("#btn_retake, #btn_finish{\n"
                                    "    background-color: rgb(240, 212, 0);\n"
@@ -1125,48 +1137,51 @@ class MainWidget(object):
         self.frame_9.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_9.setObjectName("frame_9")
+        self.verticalLayout_22.addWidget(self.frame_9)
+        
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_9)
         self.horizontalLayout_5.setSpacing(20)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.btn_retake = QtWidgets.QPushButton(parent=self.frame_9)
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(26)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Retake" Button at center
+        self.btn_retake = QtWidgets.QPushButton(parent=self.frame_9)
         self.btn_retake.setFont(font)
         self.btn_retake.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btn_retake.setStyleSheet("")
         self.btn_retake.setObjectName("btn_retake")
         self.horizontalLayout_5.addWidget(self.btn_retake)
+
+        # "Finish" Button at center
         self.btn_finish = QtWidgets.QPushButton(parent=self.frame_9)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Semibold")
-        font.setPointSize(26)
-        font.setBold(True)
-        font.setWeight(75)
         self.btn_finish.setFont(font)
         self.btn_finish.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btn_finish.setStyleSheet("")
         self.btn_finish.setObjectName("btn_finish")
         self.horizontalLayout_5.addWidget(self.btn_finish)
-        self.verticalLayout_22.addWidget(self.frame_9)
-        self.gridLayout_17.addWidget(self.frame_8, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.gridLayout_15.addWidget(self.finish_container, 0, 0, 1, 1)
-        self.verticalLayout_20.addWidget(self.finish_frame)
+
         self.stackedWidget.addWidget(self.finish)
 
-    # index 6: Package Page
+    # index 6: Package Page (Barbachano)
     def __init_package_selection_page(self):
+        # Widget for the whole page, with the yellow gradient background
         self.style = QtWidgets.QWidget()
         self.style.setStyleSheet("#style {\n"
                                  "border-image: url(package/resource/img/bg_gradient.png) 0 0 0 0 stretch stretch;\n"
                                  "}")
         self.style.setObjectName("style")
+
+        # Black Border on the background
         self.verticalLayout_16 = QtWidgets.QVBoxLayout(self.style)
         self.verticalLayout_16.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_16.setSpacing(0)
         self.verticalLayout_16.setObjectName("verticalLayout_16")
+        
         self.style_frame = QtWidgets.QFrame(parent=self.style)
         self.style_frame.setStyleSheet("#style_frame {\n"
                                      "border-image: url(package/resource/img/bg_film3.png) 0 0 0 0 stretch stretch;\n"
@@ -1174,10 +1189,13 @@ class MainWidget(object):
         self.style_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.style_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.style_frame.setObjectName("style_frame")
+        self.verticalLayout_16.addWidget(self.style_frame)
+        
         self.verticalLayout_18 = QtWidgets.QVBoxLayout(self.style_frame)
         self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_18.setSpacing(0)
         self.verticalLayout_18.setObjectName("verticalLayout_18")
+        
         self.style_header = QtWidgets.QFrame(parent=self.style_frame)
         self.style_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.style_header.setStyleSheet("#backStyleButton {\n"
@@ -1190,10 +1208,14 @@ class MainWidget(object):
         self.style_header.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.style_header.setLineWidth(0)
         self.style_header.setObjectName("style_header")
+        self.verticalLayout_18.addWidget(self.style_header)
+        
         self.gridLayout_9 = QtWidgets.QGridLayout(self.style_header)
         self.gridLayout_9.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_9.setSpacing(0)
         self.gridLayout_9.setObjectName("gridLayout_9")
+        
+        # Back button at top-right
         self.backStyleButton = QtWidgets.QPushButton(parent=self.style_header)
         self.backStyleButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.backStyleButton.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -1201,13 +1223,19 @@ class MainWidget(object):
         self.backStyleButton.setText("")
         self.backStyleButton.setObjectName("backStyleButton")
         self.gridLayout_9.addWidget(self.backStyleButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_18.addWidget(self.style_header)
+        
         self.style_packages = QtWidgets.QFrame(parent=self.style_frame)
         self.style_packages.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.style_packages.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.style_packages.setObjectName("style_packages")
+        self.verticalLayout_18.addWidget(self.style_packages)
+        
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.style_packages)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
+        self.verticalLayout_19.setStretch(0, 2)
+        self.verticalLayout_19.setStretch(1, 2)
+        self.verticalLayout_19.setStretch(2, 1)
+        
         self.frame_3 = QtWidgets.QFrame(parent=self.style_packages)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -1216,10 +1244,13 @@ class MainWidget(object):
         self.frame_3.setSizePolicy(sizePolicy)
         self.frame_3.setStyleSheet("")
         self.frame_3.setObjectName("frame_3")
+        self.verticalLayout_19.addWidget(self.frame_3)
+        
         self.gridLayout_2 = QtWidgets.QGridLayout(self.frame_3)
         self.gridLayout_2.setContentsMargins(-1, -1, -1, 9)
         self.gridLayout_2.setHorizontalSpacing(19)
         self.gridLayout_2.setObjectName("gridLayout_2")
+        
         self.styleA_frame = QtWidgets.QFrame(parent=self.frame_3)
         self.styleA_frame.setMinimumSize(QtCore.QSize(600, 350))
         self.styleA_frame.setMaximumSize(QtCore.QSize(600, 350))
@@ -1229,10 +1260,15 @@ class MainWidget(object):
         self.styleA_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.styleA_frame.setLineWidth(0)
         self.styleA_frame.setObjectName("styleA_frame")
+        self.gridLayout_2.addWidget(self.styleA_frame, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignBottom)
+        self.styleA_frame.raise_()
+        
         self.gridLayout = QtWidgets.QGridLayout(self.styleA_frame)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
+        
+        # Package A Box Container
         self.package_A = QtWidgets.QFrame(parent=self.styleA_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -1248,15 +1284,22 @@ class MainWidget(object):
         self.package_A.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.package_A.setLineWidth(0)
         self.package_A.setObjectName("package_A")
+        self.gridLayout.addWidget(self.package_A, 0, 0, 1, 1)
+        
         self.gridLayout_4 = QtWidgets.QGridLayout(self.package_A)
         self.gridLayout_4.setObjectName("gridLayout_4")
+        
         self.frame_2 = QtWidgets.QFrame(parent=self.package_A)
         self.frame_2.setStyleSheet("background-color: transparent;")
         self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_2.setObjectName("frame_2")
+        self.gridLayout_4.addWidget(self.frame_2, 1, 0, 1, 1)
+        
         self.gridLayout_3 = QtWidgets.QGridLayout(self.frame_2)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        
+        # Package A Images START
         self.label_18 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_18.setMaximumSize(QtCore.QSize(100, 100))
         self.label_18.setText("")
@@ -1264,6 +1307,7 @@ class MainWidget(object):
         self.label_18.setScaledContents(True)
         self.label_18.setObjectName("label_18")
         self.gridLayout_3.addWidget(self.label_18, 0, 0, 1, 1)
+        
         self.label_15 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_15.setMaximumSize(QtCore.QSize(100, 100))
         self.label_15.setText("")
@@ -1271,6 +1315,7 @@ class MainWidget(object):
         self.label_15.setScaledContents(True)
         self.label_15.setObjectName("label_15")
         self.gridLayout_3.addWidget(self.label_15, 0, 1, 1, 1)
+        
         self.label_16 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_16.setMaximumSize(QtCore.QSize(100, 100))
         self.label_16.setText("")
@@ -1278,6 +1323,7 @@ class MainWidget(object):
         self.label_16.setScaledContents(True)
         self.label_16.setObjectName("label_16")
         self.gridLayout_3.addWidget(self.label_16, 0, 2, 1, 1)
+        
         self.label_14 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_14.setMaximumSize(QtCore.QSize(100, 100))
         self.label_14.setText("")
@@ -1285,6 +1331,7 @@ class MainWidget(object):
         self.label_14.setScaledContents(True)
         self.label_14.setObjectName("label_14")
         self.gridLayout_3.addWidget(self.label_14, 0, 3, 1, 1)
+        
         self.label_17 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_17.setMaximumSize(QtCore.QSize(100, 100))
         self.label_17.setText("")
@@ -1292,6 +1339,7 @@ class MainWidget(object):
         self.label_17.setScaledContents(True)
         self.label_17.setObjectName("label_17")
         self.gridLayout_3.addWidget(self.label_17, 1, 2, 1, 1)
+        
         self.label_19 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_19.setMaximumSize(QtCore.QSize(100, 100))
         self.label_19.setText("")
@@ -1299,6 +1347,7 @@ class MainWidget(object):
         self.label_19.setScaledContents(True)
         self.label_19.setObjectName("label_19")
         self.gridLayout_3.addWidget(self.label_19, 1, 1, 1, 1)
+        
         self.label_20 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_20.setMaximumSize(QtCore.QSize(100, 100))
         self.label_20.setText("")
@@ -1306,6 +1355,7 @@ class MainWidget(object):
         self.label_20.setScaledContents(True)
         self.label_20.setObjectName("label_20")
         self.gridLayout_3.addWidget(self.label_20, 1, 3, 1, 1)
+        
         self.label_21 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_21.setMaximumSize(QtCore.QSize(100, 100))
         self.label_21.setText("")
@@ -1313,7 +1363,15 @@ class MainWidget(object):
         self.label_21.setScaledContents(True)
         self.label_21.setObjectName("label_21")
         self.gridLayout_3.addWidget(self.label_21, 1, 0, 1, 1)
-        self.gridLayout_4.addWidget(self.frame_2, 1, 0, 1, 1)
+        # Package A Images END
+        
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+
+        # "Package A : 8 pcs 1x1 photos" Label
         self.package_A_title = QtWidgets.QPushButton(parent=self.package_A)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -1322,11 +1380,6 @@ class MainWidget(object):
         self.package_A_title.setSizePolicy(sizePolicy)
         self.package_A_title.setMinimumSize(QtCore.QSize(0, 60))
         self.package_A_title.setMaximumSize(QtCore.QSize(16777215, 60))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
         self.package_A_title.setFont(font)
         self.package_A_title.setStyleSheet("padding: 5px 0px;\n"
                                           "background-color: transparent;\n"
@@ -1334,8 +1387,7 @@ class MainWidget(object):
                                           "font-weight: bold;")
         self.package_A_title.setObjectName("package_A_title")
         self.gridLayout_4.addWidget(self.package_A_title, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.package_A, 0, 0, 1, 1)
-        self.gridLayout_2.addWidget(self.styleA_frame, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignBottom)
+        
         self.styleB_frame = QtWidgets.QFrame(parent=self.frame_3)
         self.styleB_frame.setMinimumSize(QtCore.QSize(600, 350))
         self.styleB_frame.setMaximumSize(QtCore.QSize(600, 350))
@@ -1344,11 +1396,16 @@ class MainWidget(object):
         self.styleB_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.styleB_frame.setLineWidth(0)
         self.styleB_frame.setObjectName("styleB_frame")
+        self.gridLayout_2.addWidget(self.styleB_frame, 0, 1, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignBottom)
+        self.styleB_frame.raise_()
+        
         self.gridLayout_7 = QtWidgets.QGridLayout(self.styleB_frame)
         self.gridLayout_7.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
         self.gridLayout_7.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_7.setSpacing(0)
         self.gridLayout_7.setObjectName("gridLayout_7")
+        
+        # Package B Box Container
         self.package_B = QtWidgets.QFrame(parent=self.styleB_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -1364,8 +1421,11 @@ class MainWidget(object):
         self.package_B.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.package_B.setLineWidth(0)
         self.package_B.setObjectName("package_B")
+        self.gridLayout_7.addWidget(self.package_B, 0, 0, 1, 1)
+        
         self.gridLayout_5 = QtWidgets.QGridLayout(self.package_B)
         self.gridLayout_5.setObjectName("gridLayout_5")
+        
         self.frame_4 = QtWidgets.QFrame(parent=self.package_B)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -1376,8 +1436,12 @@ class MainWidget(object):
         self.frame_4.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_4.setObjectName("frame_4")
+        self.gridLayout_5.addWidget(self.frame_4, 1, 0, 1, 1)
+        
         self.gridLayout_6 = QtWidgets.QGridLayout(self.frame_4)
         self.gridLayout_6.setObjectName("gridLayout_6")
+        
+        # Package B Images START
         self.label_24 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_24.setMaximumSize(QtCore.QSize(120, 120))
         self.label_24.setText("")
@@ -1385,6 +1449,7 @@ class MainWidget(object):
         self.label_24.setScaledContents(True)
         self.label_24.setObjectName("label_24")
         self.gridLayout_6.addWidget(self.label_24, 0, 2, 1, 1)
+        
         self.label_25 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_25.setMaximumSize(QtCore.QSize(120, 120))
         self.label_25.setText("")
@@ -1392,6 +1457,7 @@ class MainWidget(object):
         self.label_25.setScaledContents(True)
         self.label_25.setObjectName("label_25")
         self.gridLayout_6.addWidget(self.label_25, 0, 3, 1, 1)
+        
         self.label_23 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_23.setMaximumSize(QtCore.QSize(120, 120))
         self.label_23.setText("")
@@ -1399,6 +1465,7 @@ class MainWidget(object):
         self.label_23.setScaledContents(True)
         self.label_23.setObjectName("label_23")
         self.gridLayout_6.addWidget(self.label_23, 1, 3, 1, 1)
+        
         self.label_22 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_22.setMaximumSize(QtCore.QSize(120, 120))
         self.label_22.setText("")
@@ -1406,15 +1473,18 @@ class MainWidget(object):
         self.label_22.setScaledContents(True)
         self.label_22.setObjectName("label_22")
         self.gridLayout_6.addWidget(self.label_22, 1, 2, 1, 1)
-        self.gridLayout_5.addWidget(self.frame_4, 1, 0, 1, 1)
-        self.package_B_title = QtWidgets.QPushButton(parent=self.package_B)
-        self.package_B_title.setMinimumSize(QtCore.QSize(0, 60))
-        self.package_B_title.setMaximumSize(QtCore.QSize(16777215, 60))
+        # Package B Images END
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Package B : 4 pcs 2x2 photos" Label
+        self.package_B_title = QtWidgets.QPushButton(parent=self.package_B)
+        self.package_B_title.setMinimumSize(QtCore.QSize(0, 60))
+        self.package_B_title.setMaximumSize(QtCore.QSize(16777215, 60))
         self.package_B_title.setFont(font)
         self.package_B_title.setStyleSheet("padding: 5px 0px;\n"
                                            "background-color: transparent;\n"
@@ -1422,11 +1492,7 @@ class MainWidget(object):
                                            "font-weight: bold;")
         self.package_B_title.setObjectName("package_B_title")
         self.gridLayout_5.addWidget(self.package_B_title, 0, 0, 1, 1)
-        self.gridLayout_7.addWidget(self.package_B, 0, 0, 1, 1)
-        self.gridLayout_2.addWidget(self.styleB_frame, 0, 1, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignBottom)
-        self.styleB_frame.raise_()
-        self.styleA_frame.raise_()
-        self.verticalLayout_19.addWidget(self.frame_3)
+        
         self.frame_19 = QtWidgets.QFrame(parent=self.style_packages)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -1436,8 +1502,11 @@ class MainWidget(object):
         self.frame_19.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_19.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_19.setObjectName("frame_19")
+        self.verticalLayout_19.addWidget(self.frame_19)
+        
         self.gridLayout_8 = QtWidgets.QGridLayout(self.frame_19)
         self.gridLayout_8.setObjectName("gridLayout_8")
+        
         self.styleC_frame = QtWidgets.QFrame(parent=self.frame_19)
         self.styleC_frame.setMinimumSize(QtCore.QSize(600, 350))
         self.styleC_frame.setMaximumSize(QtCore.QSize(600, 350))
@@ -1445,10 +1514,14 @@ class MainWidget(object):
         self.styleC_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.styleC_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.styleC_frame.setObjectName("styleC_frame")
+        self.gridLayout_8.addWidget(self.styleC_frame, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignTop)
+        
         self.gridLayout_13 = QtWidgets.QGridLayout(self.styleC_frame)
         self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_13.setSpacing(0)
         self.gridLayout_13.setObjectName("gridLayout_13")
+        
+        # Package C Box Container
         self.package_C = QtWidgets.QFrame(parent=self.styleC_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -1464,15 +1537,22 @@ class MainWidget(object):
         self.package_C.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.package_C.setLineWidth(0)
         self.package_C.setObjectName("package_C")
+        self.gridLayout_13.addWidget(self.package_C, 0, 0, 1, 1)
+        
         self.gridLayout_11 = QtWidgets.QGridLayout(self.package_C)
         self.gridLayout_11.setObjectName("gridLayout_11")
+        
         self.frame_6 = QtWidgets.QFrame(parent=self.package_C)
         self.frame_6.setStyleSheet("background-color: transparent;")
         self.frame_6.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_6.setObjectName("frame_6")
+        self.gridLayout_11.addWidget(self.frame_6, 2, 0, 1, 1)
+        
         self.gridLayout_12 = QtWidgets.QGridLayout(self.frame_6)
         self.gridLayout_12.setObjectName("gridLayout_12")
+        
+        # Package C Images START
         self.label_33 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_33.setMaximumSize(QtCore.QSize(100, 100))
         self.label_33.setText("")
@@ -1480,6 +1560,7 @@ class MainWidget(object):
         self.label_33.setScaledContents(True)
         self.label_33.setObjectName("label_33")
         self.gridLayout_12.addWidget(self.label_33, 1, 0, 1, 1)
+        
         self.label_7 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_7.setMaximumSize(QtCore.QSize(100, 100))
         self.label_7.setText("")
@@ -1487,6 +1568,7 @@ class MainWidget(object):
         self.label_7.setScaledContents(True)
         self.label_7.setObjectName("label_7")
         self.gridLayout_12.addWidget(self.label_7, 1, 3, 1, 1)
+        
         self.label_35 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_35.setMaximumSize(QtCore.QSize(100, 100))
         self.label_35.setText("")
@@ -1494,6 +1576,7 @@ class MainWidget(object):
         self.label_35.setScaledContents(True)
         self.label_35.setObjectName("label_35")
         self.gridLayout_12.addWidget(self.label_35, 1, 1, 1, 1)
+        
         self.label_8 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_8.setMaximumSize(QtCore.QSize(100, 100))
         self.label_8.setText("")
@@ -1501,14 +1584,17 @@ class MainWidget(object):
         self.label_8.setScaledContents(True)
         self.label_8.setObjectName("label_8")
         self.gridLayout_12.addWidget(self.label_8, 1, 2, 1, 1)
-        self.gridLayout_11.addWidget(self.frame_6, 2, 0, 1, 1)
+        
         self.frame_7 = QtWidgets.QFrame(parent=self.package_C)
         self.frame_7.setStyleSheet("background-color:transparent;")
         self.frame_7.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_7.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_7.setObjectName("frame_7")
+        self.gridLayout_11.addWidget(self.frame_7, 1, 0, 1, 1)
+        
         self.gridLayout_14 = QtWidgets.QGridLayout(self.frame_7)
         self.gridLayout_14.setObjectName("gridLayout_14")
+        
         self.label_26 = QtWidgets.QLabel(parent=self.frame_7)
         self.label_26.setMaximumSize(QtCore.QSize(120, 120))
         self.label_26.setText("")
@@ -1517,21 +1603,25 @@ class MainWidget(object):
         self.label_26.setObjectName("label_26")
         self.gridLayout_14.addWidget(self.label_26, 0, 0, 1, 1)
         self.label_27 = QtWidgets.QLabel(parent=self.frame_7)
+        
         self.label_27.setMaximumSize(QtCore.QSize(120, 120))
         self.label_27.setText("")
         self.label_27.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
         self.label_27.setScaledContents(True)
         self.label_27.setObjectName("label_27")
         self.gridLayout_14.addWidget(self.label_27, 0, 1, 1, 1)
-        self.gridLayout_11.addWidget(self.frame_7, 1, 0, 1, 1)
-        self.package_C_title = QtWidgets.QPushButton(parent=self.package_C)
-        self.package_C_title.setMinimumSize(QtCore.QSize(0, 60))
-        self.package_C_title.setMaximumSize(QtCore.QSize(16777215, 60))
+        # Package C Images END
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
+
+        # "Combo : 4 pcs 1x1 & 2 pc 2x2 photos" Label
+        self.package_C_title = QtWidgets.QPushButton(parent=self.package_C)
+        self.package_C_title.setMinimumSize(QtCore.QSize(0, 60))
+        self.package_C_title.setMaximumSize(QtCore.QSize(16777215, 60))
         self.package_C_title.setFont(font)
         self.package_C_title.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.package_C_title.setStyleSheet("padding: 5px 0px;\n"
@@ -1540,23 +1630,26 @@ class MainWidget(object):
                                            "font-weight: bold;")
         self.package_C_title.setObjectName("package_C_title")
         self.gridLayout_11.addWidget(self.package_C_title, 0, 0, 1, 1)
-        self.gridLayout_13.addWidget(self.package_C, 0, 0, 1, 1)
-        self.gridLayout_8.addWidget(self.styleC_frame, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignTop)
-        self.verticalLayout_19.addWidget(self.frame_19)
+        
         self.widget_4 = QtWidgets.QWidget(parent=self.style_packages)
         self.widget_4.setMinimumSize(QtCore.QSize(0, 130))
         self.widget_4.setMaximumSize(QtCore.QSize(16777215, 130))
         self.widget_4.setObjectName("widget_4")
+        self.verticalLayout_19.addWidget(self.widget_4)
+        
         self.verticalLayout_40 = QtWidgets.QVBoxLayout(self.widget_4)
         self.verticalLayout_40.setObjectName("verticalLayout_40")
-        self.btnINFO_style = QtWidgets.QPushButton(parent=self.widget_4)
-        self.btnINFO_style.setMinimumSize(QtCore.QSize(100, 100))
-        self.btnINFO_style.setMaximumSize(QtCore.QSize(100, 100))
+
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
+        
+        # "i" Button at bottom-right
+        self.btnINFO_style = QtWidgets.QPushButton(parent=self.widget_4)
+        self.btnINFO_style.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_style.setMaximumSize(QtCore.QSize(100, 100))
         self.btnINFO_style.setFont(font)
         self.btnINFO_style.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnINFO_style.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -1568,12 +1661,7 @@ class MainWidget(object):
                                          "font-weight:bold;")
         self.btnINFO_style.setObjectName("btnINFO_style")
         self.verticalLayout_40.addWidget(self.btnINFO_style, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_19.addWidget(self.widget_4)
-        self.verticalLayout_19.setStretch(0, 2)
-        self.verticalLayout_19.setStretch(1, 2)
-        self.verticalLayout_19.setStretch(2, 1)
-        self.verticalLayout_18.addWidget(self.style_packages)
-        self.verticalLayout_16.addWidget(self.style_frame)
+        
         self.stackedWidget.addWidget(self.style)
 
     # index 7
