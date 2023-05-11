@@ -1755,7 +1755,7 @@ class MainWidget(object):
         self.window.show()
 
     def __handle_camera_back(self, index):
-        self.countdown_module.stop(True)
+        self.countdown_module.stop()
         self.video_thread.set_is_capturing(False)
         self.video_thread.background_module.set_background(None)
         self.video_thread.face_module.set_filter_method("null")
@@ -1795,6 +1795,7 @@ class MainWidget(object):
             self.camera_label = self.camera_formal_label
             self.capture_label = self.capture_formal
             self.gender_value = gender_value
+            self.video_thread.formal_module.set_gender(self.gender_value)
             self.capture_label.clicked.connect(self.__start_capture_process)
         elif self.capture_method_value == 2:
             self.camera_label = self.camera_beauty_label

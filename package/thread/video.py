@@ -6,7 +6,7 @@ from package.module.hand import HandDetectionModule
 from package.module.face import FaceDetectionModule
 from package.module.gaze import GazeDetectionModule
 from package.module.background import BackgroundModule
-
+from package.module.formal_clothes import FormalClothesModule
 
 class VideoThread(QThread):
     capture_gesture_detected = pyqtSignal()
@@ -29,6 +29,7 @@ class VideoThread(QThread):
         self.face_module = FaceDetectionModule()
         self.gaze_module = GazeDetectionModule()
         self.background_module = BackgroundModule()
+        self.formal_module = FormalClothesModule()
 
     def run(self):
         self.is_running = True
@@ -69,6 +70,7 @@ class VideoThread(QThread):
             case _: self.process_frame = self.null_process
 
     def formal_process(self, frame, grayed_frame, frame_to_show, frame_to_print):
+        self.formal_module.process_frame(frame_to_show, frame_to_print)
         self.face_module.process_frame(grayed_frame, frame_to_show, frame_to_print)
 
         if len(self.face_module.faces) > 0 and not self.is_capturing:
