@@ -331,6 +331,7 @@ class MainWidget(object):
         self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.purpose_formal)
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         
+        # Formal Box Container at the left selection
         self.pFormal_Container = QtWidgets.QFrame(parent=self.purpose_formal)
         self.pFormal_Container.setMaximumSize(QtCore.QSize(400, 600))
         self.pFormal_Container.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
@@ -401,6 +402,7 @@ class MainWidget(object):
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.purpose_beauty)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
         
+        # Beauty Box Container at the left selection
         self.pBeauty_Container = QtWidgets.QFrame(parent=self.purpose_beauty)
         self.pBeauty_Container.setMaximumSize(QtCore.QSize(400, 600))
         self.pBeauty_Container.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
@@ -493,14 +495,18 @@ class MainWidget(object):
         
         self.stackedWidget.addWidget(self.purpose)
 
-    # index 2: Gender Page
+    # index 2: Gender Page (Tajada)
     def __init_gender_selection_page(self):
+        # Widget for the whole page
         self.gender = QtWidgets.QWidget()
         self.gender.setObjectName("gender")
+        
         self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.gender)
         self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_21.setSpacing(0)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
+        
+        # Black Film Strip overlay on the background
         self.gender_frame = QtWidgets.QFrame(parent=self.gender)
         self.gender_frame.setStyleSheet("#gender_frame {\n"
                                         "    border-image: url(package/resource/img/bg_film2.png) 0 0 0 0 stretch stretch;\n"
@@ -509,10 +515,13 @@ class MainWidget(object):
         self.gender_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.gender_frame.setLineWidth(0)
         self.gender_frame.setObjectName("gender_frame")
+        self.verticalLayout_21.addWidget(self.gender_frame)
+        
         self.verticalLayout_36 = QtWidgets.QVBoxLayout(self.gender_frame)
         self.verticalLayout_36.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_36.setSpacing(0)
         self.verticalLayout_36.setObjectName("verticalLayout_36")
+        
         self.gender_header = QtWidgets.QFrame(parent=self.gender_frame)
         self.gender_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.gender_header.setStyleSheet("#backGenderButton {\n"
@@ -523,55 +532,74 @@ class MainWidget(object):
         self.gender_header.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.gender_header.setLineWidth(0)
         self.gender_header.setObjectName("gender_header")
+        self.verticalLayout_36.addWidget(self.gender_header)
+        
         self.gridLayout_26 = QtWidgets.QGridLayout(self.gender_header)
         self.gridLayout_26.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_26.setSpacing(0)
         self.gridLayout_26.setObjectName("gridLayout_26")
+        
+        # Back Button at top-right
         self.backGenderButton = QtWidgets.QPushButton(parent=self.gender_header)
         self.backGenderButton.setStyleSheet("background-color: rgb(0, 29, 61);")
         self.backGenderButton.setText("")
         self.backGenderButton.setObjectName("backGenderButton")
         self.backGenderButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.gridLayout_26.addWidget(self.backGenderButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_36.addWidget(self.gender_header)
+        
         self.gender_content = QtWidgets.QFrame(parent=self.gender_frame)
         self.gender_content.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.gender_content.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.gender_content.setObjectName("gender_content")
+        self.verticalLayout_36.addWidget(self.gender_content)
+        
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.gender_content)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        
         self.gender_male = QtWidgets.QFrame(parent=self.gender_content)
         self.gender_male.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
         self.gender_male.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.gender_male.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.gender_male.setObjectName("gender_male")
+        self.horizontalLayout_6.addWidget(self.gender_male)
+        
         self.verticalLayout_37 = QtWidgets.QVBoxLayout(self.gender_male)
         self.verticalLayout_37.setObjectName("verticalLayout_37")
+        
+        # Male Box Container at the left selection
         self.gMale_container = QtWidgets.QFrame(parent=self.gender_male)
         self.gMale_container.setMaximumSize(QtCore.QSize(400, 600))
         self.gMale_container.setStyleSheet("#gMale_container{background-color: rgba(255, 255, 255,0.8);border-radius: 18px;}")
         self.gMale_container.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.gMale_container.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.gMale_container.setObjectName("gMale_container")
+        self.verticalLayout_37.addWidget(self.gMale_container)
+        
+        # Male Image at the left selection
         self.label_102 = QtWidgets.QLabel(parent=self.gMale_container)
         self.label_102.setGeometry(QtCore.QRect(40, 90, 321, 341))
         self.label_102.setText("")
         self.label_102.setPixmap(QtGui.QPixmap("package/resource/img/male.png"))
         self.label_102.setScaledContents(True)
         self.label_102.setObjectName("label_102")
-        self.label_103 = QtWidgets.QLabel(parent=self.gMale_container)
-        self.label_103.setGeometry(QtCore.QRect(0, 450, 400, 20))
-        self.label_103.setMinimumSize(QtCore.QSize(400, 0))
-        self.label_103.setMaximumSize(QtCore.QSize(400, 16777215))
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
+        
+        # "Male" Label at the left selection
+        self.label_103 = QtWidgets.QLabel(parent=self.gMale_container)
+        self.label_103.setGeometry(QtCore.QRect(0, 450, 400, 20))
+        self.label_103.setMinimumSize(QtCore.QSize(400, 0))
+        self.label_103.setMaximumSize(QtCore.QSize(400, 16777215))
         self.label_103.setFont(font)
         self.label_103.setStyleSheet("color: rgb(0, 29, 61);")
         self.label_103.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_103.setObjectName("label_103")
+        
+        # Male Button
         self.btnMale = QtWidgets.QPushButton(parent=self.gMale_container)
         self.btnMale.setGeometry(QtCore.QRect(0, 0, 400, 600))
         self.btnMale.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -579,39 +607,44 @@ class MainWidget(object):
                                    "background-color:transparent;")
         self.btnMale.setText("")
         self.btnMale.setObjectName("btnMale")
-        self.verticalLayout_37.addWidget(self.gMale_container)
-        self.horizontalLayout_6.addWidget(self.gender_male)
+        
         self.gender_female = QtWidgets.QFrame(parent=self.gender_content)
         self.gender_female.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.gender_female.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.gender_female.setObjectName("gender_female")
+        self.horizontalLayout_6.addWidget(self.gender_female)
+        
         self.verticalLayout_38 = QtWidgets.QVBoxLayout(self.gender_female)
         self.verticalLayout_38.setObjectName("verticalLayout_38")
+        
+        # Female Box Container at the right selection
         self.gFemale_container = QtWidgets.QFrame(parent=self.gender_female)
         self.gFemale_container.setMaximumSize(QtCore.QSize(400, 600))
         self.gFemale_container.setStyleSheet("#gFemale_container{background-color: rgba(255, 255, 255,0.8);border-radius: 18px;}")
         self.gFemale_container.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.gFemale_container.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.gFemale_container.setObjectName("gFemale_container")
+        self.verticalLayout_38.addWidget(self.gFemale_container)
+        
+        # Female Image at the right selection
         self.label_104 = QtWidgets.QLabel(parent=self.gFemale_container)
         self.label_104.setGeometry(QtCore.QRect(40, 90, 321, 341))
         self.label_104.setText("")
         self.label_104.setPixmap(QtGui.QPixmap("package/resource/img/female.png"))
         self.label_104.setScaledContents(True)
         self.label_104.setObjectName("label_104")
+        
+        # "Female" Label at the right selection
         self.label_105 = QtWidgets.QLabel(parent=self.gFemale_container)
         self.label_105.setGeometry(QtCore.QRect(0, 450, 400, 20))
         self.label_105.setMinimumSize(QtCore.QSize(400, 0))
         self.label_105.setMaximumSize(QtCore.QSize(400, 16777215))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Semibold")
-        font.setPointSize(18)
-        font.setBold(True)
-        font.setWeight(75)
         self.label_105.setFont(font)
         self.label_105.setStyleSheet("color: rgb(0, 29, 61);")
         self.label_105.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_105.setObjectName("label_105")
+        
+        # Female Button
         self.btnFemale = QtWidgets.QPushButton(parent=self.gFemale_container)
         self.btnFemale.setGeometry(QtCore.QRect(0, 0, 400, 600))
         self.btnFemale.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -619,23 +652,26 @@ class MainWidget(object):
                                      "background-color:transparent;")
         self.btnFemale.setText("")
         self.btnFemale.setObjectName("btnFemale")
-        self.verticalLayout_38.addWidget(self.gFemale_container)
-        self.horizontalLayout_6.addWidget(self.gender_female)
-        self.verticalLayout_36.addWidget(self.gender_content)
+        
         self.widget_3 = QtWidgets.QWidget(parent=self.gender_frame)
         self.widget_3.setMinimumSize(QtCore.QSize(0, 151))
         self.widget_3.setMaximumSize(QtCore.QSize(16777215, 151))
         self.widget_3.setObjectName("widget_3")
+        self.verticalLayout_36.addWidget(self.widget_3)
+        
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.widget_3)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
-        self.btnINFO_gender = QtWidgets.QPushButton(parent=self.widget_3)
-        self.btnINFO_gender.setMinimumSize(QtCore.QSize(100, 100))
-        self.btnINFO_gender.setMaximumSize(QtCore.QSize(100, 100))
+        
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
+
+        # "i" Button at bottom-right
+        self.btnINFO_gender = QtWidgets.QPushButton(parent=self.widget_3)
+        self.btnINFO_gender.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_gender.setMaximumSize(QtCore.QSize(100, 100))
         self.btnINFO_gender.setFont(font)
         self.btnINFO_gender.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnINFO_gender.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -647,28 +683,33 @@ class MainWidget(object):
                                           "font-weight:bold;")
         self.btnINFO_gender.setObjectName("btnINFO_gender")
         self.verticalLayout_39.addWidget(self.btnINFO_gender, 0, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_36.addWidget(self.widget_3)
-        self.verticalLayout_21.addWidget(self.gender_frame)
+        
         self.stackedWidget.addWidget(self.gender)
 
-    # index 3: Capture Page Formal
+    # index 3: Capture Page Formal (Tajada)
     def __init_formal_capture_page(self):
+        # Widget for the whole page
         self.camera = QtWidgets.QWidget()
         self.camera.setStyleSheet("")
         self.camera.setObjectName("camera")
+        
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.camera)
         self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_13.setSpacing(0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
+        
         self.camera_content = QtWidgets.QFrame(parent=self.camera)
         self.camera_content.setStyleSheet("")
         self.camera_content.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.camera_content.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.camera_content.setObjectName("camera_content")
+        self.verticalLayout_13.addWidget(self.camera_content)
+        
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.camera_content)
         self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_14.setSpacing(0)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
+        
         self.camera_header = QtWidgets.QFrame(parent=self.camera_content)
         self.camera_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.camera_header.setStyleSheet("#backCameraButton {\n"
@@ -682,10 +723,14 @@ class MainWidget(object):
         self.camera_header.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.camera_header.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.camera_header.setObjectName("camera_header")
+        self.verticalLayout_14.addWidget(self.camera_header)
+        
         self.gridLayout_28 = QtWidgets.QGridLayout(self.camera_header)
         self.gridLayout_28.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_28.setSpacing(0)
         self.gridLayout_28.setObjectName("gridLayout_28")
+        
+        # Back Button at top-right
         self.backCameraButton = QtWidgets.QPushButton(parent=self.camera_header)
         self.backCameraButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.backCameraButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
@@ -693,7 +738,7 @@ class MainWidget(object):
         self.backCameraButton.setText("")
         self.backCameraButton.setObjectName("backCameraButton")
         self.gridLayout_28.addWidget(self.backCameraButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
-        self.verticalLayout_14.addWidget(self.camera_header)
+        
         self.camera_container = QtWidgets.QFrame(parent=self.camera_content)
         self.camera_container.setStyleSheet("#camera_container{\n"
                                             "    background-color: rgb(238, 238, 238);\n"
@@ -704,35 +749,53 @@ class MainWidget(object):
         self.camera_container.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.camera_container.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.camera_container.setObjectName("camera_container")
+        self.verticalLayout_14.addWidget(self.camera_container)
+        
         self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.camera_container)
         self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_29.setSpacing(0)
         self.verticalLayout_29.setObjectName("verticalLayout_29")
+        
+        # Label for the video feed of the camera at center
         self.camera_formal_label = QuickSnapWidget(parent=self.camera_container)
         self.camera_formal_label.setFrameShape(QtWidgets.QFrame.Shape.VLine)
         self.camera_formal_label.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.camera_formal_label.setLineWidth(1)
         self.camera_formal_label.setObjectName("camera_formal_label")
         self.verticalLayout_29.addWidget(self.camera_formal_label)
+        
         self.shot_options = QtWidgets.QFrame(parent=self.camera_container)
         self.shot_options.setMaximumSize(QtCore.QSize(16777215, 250))
         self.shot_options.setStyleSheet("")
         self.shot_options.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.shot_options.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.shot_options.setObjectName("shot_options")
+        self.verticalLayout_29.addWidget(self.shot_options)
+        
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.shot_options)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        
         self.frame_5 = QtWidgets.QFrame(parent=self.shot_options)
         self.frame_5.setMinimumSize(QtCore.QSize(0, 0))
         self.frame_5.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_2.addWidget(self.frame_5, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_5)
         self.horizontalLayout_7.setContentsMargins(110, 0, 0, 0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Black")
+        font.setPointSize(48)
+        font.setBold(True)
+        font.setWeight(75)
+        
+        # Circle Capture Button at center
         self.capture_formal = QtWidgets.QPushButton(parent=self.frame_5)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -741,11 +804,6 @@ class MainWidget(object):
         self.capture_formal.setSizePolicy(sizePolicy)
         self.capture_formal.setMinimumSize(QtCore.QSize(180, 180))
         self.capture_formal.setMaximumSize(QtCore.QSize(180, 180))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Black")
-        font.setPointSize(48)
-        font.setBold(True)
-        font.setWeight(75)
         self.capture_formal.setFont(font)
         self.capture_formal.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.capture_formal.setStyleSheet("border: 10px solid rgba(0, 29, 61, 1);\n"
@@ -757,22 +815,27 @@ class MainWidget(object):
                                           "font-weight:bold;")
         self.capture_formal.setObjectName("capture_formal")
         self.horizontalLayout_7.addWidget(self.capture_formal)
-        self.horizontalLayout_2.addWidget(self.frame_5, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        
         self.frame_20 = QtWidgets.QFrame(parent=self.shot_options)
         self.frame_20.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame_20.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_20.setObjectName("frame_20")
+        self.horizontalLayout_2.addWidget(self.frame_20, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignBottom)
+        
         self.gridLayout_27 = QtWidgets.QGridLayout(self.frame_20)
         self.gridLayout_27.setContentsMargins(0, 0, 5, 25)
         self.gridLayout_27.setObjectName("gridLayout_27")
-        self.btnINFO_camera = QtWidgets.QPushButton(parent=self.frame_20)
-        self.btnINFO_camera.setMinimumSize(QtCore.QSize(100, 100))
-        self.btnINFO_camera.setMaximumSize(QtCore.QSize(100, 100))
+
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
+        
+        # "i" Button at bottom-right
+        self.btnINFO_camera = QtWidgets.QPushButton(parent=self.frame_20)
+        self.btnINFO_camera.setMinimumSize(QtCore.QSize(100, 100))
+        self.btnINFO_camera.setMaximumSize(QtCore.QSize(100, 100))
         self.btnINFO_camera.setFont(font)
         self.btnINFO_camera.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnINFO_camera.setStyleSheet("background-color: rgb(0, 29, 61);\n"
@@ -784,15 +847,14 @@ class MainWidget(object):
                                           "font-weight:bold;")
         self.btnINFO_camera.setObjectName("btnINFO_camera")
         self.gridLayout_27.addWidget(self.btnINFO_camera, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignBottom)
-        self.horizontalLayout_2.addWidget(self.frame_20, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignBottom)
+        
         self.horizontalLayout_2.setStretch(0, 1)
-        self.verticalLayout_29.addWidget(self.shot_options)
-        self.verticalLayout_14.addWidget(self.camera_container)
-        self.verticalLayout_13.addWidget(self.camera_content)
+        
         self.stackedWidget.addWidget(self.camera)
 
     # index 4: Capture Page Beauty (Samson)
     def __init_beauty_capture_page(self):
+        # Widget for the whole page
         self.filters = QtWidgets.QWidget()
         self.filters.setObjectName("filters")
         
