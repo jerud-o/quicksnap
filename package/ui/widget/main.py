@@ -10,13 +10,17 @@ from package.module.countdown_timer import CountdownTimerModule
 from package.module.print import PrintModule
 from package.ui.widget.notification import NotificationWidget
 from package.ui.widget.popup import PopupWidget
-from package.ui.widget.quicksnap import QuickSnapWidget
+from package.ui.widget.quicksnap import QuickSnapWidget # error: Dot between widget and quicksnap was removed
 
+
+# class MainWidget(): wrong\\\\\\\\\\
 class MainWidget(object):
     def __init__(self, MainWindow):
         self.width, self.height = pyautogui.size()
         self.capture_method_value = 0
         self.print_method_value = -1
+
+        #self.gender_value = wrong
         self.gender_value = -1
         self.frame_to_print = None
 
@@ -24,6 +28,7 @@ class MainWidget(object):
         self.__init_ui(MainWindow)
         
         self.retranslate_ui(MainWindow)
+        #self.stackedWidget.setCurrentIndex(O) wrong
         self.stackedWidget.setCurrentIndex(0)
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -33,6 +38,7 @@ class MainWidget(object):
         self.countdown_module = CountdownTimerModule()
         self.print_module = PrintModule()
 
+    #def __init_ui(self,): wrong
     def __init_ui(self, MainWindow):
         self.__init_main_window(MainWindow)
         self.__init_intro_page()
@@ -691,11 +697,11 @@ class MainWidget(object):
         # Widget for the whole page
         self.camera = QtWidgets.QWidget()
         self.camera.setStyleSheet("")
-        self.camera.setObjectName("camera")
+        self.camera.setObjectName("camera") #"camera"
         
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.camera)
         self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_13.setSpacing(0)
+        self.verticalLayout_13.setSpacing(0) #(0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         
         self.camera_content = QtWidgets.QFrame(parent=self.camera)
@@ -720,7 +726,7 @@ class MainWidget(object):
                                          "    \n"
                                          "    background-color: rgb(238, 238, 238);\n"
                                          "}")
-        self.camera_header.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.camera_header.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel) #semi colon ;
         self.camera_header.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.camera_header.setObjectName("camera_header")
         self.verticalLayout_14.addWidget(self.camera_header)
@@ -732,7 +738,7 @@ class MainWidget(object):
         
         # Back Button at top-right
         self.backCameraButton = QtWidgets.QPushButton(parent=self.camera_header)
-        self.backCameraButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.backCameraButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)) # . in self.backCameraButton.
         self.backCameraButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
                                             "border:0px;")
         self.backCameraButton.setText("")
@@ -751,7 +757,7 @@ class MainWidget(object):
         self.camera_container.setObjectName("camera_container")
         self.verticalLayout_14.addWidget(self.camera_container)
         
-        self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.camera_container)
+        self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.camera_container) #added = sign
         self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_29.setSpacing(0)
         self.verticalLayout_29.setObjectName("verticalLayout_29")
@@ -853,6 +859,7 @@ class MainWidget(object):
         self.stackedWidget.addWidget(self.camera)
 
     # index 4: Capture Page Beauty (Samson)
+    #def __init_beauty_capture_page(self):h wrong
     def __init_beauty_capture_page(self):
         # Widget for the whole page
         self.filters = QtWidgets.QWidget()
@@ -970,7 +977,7 @@ class MainWidget(object):
                                       "width: 0px;")
         self.scrollArea.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.scrollArea.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
-        self.scrollArea.setLineWidth(-3)
+        self.scrollArea.setLineWidth(-3) #Line980-Quote
         self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
@@ -982,7 +989,7 @@ class MainWidget(object):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         
         self.verticalLayout_34 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_34.setContentsMargins(15, 15, 15, 15)
+        self.verticalLayout_34.setContentsMargins(15, 15, 15, 15) #Line992-dot
         self.verticalLayout_34.setSpacing(15)
         self.verticalLayout_34.setObjectName("verticalLayout_34")
         
@@ -1012,13 +1019,13 @@ class MainWidget(object):
                 filter_button.setMinimumSize(QtCore.QSize(180, 180))
                 filter_button.setMaximumSize(QtCore.QSize(180, 180))
                 filter_button.setStyleSheet(f"border-image: url({value_filter[0]});")
-                filter_button.setText("")
+                filter_button.setText("") #Line1022-SEMICOLON
                 filter_button.setObjectName(f"filter_{key_location}_{key_filter}")
                 filter_button.clicked.connect(partial(self.__handle_filter, key_location, value_filter[1], value_filter[2]))
                 self.verticalLayout_34.addWidget(filter_button)
         # Filter Dynamic Initialization END (Ocampo)
         
-        self.frame_17 = QtWidgets.QFrame(parent=self.frame_14)
+        self.frame_17 = QtWidgets.QFrame(parent=self.frame_14) #Line1029-DoubleEqual
         self.frame_17.setMinimumSize(QtCore.QSize(40, 0))
         self.frame_17.setMaximumSize(QtCore.QSize(40, 16777215))
         self.frame_17.setStyleSheet("")
@@ -1027,7 +1034,7 @@ class MainWidget(object):
         self.frame_17.setObjectName("frame_17")
         self.horizontalLayout_4.addWidget(self.frame_17)
         
-        self.verticalLayout_33 = QtWidgets.QVBoxLayout(self.frame_17)
+        self.verticalLayout_33 = QtWidgets.QVBoxLayout(self.frame_17) #Line1037SingleEqualOnly
         self.verticalLayout_33.setContentsMargins(5, 5, 5, 5)
         self.verticalLayout_33.setSpacing(5)
         self.verticalLayout_33.setObjectName("verticalLayout_33")
@@ -1175,7 +1182,7 @@ class MainWidget(object):
     def __init_capture_preview_page(self):
         # Widget for the whole page
         self.finish = QtWidgets.QWidget()
-        self.finish.setObjectName("finish")
+        self.finish.setObjectName("finish") # removed finish
         
         self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.finish)
         self.verticalLayout_20.setContentsMargins(0, 0, 0, 0)
@@ -1196,7 +1203,7 @@ class MainWidget(object):
         self.gridLayout_15.setObjectName("gridLayout_15")
         
         self.finish_container = QtWidgets.QFrame(parent=self.finish_frame)
-        self.finish_container.setMaximumSize(QtCore.QSize(1000, 800))
+        self.finish_container.setMaximumSize(QtCore.QSize(1000, 800)) # added dot (.)
         self.finish_container.setStyleSheet("background-color: rgba(255, 255, 255,0.8);\n"
                                             "border-radius: 18px;")
         self.finish_container.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -1204,7 +1211,7 @@ class MainWidget(object):
         self.finish_container.setObjectName("finish_container")
         self.gridLayout_15.addWidget(self.finish_container, 0, 0, 1, 1)
         
-        self.gridLayout_17 = QtWidgets.QGridLayout(self.finish_container)
+        self.gridLayout_17 = QtWidgets.QGridLayout(self.finish_container) # added =
         self.gridLayout_17.setObjectName("gridLayout_17")
         
         self.frame_8 = QtWidgets.QFrame(parent=self.finish_container)
@@ -1216,11 +1223,11 @@ class MainWidget(object):
         self.gridLayout_17.addWidget(self.frame_8, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
         
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.frame_8)
-        self.verticalLayout_22.setSpacing(20)
+        self.verticalLayout_22.setSpacing(20) # removed 20 in setSpacing
         self.verticalLayout_22.setObjectName("verticalLayout_22")
         
         # Image that contains the captured photo at center
-        self.captured_frame_label = QtWidgets.QLabel(parent=self.frame_8)
+        self.captured_frame_label = QtWidgets.QLabel(parent=self.frame_8) # missing ) syntax
         self.captured_frame_label.setText("")
         self.captured_frame_label.setPixmap(QtGui.QPixmap("package/resource/img/camera.png"))
         self.captured_frame_label.setObjectName("captured_frame_label")
@@ -2083,6 +2090,7 @@ class MainWidget(object):
         self.stackedWidget.setCurrentIndex(capture_value + 2)
 
     def __return_to_camera(self):
+        #self.video_thread.set_mode(self-capture_method_value) wrong
         self.video_thread.set_mode(self.capture_method_value)
         self.stackedWidget.setCurrentIndex(self.capture_method_value + 2)
         self.video_thread.capture_gesture_detected.connect(self.__start_capture_process)

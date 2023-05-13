@@ -10,17 +10,17 @@ from package.module.formal_clothes import FormalClothesModule
 
 class VideoThread(QThread):
     capture_gesture_detected = pyqtSignal()
-    frame_ready = pyqtSignal(tuple)
+    frame_ready = pyqtSignal(tuple) # word "tuple" missing inside the parenthesis as params, returned it
     mode = 0
 
     def __init__(self):
         super().__init__()
-        self.__init_camera()
+        self.__init_camera() # unexpected params "0", removed it
         self.__init_modules()
         self.is_running = False
         self.is_capturing = False
 
-    def __init_camera(self):
+    def __init_camera(self): # colon (:) at end of function becomes semicolon (;), reverted it back
         self.__camera_port = int(os.environ.get('CAMERA_PORT'))
         self.__capture = cv2.VideoCapture(self.__camera_port)
 
@@ -34,7 +34,7 @@ class VideoThread(QThread):
     def run(self):
         self.is_running = True
         
-        while self.is_running:
+        while self.is_running: # missing while keyword at start of line, returned it (since the run method runs indefinitely, getting frames from camera feed each loop)
             ret, frame = self.__capture.read()
 
             if ret:
@@ -51,7 +51,7 @@ class VideoThread(QThread):
 
                     self.process_frame(frame, grayed_frame, frame_to_show, frame_to_print)
                     self.frame_ready.emit((frame_to_show, frame_to_print))
-                else:
+                else: # missing colon (:) at the end, returned it
                     self.hand_module.process_frame(grayed_frame, self.mode)
                 
     def stop(self):
@@ -62,7 +62,7 @@ class VideoThread(QThread):
         self.is_capturing = is_capturing
 
     def set_mode(self, mode):
-        self.mode = mode
+        self.mode = mode # missing assignment of public "mode" into the class variable's mode/self.mode
 
         match self.mode:
             case 1: self.process_frame = self.formal_process
