@@ -5,11 +5,11 @@ from PyQt6.QtWidgets import QApplication, QDialog, QLabel, QVBoxLayout, QPushBut
 
 class CustomMessageBox(QDialog):
     def __init__(self, message1, message2, image_path):
-        super().__init__()
+        super().__init__() # error: addition of dot between ) and _ 
 
         # Set window flags to remove title and close button
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground) # error: WA was removed
 
         # Set fixed size
         self.setFixedSize(700, 500)
@@ -17,7 +17,7 @@ class CustomMessageBox(QDialog):
 
         # Create QFrame to hold the message box contents
         frame = QFrame(self)
-        frame.setStyleSheet("background-color: #fff; border-radius: 16px;")
+        frame.setStyleSheet("background-color: #fff; border-radius: 16px;") # error: " was removed
 
         # Create image label
         image_label = QLabel()
@@ -28,7 +28,7 @@ class CustomMessageBox(QDialog):
 
         # Create message label
         message_label1 = QLabel(message1)
-        message_label1.setStyleSheet("color: #001D3D; font-size: 24px;font-weight: bold;")
+        message_label1.setStyleSheet("color: #001D3D; font-size: 24px;font-weight: bold;") # error: color: was removed
         message_label1.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create message label
@@ -38,7 +38,7 @@ class CustomMessageBox(QDialog):
 
         # Create OK button
         ok_button = QPushButton("OK")
-        ok_button.setFixedWidth(500)
+        ok_button.setFixedWidth(500);
         ok_button.setStyleSheet("background-color: #FFD50A; color: #001D3D; border-radius: 16px; padding: 10px; font-size: 18px;font-weight: bold;")
         ok_button.clicked.connect(self.accept)
 

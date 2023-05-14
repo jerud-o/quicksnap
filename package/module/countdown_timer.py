@@ -9,6 +9,7 @@ class CountdownTimerModule(QObject):
     
     def __init__(self, duration=3):
         super().__init__()
+        self.started = False
         self.TIMER_DURATION = duration
         self.time_left = self.TIMER_DURATION
         self.timer = QTimer(timeout=self.__tick)
@@ -18,24 +19,27 @@ class CountdownTimerModule(QObject):
 
     def start(self):
         if not self.timer.isActive():
+            self.started = True
             self.timer.start(1000)
             winsound.Beep(self.FREQUENCY, self.BEEP_DURATION)
             self.ticked.emit(self.time_left)
 
-    def stop(self, forced=False):
+    def stop(self):
+        self.started = False
         self.timer.stop()
-        self.killTimer(self.timer.timerId())
         
-        if not forced:
-            self.finished.emit()
-            self.__shutter_sound()
-        
+        self.finished.emit()
+        self.__shutter_sound()
         self.ticked.emit(0)
+        
         # Reset timer
         self.time_left = self.TIMER_DURATION
         return
 
     def __tick(self):
+        if not self.started:
+            return
+
         self.time_left -= 1
         
         if self.time_left == 0:
