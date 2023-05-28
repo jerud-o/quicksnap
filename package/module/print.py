@@ -4,11 +4,12 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import portrait
 from reportlab.lib.units import inch
 from PyQt6.QtGui import QPixmap, QTransform
+from main import resource_path
 
 class PrintModule():
     def __init__(self):
         self.PAGE_WIDTH, self.PAGE_HEIGHT = 4 * inch, 6 * inch
-        self.IMAGE_PATH = os.path.join(os.getcwd(), "package/resource/img/temp/img.png")
+        self.IMAGE_PATH = resource_path("package\\resource\\img\\temp\\img.png")
 
     def print(self, image, print_method):
         pixmap = QPixmap.fromImage(image)

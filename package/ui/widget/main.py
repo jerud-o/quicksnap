@@ -1,10 +1,9 @@
-import os
-import ast
 import pyautogui
 from functools import partial
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 import package.resource.resources_rc
+from main import resource_path
 from package.thread.video import VideoThread
 from package.module.countdown_timer import CountdownTimerModule
 from package.module.print import PrintModule
@@ -62,7 +61,7 @@ class MainWidget(object):
         font.setPointSize(10)
         MainWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("package/resource/img/quicksnap.ico"),
+        icon.addPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\quicksnap.ico")),
                        QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("padding: 0px;\n"
@@ -111,7 +110,7 @@ class MainWidget(object):
         # Frame with orange cirles and blue background
         self.intro_frame = QtWidgets.QFrame(parent=self.intro)
         self.intro_frame.setStyleSheet("#intro_frame {\n"
-                                       "border-image: url(package/resource/img/intro_bg.png) 0 0 0 0 stretch stretch;\n"
+                                       "border-image: url('" + resource_path("package\\resource\\img\\intro_bg.png").replace("\\", "/") + "') 0 0 0 0 stretch stretch;\n"
                                        "}")
         self.intro_frame.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.intro_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
@@ -162,7 +161,7 @@ class MainWidget(object):
         # QuickSnap Logo at center
         self.intro_lbl_image = QtWidgets.QLabel(parent=self.intro_labels)
         self.intro_lbl_image.setText("")
-        self.intro_lbl_image.setPixmap(QtGui.QPixmap("package/resource/img/quicksnap_logo-removebg-preview.png"))
+        self.intro_lbl_image.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\quicksnap_logo-removebg-preview.png")))
         self.intro_lbl_image.setScaledContents(False)
         self.intro_lbl_image.setObjectName("intro_lbl_image")
         self.verticalLayout_5.addWidget(self.intro_lbl_image, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -278,7 +277,7 @@ class MainWidget(object):
         # Frame with QuickSnap background
         self.purpose_frame = QtWidgets.QFrame(parent=self.purpose)
         self.purpose_frame.setStyleSheet("#purpose_frame {\n"
-                                         "border-image: url(package/resource/img/main_bg.png) 0 0 0 0 stretch stretch;\n"
+                                         "border-image: url('" + resource_path("package\\resource\\img\\main_bg.png").replace("\\", "/") + "') 0 0 0 0 stretch stretch;\n"
                                          "}")
         self.purpose_frame.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.purpose_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
@@ -293,7 +292,7 @@ class MainWidget(object):
         self.purpose_header = QtWidgets.QFrame(parent=self.purpose_frame)
         self.purpose_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.purpose_header.setStyleSheet("#backPurposeButton {\n"
-                                          "    qproperty-icon: url(package/resource/img/back.png);\n"
+                                          "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                           "    qproperty-iconSize: 30px 30px;\n"
                                           "    background-color: transparent;\n"
                                           "    \n"
@@ -352,7 +351,7 @@ class MainWidget(object):
         self.label.setGeometry(QtCore.QRect(100, 120, 200, 200))
         self.label.setStyleSheet("background-color: transparent;")
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("package/resource/img/formal.png"))
+        self.label.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\formal.png")))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         
@@ -423,7 +422,7 @@ class MainWidget(object):
         self.label_4.setGeometry(QtCore.QRect(110, 120, 200, 200))
         self.label_4.setStyleSheet("background-color: transparent;")
         self.label_4.setText("")
-        self.label_4.setPixmap(QtGui.QPixmap("package/resource/img/beauty.png"))
+        self.label_4.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\beauty.png")))
         self.label_4.setScaledContents(True)
         self.label_4.setObjectName("label_4")
         
@@ -513,7 +512,7 @@ class MainWidget(object):
         # Black Film Strip overlay on the background
         self.gender_frame = QtWidgets.QFrame(parent=self.gender)
         self.gender_frame.setStyleSheet("#gender_frame {\n"
-                                        "    border-image: url(package/resource/img/bg_film2.png) 0 0 0 0 stretch stretch;\n"
+                                        "    border-image: url('" + resource_path("package\\resource\\img\\bg_film2.png").replace("\\", "/") + "') 0 0 0 0 stretch stretch;\n"
                                         "}")
         self.gender_frame.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.gender_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
@@ -529,7 +528,7 @@ class MainWidget(object):
         self.gender_header = QtWidgets.QFrame(parent=self.gender_frame)
         self.gender_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.gender_header.setStyleSheet("#backGenderButton {\n"
-                                         "    qproperty-icon: url(package/resource/img/back.png);\n"
+                                         "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                          "    qproperty-iconSize: 30px 30px;\n"
                                          "}")
         self.gender_header.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
@@ -583,7 +582,7 @@ class MainWidget(object):
         self.label_102 = QtWidgets.QLabel(parent=self.gMale_container)
         self.label_102.setGeometry(QtCore.QRect(40, 90, 321, 341))
         self.label_102.setText("")
-        self.label_102.setPixmap(QtGui.QPixmap("package/resource/img/male.png"))
+        self.label_102.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\male.png")))
         self.label_102.setScaledContents(True)
         self.label_102.setObjectName("label_102")
 
@@ -634,7 +633,7 @@ class MainWidget(object):
         self.label_104 = QtWidgets.QLabel(parent=self.gFemale_container)
         self.label_104.setGeometry(QtCore.QRect(40, 90, 321, 341))
         self.label_104.setText("")
-        self.label_104.setPixmap(QtGui.QPixmap("package/resource/img/female.png"))
+        self.label_104.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\female.png")))
         self.label_104.setScaledContents(True)
         self.label_104.setObjectName("label_104")
         
@@ -717,7 +716,7 @@ class MainWidget(object):
         self.camera_header = QtWidgets.QFrame(parent=self.camera_content)
         self.camera_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.camera_header.setStyleSheet("#backCameraButton {\n"
-                                         "    qproperty-icon: url(:/images/back.png);\n"
+                                         "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                          "    qproperty-iconSize: 30px 30px;\n"
                                          "}\n"
                                          "#camera_header{\n"
@@ -898,7 +897,7 @@ class MainWidget(object):
         self.frame_10 = QtWidgets.QFrame(parent=self.filter_container)
         self.frame_10.setMaximumSize(QtCore.QSize(16777215, 100))
         self.frame_10.setStyleSheet("#backFilterButton {\n"
-                                    "    qproperty-icon: url(package/resource/img/back.png);\n"
+                                    "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                     "    qproperty-iconSize: 30px 30px;\n"
                                     "    background-color: transparent;\n"
                                     "    \n"
@@ -992,8 +991,13 @@ class MainWidget(object):
         self.verticalLayout_34.setObjectName("verticalLayout_34")
         
         # Filter Dynamic Initialization START (Ocampo)
-        with open(os.path.join(os.getcwd(), "package/resource/filter/filters_dict.py"), "r") as file:
-            filters_dict = ast.literal_eval(file.read())
+        filters_dict = {
+            "cheek": {
+                "blush": ("package\\resource\\filter\\icon\\blush_icon.jpg", "package\\resource\\filter\\background\\blush_bg.jpg", "package\\resource\\filter\\cheek\\blush.png"),
+                "grizzly": ("package\\resource\\filter\\icon\\grizzly_icon.jpg", "package\\resource\\filter\\background\\grizzly_bg.jpg", "package\\resource\\filter\\cheek\\grizzly.png"),
+                "pinkheart": ("package\\resource\\filter\\icon\\pinkheart_icon.jpg", "package\\resource\\filter\\background\\pinkheart_bg.jpg", "package\\resource\\filter\\cheek\\pinkheart.png")
+            }
+        }
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -1003,7 +1007,7 @@ class MainWidget(object):
         filter_button.setSizePolicy(sizePolicy)
         filter_button.setMinimumSize(QtCore.QSize(180, 180))
         filter_button.setMaximumSize(QtCore.QSize(180, 180))
-        filter_button.setStyleSheet("border-image: url(package/resource/img/null.png);")
+        filter_button.setStyleSheet("border-image: url('" + resource_path("package/resource/img/null.png").replace("\\", "/") + "');")
         filter_button.setText("")
         filter_button.setObjectName("filter_null_null")
         filter_button.clicked.connect(partial(self.__handle_filter, "null", None, None))
@@ -1016,7 +1020,7 @@ class MainWidget(object):
                 filter_button.setSizePolicy(sizePolicy)
                 filter_button.setMinimumSize(QtCore.QSize(180, 180))
                 filter_button.setMaximumSize(QtCore.QSize(180, 180))
-                filter_button.setStyleSheet(f"border-image: url({value_filter[0]});")
+                filter_button.setStyleSheet("border-image: url('" + resource_path(value_filter[0]).replace("\\", "/") + "');")
                 filter_button.setText("") #Line1022-SEMICOLON
                 filter_button.setObjectName(f"filter_{key_location}_{key_filter}")
                 filter_button.clicked.connect(partial(self.__handle_filter, key_location, value_filter[1], value_filter[2]))
@@ -1148,7 +1152,7 @@ class MainWidget(object):
         self.filter_header = QtWidgets.QFrame(parent=self.filter_cam_container)
         self.filter_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.filter_header.setStyleSheet("#backFilterButton {\n"
-                                         "    qproperty-icon: url(package/resource/img/back.png);\n"
+                                         "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                          "    qproperty-iconSize: 30px 30px;\n"
                                          "}\n"
                                          "#filter_header{\n"
@@ -1189,7 +1193,7 @@ class MainWidget(object):
         # Frame with QuickSnap background
         self.finish_frame = QtWidgets.QFrame(parent=self.finish)
         self.finish_frame.setStyleSheet("#finish_frame{\n"
-                                        "border-image: url(package/resource/img/main_bg.png);\n"
+                                        "border-image: url('" + resource_path("package\\resource\\img\\main_bg.png").replace("\\", "/") + "');\n"
                                         "}")
         self.finish_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.finish_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -1226,7 +1230,7 @@ class MainWidget(object):
         # Image that contains the captured photo at center
         self.captured_frame_label = QtWidgets.QLabel(parent=self.frame_8) # missing ) syntax
         self.captured_frame_label.setText("")
-        self.captured_frame_label.setPixmap(QtGui.QPixmap("package/resource/img/camera.png"))
+        self.captured_frame_label.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\camera.png")))
         self.captured_frame_label.setObjectName("captured_frame_label")
         self.verticalLayout_22.addWidget(self.captured_frame_label)
         
@@ -1279,7 +1283,7 @@ class MainWidget(object):
         # Widget for the whole page, with the yellow gradient background
         self.style = QtWidgets.QWidget()
         self.style.setStyleSheet("#style {\n"
-                                 "border-image: url(package/resource/img/bg_gradient.png) 0 0 0 0 stretch stretch;\n"
+                                 "border-image: url('" + resource_path("package\\resource\\img\\bg_gradient.png").replace("\\", "/") + "') 0 0 0 0 stretch stretch;\n"
                                  "}")
         self.style.setObjectName("style")
 
@@ -1291,7 +1295,7 @@ class MainWidget(object):
         
         self.style_frame = QtWidgets.QFrame(parent=self.style)
         self.style_frame.setStyleSheet("#style_frame {\n"
-                                     "border-image: url(package/resource/img/bg_film3.png) 0 0 0 0 stretch stretch;\n"
+                                     "border-image: url('" + resource_path("package\\resource\\img\\bg_film3.png").replace("\\", "/") + "') 0 0 0 0 stretch stretch;\n"
                                      "}")
         self.style_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.style_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -1306,7 +1310,7 @@ class MainWidget(object):
         self.style_header = QtWidgets.QFrame(parent=self.style_frame)
         self.style_header.setMaximumSize(QtCore.QSize(16777215, 50))
         self.style_header.setStyleSheet("#backStyleButton {\n"
-                                        "    qproperty-icon: url(package/resource/img/back.png);\n"
+                                        "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                         "    qproperty-iconSize: 30px 30px;\n"
                                         "    background-color: transparent;\n"
                                         "    \n"
@@ -1410,7 +1414,7 @@ class MainWidget(object):
         self.label_18 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_18.setMaximumSize(QtCore.QSize(100, 100))
         self.label_18.setText("")
-        self.label_18.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_18.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_18.setScaledContents(True)
         self.label_18.setObjectName("label_18")
         self.gridLayout_3.addWidget(self.label_18, 0, 0, 1, 1)
@@ -1418,7 +1422,7 @@ class MainWidget(object):
         self.label_15 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_15.setMaximumSize(QtCore.QSize(100, 100))
         self.label_15.setText("")
-        self.label_15.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_15.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_15.setScaledContents(True)
         self.label_15.setObjectName("label_15")
         self.gridLayout_3.addWidget(self.label_15, 0, 1, 1, 1)
@@ -1426,7 +1430,7 @@ class MainWidget(object):
         self.label_16 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_16.setMaximumSize(QtCore.QSize(100, 100))
         self.label_16.setText("")
-        self.label_16.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_16.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_16.setScaledContents(True)
         self.label_16.setObjectName("label_16")
         self.gridLayout_3.addWidget(self.label_16, 0, 2, 1, 1)
@@ -1434,7 +1438,7 @@ class MainWidget(object):
         self.label_14 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_14.setMaximumSize(QtCore.QSize(100, 100))
         self.label_14.setText("")
-        self.label_14.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_14.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_14.setScaledContents(True)
         self.label_14.setObjectName("label_14")
         self.gridLayout_3.addWidget(self.label_14, 0, 3, 1, 1)
@@ -1442,7 +1446,7 @@ class MainWidget(object):
         self.label_17 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_17.setMaximumSize(QtCore.QSize(100, 100))
         self.label_17.setText("")
-        self.label_17.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_17.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_17.setScaledContents(True)
         self.label_17.setObjectName("label_17")
         self.gridLayout_3.addWidget(self.label_17, 1, 2, 1, 1)
@@ -1450,7 +1454,7 @@ class MainWidget(object):
         self.label_19 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_19.setMaximumSize(QtCore.QSize(100, 100))
         self.label_19.setText("")
-        self.label_19.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_19.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_19.setScaledContents(True)
         self.label_19.setObjectName("label_19")
         self.gridLayout_3.addWidget(self.label_19, 1, 1, 1, 1)
@@ -1458,7 +1462,7 @@ class MainWidget(object):
         self.label_20 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_20.setMaximumSize(QtCore.QSize(100, 100))
         self.label_20.setText("")
-        self.label_20.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_20.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_20.setScaledContents(True)
         self.label_20.setObjectName("label_20")
         self.gridLayout_3.addWidget(self.label_20, 1, 3, 1, 1)
@@ -1466,7 +1470,7 @@ class MainWidget(object):
         self.label_21 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_21.setMaximumSize(QtCore.QSize(100, 100))
         self.label_21.setText("")
-        self.label_21.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_21.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_21.setScaledContents(True)
         self.label_21.setObjectName("label_21")
         self.gridLayout_3.addWidget(self.label_21, 1, 0, 1, 1)
@@ -1552,7 +1556,7 @@ class MainWidget(object):
         self.label_24 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_24.setMaximumSize(QtCore.QSize(120, 120))
         self.label_24.setText("")
-        self.label_24.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_24.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_24.setScaledContents(True)
         self.label_24.setObjectName("label_24")
         self.gridLayout_6.addWidget(self.label_24, 0, 2, 1, 1)
@@ -1560,7 +1564,7 @@ class MainWidget(object):
         self.label_25 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_25.setMaximumSize(QtCore.QSize(120, 120))
         self.label_25.setText("")
-        self.label_25.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_25.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_25.setScaledContents(True)
         self.label_25.setObjectName("label_25")
         self.gridLayout_6.addWidget(self.label_25, 0, 3, 1, 1)
@@ -1568,7 +1572,7 @@ class MainWidget(object):
         self.label_23 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_23.setMaximumSize(QtCore.QSize(120, 120))
         self.label_23.setText("")
-        self.label_23.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_23.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_23.setScaledContents(True)
         self.label_23.setObjectName("label_23")
         self.gridLayout_6.addWidget(self.label_23, 1, 3, 1, 1)
@@ -1576,7 +1580,7 @@ class MainWidget(object):
         self.label_22 = QtWidgets.QLabel(parent=self.frame_4)
         self.label_22.setMaximumSize(QtCore.QSize(120, 120))
         self.label_22.setText("")
-        self.label_22.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_22.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_22.setScaledContents(True)
         self.label_22.setObjectName("label_22")
         self.gridLayout_6.addWidget(self.label_22, 1, 2, 1, 1)
@@ -1663,7 +1667,7 @@ class MainWidget(object):
         self.label_33 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_33.setMaximumSize(QtCore.QSize(100, 100))
         self.label_33.setText("")
-        self.label_33.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_33.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_33.setScaledContents(True)
         self.label_33.setObjectName("label_33")
         self.gridLayout_12.addWidget(self.label_33, 1, 0, 1, 1)
@@ -1671,7 +1675,7 @@ class MainWidget(object):
         self.label_7 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_7.setMaximumSize(QtCore.QSize(100, 100))
         self.label_7.setText("")
-        self.label_7.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_7.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_7.setScaledContents(True)
         self.label_7.setObjectName("label_7")
         self.gridLayout_12.addWidget(self.label_7, 1, 3, 1, 1)
@@ -1679,7 +1683,7 @@ class MainWidget(object):
         self.label_35 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_35.setMaximumSize(QtCore.QSize(100, 100))
         self.label_35.setText("")
-        self.label_35.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_35.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_35.setScaledContents(True)
         self.label_35.setObjectName("label_35")
         self.gridLayout_12.addWidget(self.label_35, 1, 1, 1, 1)
@@ -1687,7 +1691,7 @@ class MainWidget(object):
         self.label_8 = QtWidgets.QLabel(parent=self.frame_6)
         self.label_8.setMaximumSize(QtCore.QSize(100, 100))
         self.label_8.setText("")
-        self.label_8.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_8.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_8.setScaledContents(True)
         self.label_8.setObjectName("label_8")
         self.gridLayout_12.addWidget(self.label_8, 1, 2, 1, 1)
@@ -1705,7 +1709,7 @@ class MainWidget(object):
         self.label_26 = QtWidgets.QLabel(parent=self.frame_7)
         self.label_26.setMaximumSize(QtCore.QSize(120, 120))
         self.label_26.setText("")
-        self.label_26.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_26.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_26.setScaledContents(True)
         self.label_26.setObjectName("label_26")
         self.gridLayout_14.addWidget(self.label_26, 0, 0, 1, 1)
@@ -1713,7 +1717,7 @@ class MainWidget(object):
         
         self.label_27.setMaximumSize(QtCore.QSize(120, 120))
         self.label_27.setText("")
-        self.label_27.setPixmap(QtGui.QPixmap("package/resource/img/man.png"))
+        self.label_27.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\man.png")))
         self.label_27.setScaledContents(True)
         self.label_27.setObjectName("label_27")
         self.gridLayout_14.addWidget(self.label_27, 0, 1, 1, 1)
@@ -1781,7 +1785,7 @@ class MainWidget(object):
         self.verticalLayout_23.setObjectName("verticalLayout_23")
         self.printing_frame = QtWidgets.QFrame(parent=self.printing)
         self.printing_frame.setStyleSheet("#printing_frame{\n"
-                                          "border-image: url(package/resource/img/main_bg.png);\n"
+                                          "border-image: url('" + resource_path("package\\resource\\img\\main_bg.png").replace("\\", "/") + "');\n"
                                           "}")
         self.printing_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.printing_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -1809,7 +1813,7 @@ class MainWidget(object):
         self.label_41.setMaximumSize(QtCore.QSize(350, 400))
         self.label_41.setStyleSheet("background-color: transparent;")
         self.label_41.setText("")
-        self.label_41.setPixmap(QtGui.QPixmap("package/resource/img/print.png"))
+        self.label_41.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\print.png")))
         self.label_41.setScaledContents(True)
         self.label_41.setObjectName("label_41")
         self.verticalLayout_35.addWidget(self.label_41, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -1844,7 +1848,7 @@ class MainWidget(object):
         # Frame with QuickSnap background
         self.get_your_photo = QtWidgets.QFrame(parent=self.getYourPhoto)
         self.get_your_photo.setStyleSheet("#get_your_photo{\n"
-                                          "border-image: url(package/resource/img/main_bg.png);\n"
+                                          "border-image: url('" + resource_path("package\\resource\\img\\main_bg.png").replace("\\", "/") + "');\n"
                                           "}")
         self.get_your_photo.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.get_your_photo.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -1895,7 +1899,7 @@ class MainWidget(object):
         self.label_46.setMaximumSize(QtCore.QSize(500, 600))
         self.label_46.setStyleSheet("background-color: transparent;")
         self.label_46.setText("")
-        self.label_46.setPixmap(QtGui.QPixmap("package/resource/img/photo_strips-removebg-preview.png"))
+        self.label_46.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\photo_strips-removebg-preview.png")))
         self.label_46.setScaledContents(True)
         self.label_46.setObjectName("label_46")
         self.gridLayout_20.addWidget(self.label_46, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter)
@@ -1931,7 +1935,7 @@ class MainWidget(object):
         self.verticalLayout_26.setObjectName("verticalLayout_26")
         self.alert_frame = QtWidgets.QFrame(parent=self.alert)
         self.alert_frame.setStyleSheet("#alert_frame{\n"
-                                       "border-image: url(package/resource/img/main_bg.png);\n"
+                                       "border-image: url('" + resource_path("package\\resource\\img\\main_bg.png").replace("\\", "/") + "');\n"
                                        "}")
         self.alert_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.alert_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -1970,7 +1974,7 @@ class MainWidget(object):
         self.label_44.setMaximumSize(QtCore.QSize(350, 400))
         self.label_44.setStyleSheet("background-color: transparent;")
         self.label_44.setText("")
-        self.label_44.setPixmap(QtGui.QPixmap("package/resource/img/danger.png"))
+        self.label_44.setPixmap(QtGui.QPixmap(resource_path("package\\resource\\img\\danger.png")))
         self.label_44.setScaledContents(True)
         self.label_44.setObjectName("label_44")
         self.gridLayout_19.addWidget(self.label_44, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)

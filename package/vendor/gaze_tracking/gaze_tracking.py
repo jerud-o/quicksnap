@@ -2,6 +2,7 @@ from __future__ import division
 import os
 import cv2
 import dlib
+import face_recognition_models
 from .eye import Eye
 from .calibration import Calibration
 
@@ -23,8 +24,9 @@ class GazeTracking(object):
         self._face_detector = dlib.get_frontal_face_detector()
 
         # _predictor is used to get facial landmarks of a given face
-        cwd = os.path.abspath(os.path.dirname(__file__))
-        model_path = os.path.abspath(os.path.join(cwd, "trained_models/shape_predictor_68_face_landmarks.dat"))
+        # cwd = os.path.abspath(os.path.dirname(__file__))
+        # model_path = os.path.abspath(os.path.join(cwd, "trained_models/shape_predictor_68_face_landmarks.dat"))
+        model_path = face_recognition_models.pose_predictor_model_location()
         self._predictor = dlib.shape_predictor(model_path)
 
     @property

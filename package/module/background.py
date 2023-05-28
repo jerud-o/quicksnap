@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+from main import resource_path
 
 class BackgroundModule():
     def __init__(self):
@@ -10,7 +11,7 @@ class BackgroundModule():
         self.background_color = (255, 255, 255)
 
     def set_background(self, image_path):
-        self.background_image = cv2.flip(cv2.imread(os.path.join(os.getcwd(), image_path)), 1) if image_path else None
+        self.background_image = cv2.flip(cv2.imread(resource_path(image_path)), 1) if image_path else None
 
     def process_frame(self, frame):
         if self.background_image is None:

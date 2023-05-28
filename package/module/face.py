@@ -1,12 +1,14 @@
 import os
 import cv2
 import dlib
+import face_recognition_models
 from math import hypot
+from main import resource_path
 
 class FaceDetectionModule():
     def __init__(self):
         self.detector = dlib.get_frontal_face_detector()
-        self.predictor = dlib.shape_predictor(os.path.join(os.getcwd(), "package/resource/shape_predictor_68_face_landmarks.dat"))
+        self.predictor = dlib.shape_predictor(face_recognition_models.pose_predictor_model_location())
         self.__draw_filter_process = self.__draw_nothing
 
     def process_frame(self, grayed_frame, frame_to_show, frame_to_print):
@@ -25,7 +27,7 @@ class FaceDetectionModule():
                 self.__draw_filter_process = self.__draw_nothing
 
     def set_filter_path(self, sticker_path=None):
-        self.sticker = cv2.imread(os.path.join(os.getcwd(), sticker_path)) if sticker_path else None
+        self.sticker = cv2.imread(resource_path(sticker_path)) if sticker_path else None
 
     def __draw_cheeks_sticker(self, face, frame_to_show, frame_to_print):
         try:

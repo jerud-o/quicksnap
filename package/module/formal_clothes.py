@@ -1,10 +1,10 @@
-import os
 import cv2
+from main import resource_path
 
 class FormalClothesModule():
     def __init__(self):
-        self.__male = cv2.imread(os.path.join(os.getcwd(), "package/resource/formal/male.png"), cv2.IMREAD_UNCHANGED)
-        self.__female = cv2.imread(os.path.join(os.getcwd(), "package/resource/formal/female.png"), cv2.IMREAD_UNCHANGED)
+        self.__male = cv2.imread(resource_path("package\\resource\\formal\\male.png"), cv2.IMREAD_UNCHANGED)
+        self.__female = cv2.imread(resource_path("package\\resource\\formal\\female.png"), cv2.IMREAD_UNCHANGED)
 
     def set_gender(self, gender):
         self.__gender = gender
