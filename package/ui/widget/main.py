@@ -133,21 +133,20 @@ class MainWidget(object):
         self.intro_labels = QtWidgets.QFrame(parent=self.intro_frame)
         self.intro_labels.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.intro_labels.setStyleSheet("#intro_labels {\n"
-                                        "    position: relative;\n"
-                                        "    height: 100%;\n"
+                                        "position: relative;\n"
+                                        "height: 100%;\n"
                                         "}\n"
                                         "#intro_lbl_image {\n"
-                                        "    position: relative;\n"
-                                        "    top: 0;\n"
-                                        "    height: 100%;\n"
+                                        "position: relative;\n"
+                                        "top: 0;\n"
+                                        "height: 100%;\n"
                                         "}\n"
                                         "#intro_lbl_tagline {\n"
-                                        "    position: relative;\n"
+                                        "position: relative;\n"
                                         "}\n"
                                         "#tutorial_label {\n"
-                                        "    position: relative;\n"
-                                        "}\n"
-                                        "}")
+                                        "position: relative;\n"
+                                        "}\n")
         self.intro_labels.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.intro_labels.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.intro_labels.setLineWidth(0)
@@ -290,7 +289,7 @@ class MainWidget(object):
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         
         self.purpose_header = QtWidgets.QFrame(parent=self.purpose_frame)
-        self.purpose_header.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.purpose_header.setMaximumSize(QtCore.QSize(16777215, 100))
         self.purpose_header.setStyleSheet("#backPurposeButton {\n"
                                           "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                           "    qproperty-iconSize: 30px 30px;\n"
@@ -306,13 +305,21 @@ class MainWidget(object):
         self.gridLayout_10.setSpacing(0)
         self.gridLayout_10.setObjectName("gridLayout_10")
         
-        # Back Button at top-right
+        # Back Button at top-left
         self.backPurposeButton = QtWidgets.QPushButton(parent=self.purpose_header)
+        self.backPurposeButton.setMinimumSize(QtCore.QSize(100, 100))
+        self.backPurposeButton.setMaximumSize(QtCore.QSize(100, 100))
         self.backPurposeButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.backPurposeButton.setStyleSheet("background-color:transparent;")
+        self.backPurposeButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
         self.backPurposeButton.setText("")
         self.backPurposeButton.setObjectName("backPurposeButton")
-        self.gridLayout_10.addWidget(self.backPurposeButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_10.addWidget(self.backPurposeButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
 
         self.purpose_content = QtWidgets.QFrame(parent=self.purpose_frame)
         self.purpose_content.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -526,7 +533,7 @@ class MainWidget(object):
         self.verticalLayout_36.setObjectName("verticalLayout_36")
 
         self.gender_header = QtWidgets.QFrame(parent=self.gender_frame)
-        self.gender_header.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.gender_header.setMaximumSize(QtCore.QSize(16777215, 100))
         self.gender_header.setStyleSheet("#backGenderButton {\n"
                                          "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                          "    qproperty-iconSize: 30px 30px;\n"
@@ -542,13 +549,21 @@ class MainWidget(object):
         self.gridLayout_26.setSpacing(0)
         self.gridLayout_26.setObjectName("gridLayout_26")
 
-        # Back Button at top-right
+        # Back Button at top-left
         self.backGenderButton = QtWidgets.QPushButton(parent=self.gender_header)
-        self.backGenderButton.setStyleSheet("background-color: rgb(0, 29, 61);")
+        self.backGenderButton.setMinimumSize(QtCore.QSize(100, 100))
+        self.backGenderButton.setMaximumSize(QtCore.QSize(100, 100))
+        self.backGenderButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.backGenderButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
         self.backGenderButton.setText("")
         self.backGenderButton.setObjectName("backGenderButton")
-        self.backGenderButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.gridLayout_26.addWidget(self.backGenderButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_26.addWidget(self.backGenderButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
 
         self.gender_content = QtWidgets.QFrame(parent=self.gender_frame)
         self.gender_content.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -714,7 +729,7 @@ class MainWidget(object):
         self.verticalLayout_14.setObjectName("verticalLayout_14")
 
         self.camera_header = QtWidgets.QFrame(parent=self.camera_content)
-        self.camera_header.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.camera_header.setMaximumSize(QtCore.QSize(16777215, 100))
         self.camera_header.setStyleSheet("#backCameraButton {\n"
                                          "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                          "    qproperty-iconSize: 30px 30px;\n"
@@ -733,14 +748,21 @@ class MainWidget(object):
         self.gridLayout_28.setSpacing(0)
         self.gridLayout_28.setObjectName("gridLayout_28")
 
-        # Back Button at top-right
+        # Back Button at top-left
         self.backCameraButton = QtWidgets.QPushButton(parent=self.camera_header)
+        self.backCameraButton.setMinimumSize(QtCore.QSize(100, 100))
+        self.backCameraButton.setMaximumSize(QtCore.QSize(100, 100))
         self.backCameraButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)) # . in self.backCameraButton.
         self.backCameraButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
-                                            "border:0px;")
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
         self.backCameraButton.setText("")
         self.backCameraButton.setObjectName("backCameraButton")
-        self.gridLayout_28.addWidget(self.backCameraButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_28.addWidget(self.backCameraButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
 
         self.camera_container = QtWidgets.QFrame(parent=self.camera_content)
         self.camera_container.setStyleSheet("#camera_container{\n"
@@ -1150,7 +1172,7 @@ class MainWidget(object):
         self.horizontalLayout_8.setStretch(0, 1)
         
         self.filter_header = QtWidgets.QFrame(parent=self.filter_cam_container)
-        self.filter_header.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.filter_header.setMaximumSize(QtCore.QSize(16777215, 100))
         self.filter_header.setStyleSheet("#backFilterButton {\n"
                                          "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                          "    qproperty-iconSize: 30px 30px;\n"
@@ -1168,14 +1190,21 @@ class MainWidget(object):
         self.gridLayout_30.setSpacing(0)
         self.gridLayout_30.setObjectName("gridLayout_30")
         
-        # Back Button at top-right
+        # Back Button at top-left
         self.backFilterButton = QtWidgets.QPushButton(parent=self.filter_header)
+        self.backFilterButton.setMinimumSize(QtCore.QSize(100, 100))
+        self.backFilterButton.setMaximumSize(QtCore.QSize(100, 100))
         self.backFilterButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.backFilterButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
-                                            "border:0px;")
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
         self.backFilterButton.setText("")
         self.backFilterButton.setObjectName("backFilterButton")
-        self.gridLayout_30.addWidget(self.backFilterButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_30.addWidget(self.backFilterButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
         
         self.stackedWidget.addWidget(self.filters)
 
@@ -1308,7 +1337,7 @@ class MainWidget(object):
         self.verticalLayout_18.setObjectName("verticalLayout_18")
         
         self.style_header = QtWidgets.QFrame(parent=self.style_frame)
-        self.style_header.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.style_header.setMaximumSize(QtCore.QSize(16777215, 100))
         self.style_header.setStyleSheet("#backStyleButton {\n"
                                         "    qproperty-icon: url('" + resource_path("package\\resource\\img\\back.png").replace("\\", "/") + "');\n"
                                         "    qproperty-iconSize: 30px 30px;\n"
@@ -1326,14 +1355,21 @@ class MainWidget(object):
         self.gridLayout_9.setSpacing(0)
         self.gridLayout_9.setObjectName("gridLayout_9")
         
-        # Back button at top-right
+        # Back button at top-left
         self.backStyleButton = QtWidgets.QPushButton(parent=self.style_header)
+        self.backStyleButton.setMinimumSize(QtCore.QSize(100, 100))
+        self.backStyleButton.setMaximumSize(QtCore.QSize(100, 100))
         self.backStyleButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.backStyleButton.setStyleSheet("background-color: rgb(0, 29, 61);\n"
-                                          "border: 0px;")
+        self.backStyleButton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.545, x2:0.769, y2:0.5685, stop:0 rgba(255, 214, 10, 255), stop:1 rgba(255, 114, 0, 255));\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "border:10px solid rgb(255, 227, 90);\n"
+                                            "width: 100px;\n"
+                                            "height: 100px;\n"
+                                            "border-radius: 50px;\n"
+                                            "font-weight:bold;")
         self.backStyleButton.setText("")
         self.backStyleButton.setObjectName("backStyleButton")
-        self.gridLayout_9.addWidget(self.backStyleButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_9.addWidget(self.backStyleButton, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
         
         self.style_packages = QtWidgets.QFrame(parent=self.style_frame)
         self.style_packages.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)

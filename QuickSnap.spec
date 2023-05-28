@@ -42,7 +42,7 @@ a.datas += [('pinkheart_icon.jpg', 'package\\resource\\filter\\icon\\pinkheart_i
 a.datas += [('male.png', 'package\\resource\\formal\\male.png', "DATA")]
 a.datas += [('female.png', 'package\\resource\\formal\\female.png', "DATA")]
 
-a.datas += [('image.png', 'package\\resource\\img\\temp\\image.png', "DATA")]
+a.datas += [('img.png', 'package\\resource\\img\\temp\\img.png', "DATA")]
 
 a.datas += [('back.png', 'package\\resource\\img\\back.png', "DATA")]
 a.datas += [('beauty.png', 'package\\resource\\img\\beauty.png', "DATA")]
